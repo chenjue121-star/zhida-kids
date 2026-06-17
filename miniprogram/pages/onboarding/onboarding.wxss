@@ -1,0 +1,561 @@
+/* ===============================================
+   引导页 · 温暖奶油色系
+   =============================================== */
+
+.onboarding-page {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #FFF9EF 0%, #FFFBF4 40%, #FFFFFF 100%);
+  padding: 40rpx 40rpx 260rpx;
+  box-sizing: border-box;
+}
+
+/* ========== 顶部 Header ========== */
+.ob-header {
+  margin-bottom: 44rpx;
+}
+
+.ob-progress-bar {
+  height: 10rpx;
+  background: #EFE5D3;
+  border-radius: 10rpx;
+  overflow: hidden;
+  margin-bottom: 18rpx;
+}
+
+.ob-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #6BA65C 0%, #F2B84B 100%);
+  border-radius: 10rpx;
+  transition: width 0.4s ease;
+}
+
+.ob-step-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ob-step-label {
+  font-size: 24rpx;
+  color: #6F6B60;
+  font-weight: 500;
+}
+
+.ob-skip {
+  font-size: 26rpx;
+  color: #6F6B60;
+  font-weight: 500;
+}
+
+/* ========== 内容区 ========== */
+.ob-content {
+  padding-bottom: 20rpx;
+}
+
+.ob-title {
+  font-size: 52rpx;
+  font-weight: 800;
+  color: #2A2A28;
+  margin-bottom: 12rpx;
+  letter-spacing: 1rpx;
+  line-height: 1.3;
+}
+
+.ob-desc {
+  font-size: 28rpx;
+  color: #6F6B60;
+  margin-bottom: 52rpx;
+}
+
+/* ========== Form 通用 ========== */
+.form-group {
+  margin-bottom: 36rpx;
+}
+
+.form-row {
+  display: flex;
+  gap: 24rpx;
+  margin-bottom: 36rpx;
+}
+
+.form-half {
+  flex: 1;
+  margin-bottom: 0 !important;
+}
+
+.form-label {
+  display: block;
+  font-size: 28rpx;
+  font-weight: 700;
+  color: #2A2A28;
+  margin-bottom: 18rpx;
+  letter-spacing: 0.5rpx;
+}
+
+.form-label-hint {
+  font-size: 22rpx;
+  color: #B5B0A4;
+  font-weight: 500;
+}
+
+.form-input {
+  width: 100%;
+  height: 96rpx;
+  padding: 0 28rpx;
+  font-size: 30rpx;
+  color: #2A2A28;
+  background: #FFFFFF;
+  border: 2rpx solid #EFE5D3;
+  border-radius: 24rpx;
+  box-sizing: border-box;
+  box-shadow: 0 2rpx 8rpx rgba(173, 156, 108, 0.05);
+}
+
+.form-input::placeholder {
+  color: #B5B0A4;
+}
+
+.picker-display {
+  display: flex;
+  align-items: center;
+}
+
+.picker-display .placeholder {
+  color: #B5B0A4;
+  font-size: 28rpx;
+}
+
+/* ========== Step 1：角色卡片 ========== */
+.role-options {
+  display: flex;
+  gap: 20rpx;
+}
+
+.role-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30rpx 20rpx;
+  background: #FFFFFF;
+  border: 2rpx solid #EFE5D3;
+  border-radius: 28rpx;
+  transition: all 0.25s ease;
+}
+
+.role-item.active {
+  background: linear-gradient(140deg, #EEF5E5 0%, #E6F0DD 100%);
+  border-color: #6BA65C;
+  box-shadow: 0 8rpx 20rpx rgba(107, 166, 92, 0.18);
+}
+
+.role-icon-wrap {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 24rpx;
+  background: #EEF5E5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 44rpx;
+  margin-bottom: 12rpx;
+}
+
+.role-icon-yellow {
+  background: #FDF1D9;
+}
+
+.role-icon-peach {
+  background: #FBE9E2;
+}
+
+.role-item.active .role-icon-wrap {
+  background: #6BA65C;
+}
+
+.role-name {
+  font-size: 28rpx;
+  font-weight: 700;
+  color: #2A2A28;
+}
+
+.role-item.active .role-name {
+  color: #6BA65C;
+}
+
+/* ========== 城市选择 ========== */
+.city-picker {
+  display: flex;
+  align-items: center;
+  padding: 24rpx 28rpx;
+  background: #FFFFFF;
+  border: 2rpx solid #EFE5D3;
+  border-radius: 24rpx;
+  box-shadow: 0 2rpx 8rpx rgba(173, 156, 108, 0.05);
+}
+
+.city-icon-wrap {
+  font-size: 36rpx;
+  margin-right: 16rpx;
+  width: 56rpx;
+  height: 56rpx;
+  border-radius: 16rpx;
+  background: #FBE9E2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.city-text-wrap {
+  flex: 1;
+}
+
+.city-text {
+  font-size: 30rpx;
+  color: #2A2A28;
+  font-weight: 600;
+}
+
+.city-placeholder {
+  font-size: 28rpx;
+  color: #B5B0A4;
+}
+
+.city-arrow {
+  font-size: 40rpx;
+  color: #B5B0A4;
+}
+
+/* ========== 风格标签 ========== */
+.style-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+}
+
+.style-chip {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 28rpx;
+  background: #FFFFFF;
+  border: 2rpx solid #EFE5D3;
+  border-radius: 28rpx;
+  transition: all 0.2s ease;
+}
+
+.style-chip.active {
+  background: linear-gradient(140deg, #EEF5E5 0%, #E6F0DD 100%);
+  border-color: #6BA65C;
+  box-shadow: 0 4rpx 16rpx rgba(107, 166, 92, 0.15);
+}
+
+.style-emoji {
+  font-size: 30rpx;
+  margin-right: 10rpx;
+}
+
+.style-name {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #2A2A28;
+}
+
+.style-chip.active .style-name {
+  color: #6BA65C;
+}
+
+/* ========== Step 2：性别卡片 ========== */
+.gender-row {
+  display: flex;
+  gap: 20rpx;
+}
+
+.gender-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 36rpx 20rpx;
+  background: #FFFFFF;
+  border: 2rpx solid #EFE5D3;
+  border-radius: 28rpx;
+  transition: all 0.25s ease;
+}
+
+.gender-card.active {
+  background: linear-gradient(140deg, #EEF5E5 0%, #E6F0DD 100%);
+  border-color: #6BA65C;
+  box-shadow: 0 8rpx 20rpx rgba(107, 166, 92, 0.18);
+}
+
+.gender-emoji {
+  font-size: 68rpx;
+  margin-bottom: 12rpx;
+  line-height: 1;
+}
+
+.gender-text {
+  font-size: 28rpx;
+  font-weight: 700;
+  color: #2A2A28;
+}
+
+.gender-card.active .gender-text {
+  color: #6BA65C;
+}
+
+/* ========== Step 2：肤色 ========== */
+.skin-options {
+  display: flex;
+  gap: 16rpx;
+}
+
+.skin-chip {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24rpx 16rpx;
+  background: #FFFFFF;
+  border: 2rpx solid #EFE5D3;
+  border-radius: 24rpx;
+  transition: all 0.25s ease;
+}
+
+.skin-chip.active {
+  border-color: #6BA65C;
+  background: linear-gradient(140deg, #EEF5E5 0%, #E6F0DD 100%);
+  box-shadow: 0 4rpx 16rpx rgba(107, 166, 92, 0.15);
+}
+
+.skin-dot {
+  width: 56rpx;
+  height: 56rpx;
+  border-radius: 50%;
+  margin-bottom: 10rpx;
+  border: 3rpx solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.08);
+}
+
+.skin-name {
+  font-size: 24rpx;
+  color: #2A2A28;
+  font-weight: 600;
+}
+
+.skin-chip.active .skin-name {
+  color: #6BA65C;
+}
+
+/* ========== Step 2：照片上传 ========== */
+.photo-upload {
+  width: 100%;
+  aspect-ratio: 1;
+  max-height: 440rpx;
+  background: #FFFFFF;
+  border: 3rpx dashed #EFE5D3;
+  border-radius: 32rpx;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.photo-preview {
+  width: 100%;
+  height: 100%;
+}
+
+.photo-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40rpx;
+}
+
+.photo-icon {
+  font-size: 110rpx;
+  margin-bottom: 24rpx;
+  filter: grayscale(20%);
+}
+
+.photo-text {
+  font-size: 30rpx;
+  color: #2A2A28;
+  font-weight: 700;
+  margin-bottom: 8rpx;
+}
+
+.photo-hint {
+  font-size: 24rpx;
+  color: #B5B0A4;
+}
+
+/* ========== Step 3：入口卡片 ========== */
+.entry-options {
+  display: flex;
+  gap: 20rpx;
+  margin-bottom: 32rpx;
+}
+
+.entry-card {
+  flex: 1;
+  position: relative;
+  padding: 44rpx 20rpx;
+  background: #FFFFFF;
+  border: 2rpx solid #EFE5D3;
+  border-radius: 32rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 0.25s ease;
+}
+
+.entry-card.entry-primary {
+  background: linear-gradient(160deg, #EEF5E5 0%, #E0EED9 100%);
+  border-color: #6BA65C;
+  box-shadow: 0 8rpx 28rpx rgba(107, 166, 92, 0.22);
+}
+
+.entry-icon-wrap {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 36rpx;
+  background: #6BA65C;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20rpx;
+  box-shadow: 0 8rpx 24rpx rgba(107, 166, 92, 0.3);
+}
+
+.entry-icon-warm {
+  background: #F2B84B;
+  box-shadow: 0 8rpx 24rpx rgba(242, 184, 75, 0.28);
+}
+
+.entry-emoji {
+  font-size: 64rpx;
+  line-height: 1;
+}
+
+.entry-title {
+  font-size: 30rpx;
+  font-weight: 800;
+  color: #2A2A28;
+  margin-bottom: 8rpx;
+}
+
+.entry-card.entry-primary .entry-title {
+  color: #6BA65C;
+}
+
+.entry-desc {
+  font-size: 24rpx;
+  color: #6F6B60;
+  text-align: center;
+}
+
+.entry-tag {
+  position: absolute;
+  top: 20rpx;
+  right: 20rpx;
+  padding: 8rpx 18rpx;
+  background: #F2B84B;
+  color: #6B5320;
+  font-size: 20rpx;
+  font-weight: 700;
+  border-radius: 20rpx;
+}
+
+/* ========== Step 3：已添加状态 ========== */
+.added-card {
+  padding: 40rpx;
+  background: linear-gradient(140deg, #EEF5E5 0%, #E6F0DD 100%);
+  border-radius: 28rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 40rpx;
+}
+
+.added-circle {
+  width: 96rpx;
+  height: 96rpx;
+  border-radius: 50%;
+  background: #6BA65C;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48rpx;
+  margin-bottom: 20rpx;
+  color: #fff;
+  box-shadow: 0 8rpx 20rpx rgba(107, 166, 92, 0.35);
+}
+
+.added-title {
+  font-size: 32rpx;
+  font-weight: 800;
+  color: #6BA65C;
+  margin-bottom: 8rpx;
+}
+
+.added-desc {
+  font-size: 24rpx;
+  color: #6F6B60;
+}
+
+/* ========== Step 3：特性预览 ========== */
+.feature-preview {
+  padding: 32rpx;
+  background: #FFFFFF;
+  border: 2rpx solid #EFE5D3;
+  border-radius: 28rpx;
+}
+
+.preview-item {
+  display: flex;
+  align-items: center;
+  padding: 18rpx 0;
+  border-bottom: 2rpx solid #EFE5D3;
+}
+
+.preview-item:last-child {
+  border-bottom: none;
+}
+
+.preview-icon {
+  font-size: 40rpx;
+  margin-right: 20rpx;
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 18rpx;
+  background: #EEF5E5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.preview-text {
+  font-size: 28rpx;
+  color: #2A2A28;
+  font-weight: 600;
+}
+
+/* ========== Footer ========== */
+.ob-footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 30rpx 40rpx calc(30rpx + env(safe-area-inset-bottom));
+  background: linear-gradient(180deg, rgba(255, 251, 244, 0) 0%, #FFFBF4 30%);
+}
+
+.next-btn {
+  width: 100%;
+  height: 110rpx;
+  line-height: 110rpx;
+  font-size: 32rpx;
+  letter-spacing: 2rpx;
+}

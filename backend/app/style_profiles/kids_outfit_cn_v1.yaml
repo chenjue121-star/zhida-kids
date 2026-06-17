@@ -1,0 +1,189 @@
+meta:
+  id: kids_outfit_cn_v1
+  version: 1.0.0
+  locale: zh-CN
+  age_range: [0, 6]
+  updated_at: "2026-05-03"
+  maintainer: "智搭儿童穿搭"
+  source_summary:
+    - "小红书儿童穿搭人工归纳：韩系、松弛感、奶油色、牛仔白T、户外运动风"
+    - "公开童装趋势交叉参考：自然色、舒适面料、运动机能、复古图案、童趣印花"
+  changelog:
+    - "1.0.0: 建立儿童穿搭审美基线、场景规则、天气规则和兜底评分权重"
+
+style_profiles:
+  clean_comfort:
+    label: 高级基础款
+    keywords: [干净, 舒适, 基础款, 上学友好, 耐看]
+    preferred_types: [top, pants, shoes, outerwear]
+    preferred_colors: [white, cream, beige, denim, gray, navy]
+    preferred_patterns: [solid, stripe, letter]
+    avoid_patterns: [leopard, contrast]
+    scenes: [home, school, shopping]
+    prompt_hint: "整体干净耐看，颜色不超过三种，适合日常和上学。"
+  soft_nature:
+    label: 自然粉彩
+    keywords: [奶油色, 粉彩, 柔和, 春夏, 拍照好看]
+    preferred_types: [top, skirt, pants, hat, accessory]
+    preferred_colors: [cream, beige, mint, sky_blue, lavender, peach, white]
+    preferred_patterns: [solid, floral, cloud, rainbow]
+    avoid_patterns: [leopard]
+    scenes: [home, shopping, travel]
+    prompt_hint: "用低饱和自然色营造清爽柔和感，适合外出和照片场景。"
+  sporty_play:
+    label: 运动活力
+    keywords: [运动, 灵活, 户外, 方便活动, 轻松]
+    preferred_types: [top, pants, shoes, outerwear, hat]
+    preferred_colors: [white, gray, blue, navy, green, orange]
+    preferred_patterns: [solid, letter, colorblock, stripe]
+    avoid_patterns: [floral, leopard]
+    scenes: [outdoor, school, home]
+    prompt_hint: "优先灵活耐穿，鞋子和下装要方便跑跳。"
+  retro_fun:
+    label: 复古童趣
+    keywords: [复古, 童趣, 牛仔, 字母, 卡通, 活泼]
+    preferred_types: [top, pants, skirt, set, accessory]
+    preferred_colors: [denim, white, red, yellow, brown, coffee]
+    preferred_patterns: [stripe, polka_dot, cartoon, animal, letter, dinosaur, car]
+    avoid_patterns: []
+    scenes: [home, shopping, travel]
+    prompt_hint: "保留一个主视觉图案即可，避免图案过多显乱。"
+  toddler_soft:
+    label: 婴童柔软
+    keywords: [柔软, 亲肤, 0到3岁, 方便照护, 功能配饰]
+    preferred_types: [babywear, sleepwear, accessory, hat, shoes]
+    preferred_colors: [cream, white, beige, mint, sky_blue, pink, lavender]
+    preferred_patterns: [solid, cartoon, animal, cloud]
+    avoid_patterns: [leopard, contrast]
+    scenes: [home, shopping]
+    prompt_hint: "以舒适、亲肤、方便换洗为先，口水巾和围嘴可作为功能配饰。"
+
+color_palettes:
+  white_denim_blue:
+    label: 白T牛仔蓝
+    colors: [white, denim, sky_blue]
+    mood: 清爽、男女童都适用
+    best_scenes: [school, outdoor, travel]
+    score_bonus: 8
+  cream_sage_nature:
+    label: 奶油自然色
+    colors: [cream, beige, mint, forest_green]
+    mood: 柔和、自然、照片感
+    best_scenes: [home, shopping, travel]
+    score_bonus: 7
+  sporty_basic_pop:
+    label: 运动基础亮点
+    colors: [white, gray, navy, orange]
+    mood: 活力、户外、醒目但不过分
+    best_scenes: [outdoor, school]
+    score_bonus: 6
+  soft_pastel:
+    label: 粉彩柔和
+    colors: [pink, peach, lavender, sky_blue, white]
+    mood: 可爱、轻盈、适合春夏
+    best_scenes: [home, shopping, travel]
+    score_bonus: 6
+  neutral_layer:
+    label: 中性色叠穿
+    colors: [beige, khaki, brown, white, denim]
+    mood: 松弛、耐看、适合秋冬
+    best_scenes: [school, shopping]
+    score_bonus: 5
+
+scene_rules:
+  home:
+    required_traits: [舒适, 宽松, 方便活动]
+    prefer_style_tags: [casual, cute]
+    avoid_types: [slippers]
+    max_visual_focus: 1
+  school:
+    required_traits: [舒适, 方便活动, 耐脏]
+    prefer_style_tags: [casual, preppy, sporty]
+    avoid_types: [slippers]
+    max_visual_focus: 1
+  outdoor:
+    required_traits: [灵活, 防风, 耐穿]
+    prefer_style_tags: [sporty, casual]
+    avoid_types: [slippers]
+    max_visual_focus: 1
+  shopping:
+    required_traits: [干净, 轻便, 拍照友好]
+    prefer_style_tags: [casual, cute, korean]
+    avoid_types: [slippers]
+    max_visual_focus: 2
+  party:
+    required_traits: [精致, 拍照好看, 不影响活动]
+    prefer_style_tags: [cute, formal]
+    avoid_types: [slippers]
+    max_visual_focus: 2
+  travel:
+    required_traits: [拍照好看, 轻便, 方便走路]
+    prefer_style_tags: [casual, sporty, cute]
+    avoid_types: [slippers]
+    max_visual_focus: 2
+
+weather_rules:
+  hot:
+    temp_min: 28
+    prefer_thickness: [thin]
+    avoid_thickness: [thick, fleece]
+    prompt_hint: "强调透气、吸汗、方便活动，可选择短袖短裤和遮阳帽。"
+  comfortable:
+    temp_min: 20
+    temp_max: 27
+    prefer_thickness: [thin, normal]
+    avoid_thickness: [fleece]
+    prompt_hint: "温度舒适，优先常规厚度和清爽配色。"
+  cool:
+    temp_min: 10
+    temp_max: 19
+    prefer_thickness: [normal, thick]
+    avoid_thickness: []
+    prompt_hint: "天气偏凉，建议加入薄外套或更保暖下装。"
+  cold:
+    temp_max: 9
+    prefer_thickness: [thick, fleece]
+    avoid_thickness: [thin]
+    prompt_hint: "低温优先保暖，尽量包含外套、加厚裤装和保暖鞋。"
+  rainy:
+    weather_keywords: [雨, 阵雨, 小雨, 中雨, 大雨]
+    prefer_thickness: [normal, thick]
+    avoid_thickness: []
+    prompt_hint: "雨天提醒准备雨具，鞋子优先防滑，外套可选择风衣或防风款。"
+
+age_rules:
+  baby_0_3:
+    age_min_months: 0
+    age_max_months: 36
+    prefer_types: [babywear, sleepwear, accessory, hat]
+    avoid_types: [slippers]
+    prompt_hint: "0-3岁以亲肤、安全、方便照护为先，口水巾/围嘴可以作为功能配饰。"
+  kid_3_6:
+    age_min_months: 37
+    age_max_months: 72
+    prefer_types: [top, pants, skirt, shoes, outerwear, hat, accessory]
+    avoid_types: [sleepwear]
+    prompt_hint: "3-6岁强调活动便利、清爽可爱和场景适配。"
+
+scoring_rules:
+  weights:
+    weather_match: 30
+    scene_match: 25
+    color_harmony: 20
+    style_consistency: 15
+    age_fit: 10
+    recent_repeat_penalty: -20
+    color_overload_penalty: -8
+    unsafe_or_inconvenient_penalty: -15
+
+prompt_guidelines:
+  - "优先儿童舒适、安全、方便活动，不为了好看牺牲体感。"
+  - "推荐理由必须说明天气、场景、颜色或风格依据。"
+  - "颜色通常不超过三种；可以使用基础色加一个亮点色。"
+  - "童趣图案最多作为一个主视觉，避免全身图案混乱。"
+  - "只能选择用户衣橱里已有且状态为 active 的衣物 id。"
+
+source_notes:
+  - "小红书人工归纳方向：韩系松弛感、奶油色系、牛仔白T、户外运动风、可爱童趣图案。"
+  - "公开趋势交叉方向：自然低饱和色、舒适天然面料、运动机能、复古印花、彩色点缀。"
+  - "不保存参考图片，不自动爬取平台内容，只维护总结后的规则和关键词。"

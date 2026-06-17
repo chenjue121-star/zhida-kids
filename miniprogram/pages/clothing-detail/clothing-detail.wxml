@@ -1,0 +1,140 @@
+<view class="detail-page {{themeClass}}" style="background: {{themeBgString}};" wx:if="{{item}}">
+
+  <!-- ========== 顶部大图区 ========== -->
+  <view class="photo-section">
+    <view class="photo-wrap">
+      <image wx:if="{{item.photoUrl}}" src="{{item.photoUrl}}" mode="aspectFill" class="detail-photo" />
+      <view wx:else class="photo-placeholder">
+        <text class="placeholder-icon">{{typeIcon}}</text>
+      </view>
+      <view class="photo-tag" wx:if="{{item.status !== 'active'}}">
+        <text class="photo-tag-text">{{statusLabel}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- ========== 主体信息卡片 ========== -->
+  <view class="info-card card">
+    <!-- 标题行 -->
+    <view class="info-title-row">
+      <view class="info-title-box">
+        <text class="info-title">{{colorLabel}} · {{subTypeLabel}}</text>
+        <view class="info-meta-row" wx:if="{{item.brand || item.size}}">
+          <text class="info-meta" wx:if="{{item.brand}}">🏷 {{item.brand}}</text>
+          <text class="info-meta-dot" wx:if="{{item.brand && item.size}}">·</text>
+          <text class="info-meta" wx:if="{{item.size}}">📏 {{item.size}}</text>
+        </view>
+      </view>
+      <view class="type-chip">
+        <text class="chip-text">{{typeLabel}}</text>
+      </view>
+    </view>
+
+    <!-- 标签区：季节 + 厚度 -->
+    <view class="tag-wrap">
+      <text class="info-chip chip-season" wx:if="{{seasonLabel}}">🍃 {{seasonLabel}}</text>
+      <text class="info-chip chip-thickness" wx:if="{{thicknessLabel}}">🧥 {{thicknessLabel}}</text>
+    </view>
+
+    <!-- 分隔线 -->
+    <view class="divider-line"></view>
+
+    <!-- 状态胶囊切换 -->
+    <view class="status-section">
+      <text class="status-label">当前状态</text>
+      <view class="status-capsules">
+        <view class="status-capsule {{item.status === 'active' ? 'active' : ''}}" bindtap="changeStatus" data-status="active">
+          <text class="capsule-emoji">✨</text>
+          <text class="capsule-text">使用中</text>
+        </view>
+        <view class="status-capsule {{item.status === 'stored' ? 'stored' : ''}}" bindtap="changeStatus" data-status="stored">
+          <text class="capsule-emoji">📦</text>
+          <text class="capsule-text">收纳</text>
+        </view>
+        <view class="status-capsule {{item.status === 'retired' ? 'retired' : ''}}" bindtap="changeStatus" data-status="retired">
+          <text class="capsule-emoji">🫥</text>
+          <text class="capsule-text">淘汰</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 风格标签 -->
+    <view class="style-tag-section" wx:if="{{styleTagLabels.length > 0 || patternLabel}}">
+      <text class="status-label">风格标签</text>
+      <view class="style-tag-wrap">
+        <text class="tag" wx:if="{{patternLabel}}">{{patternLabel}}</text>
+        <text class="tag tag-accent" wx:for="{{styleTagLabels}}" wx:key="*this">{{item}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- ========== 穿着统计卡片 ========== -->
+  <view class="stats-card card">
+    <view class="stat-item">
+      <view class="stat-icon-box stat-icon-worn">
+        <text class="stat-emoji">👕</text>
+      </view>
+      <text class="stat-number">{{item.wearCount || 0}}</text>
+      <text class="stat-label">穿着次数</text>
+    </view>
+    <view class="stat-divider"></view>
+    <view class="stat-item">
+      <view class="stat-icon-box stat-icon-date">
+        <text class="stat-emoji">📅</text>
+      </view>
+      <text class="stat-number">{{lastWornText}}</text>
+      <text class="stat-label">上次穿着</text>
+    </view>
+    <view class="stat-divider"></view>
+    <view class="stat-item">
+      <view class="stat-icon-box stat-icon-status {{item.status}}">
+        <text class="stat-emoji">{{item.status === 'active' ? '✅' : (item.status === 'stored' ? '📦' : '🗑')}}</text>
+      </view>
+      <text class="stat-number">{{statusLabel}}</text>
+      <text class="stat-label">状态</text>
+    </view>
+  </view>
+
+  <!-- ========== 穿搭记录（如有） ========== -->
+  <view class="diary-card card" wx:if="{{diaryList && diaryList.length > 0}}">
+    <view class="diary-header">
+      <text class="diary-title">📖 穿搭记录</text>
+      <text class="diary-count">共 {{diaryList.length}} 次</text>
+    </view>
+    <scroll-view class="diary-scroll" scroll-x="{{true}}" enhanced="{{true}}" show-scrollbar="{{false}}">
+      <view class="diary-item" wx:for="{{diaryList}}" wx:key="id">
+        <view class="diary-photo-box">
+          <image wx:if="{{item.photoUrl}}" src="{{item.photoUrl}}" mode="aspectFill" class="diary-photo" />
+          <view wx:else class="diary-photo-ph">
+            <text class="ph-emoji">👔</text>
+          </view>
+        </view>
+        <text class="diary-date">{{item.dateText}}</text>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- ========== 底部操作区 ========== -->
+  <view class="action-section">
+    <button class="btn-primary btn-edit" bindtap="editItem">
+      <text class="btn-icon">✏️</text>
+      <text class="btn-text">编辑衣物</text>
+    </button>
+
+    <view class="action-row">
+      <button class="btn-secondary action-btn" bindtap="changeStatus" data-status="stored" wx:if="{{item.status === 'active'}}">
+        <text class="btn-icon-sm">📦</text>
+        <text class="btn-text-sm">设为收纳</text>
+      </button>
+      <button class="btn-secondary action-btn" bindtap="changeStatus" data-status="active" wx:if="{{item.status !== 'active'}}">
+        <text class="btn-icon-sm">✨</text>
+        <text class="btn-text-sm">恢复使用</text>
+      </button>
+      <button class="btn-ghost action-btn" bindtap="deleteItem">
+        <text class="btn-icon-sm">🗑</text>
+        <text class="btn-text-sm">删除</text>
+      </button>
+    </view>
+  </view>
+
+</view>

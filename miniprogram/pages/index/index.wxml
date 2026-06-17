@@ -1,0 +1,230 @@
+<view class="index-page {{themeClass}}" style="background: {{themeBgString}};">
+  <!-- ======= 顶部问候 + 天气 ======= -->
+  <view class="welcome-header">
+    <view class="greeting-row">
+      <view class="greeting-text-box">
+        <text class="greeting-hi">{{greetingText}}</text>
+        <text class="greeting-date">{{todayText}}</text>
+      </view>
+      <view class="greeting-emoji">
+        <text class="emoji-big">{{weatherEmoji}}</text>
+      </view>
+    </view>
+
+    <view class="weather-card">
+      <view class="weather-info">
+        <text class="weather-temp">{{weatherInfo.temp}}°</text>
+        <view class="weather-divider"></view>
+        <view class="weather-meta">
+          <text class="weather-city">📍 {{weatherInfo.city}}</text>
+          <text class="weather-desc">{{weatherInfo.weather}}</text>
+        </view>
+      </view>
+      <view class="weather-tip">
+        <text class="tip-icon">💡</text>
+        <text class="tip-text">{{weatherInfo.suggestion}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- ======= 宝贝选择 ======= -->
+  <view class="child-section">
+    <view class="section-title-row">
+      <text class="section-title">今日主角</text>
+      <view class="child-add-mini" bindtap="goAddChild">
+        <text class="add-plus-mini">＋</text>
+        <text class="add-text-mini">添加宝贝</text>
+      </view>
+    </view>
+
+    <scroll-view class="child-switcher" scroll-x="{{true}}" enhanced="{{true}}" show-scrollbar="{{false}}" wx:if="{{children.length > 0}}">
+      <view
+        wx:for="{{childTabs}}"
+        wx:key="id"
+        class="child-tab {{currentChildIndex === index ? 'active' : ''}}"
+        bindtap="switchChild"
+        data-index="{{index}}"
+      >
+        <view class="child-avatar">
+          <image wx:if="{{item.avatarUrl || item.photoUrl}}" src="{{item.avatarUrl || item.photoUrl}}" mode="aspectFill" class="avatar-img" />
+          <view wx:else class="avatar-fallback">
+            <text class="avatar-emoji">{{item.gender === 'boy' ? '👦' : '👧'}}</text>
+          </view>
+        </view>
+        <view class="child-meta">
+          <text class="child-name">{{item.nickname}}</text>
+          <text class="child-age">{{item.ageText}}</text>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- ======= 空状态：没宝贝 ======= -->
+  <view class="empty-state card" wx:if="{{children.length === 0}}">
+    <view class="empty-icon-box">
+      <text class="empty-emoji">🧸</text>
+    </view>
+    <text class="empty-title">还没有添加宝贝</text>
+    <text class="empty-desc">先添加宝贝信息，才能生成专属的穿搭方案</text>
+    <button class="btn-primary empty-btn" bindtap="goAddChild">添加宝贝</button>
+  </view>
+
+  <!-- ======= 空状态：衣物不足 ======= -->
+  <view class="empty-state card" wx:elif="{{clothingCount < 3}}">
+    <view class="empty-icon-box icon-warm">
+      <text class="empty-emoji">👕</text>
+    </view>
+    <text class="empty-title">衣物还不够哦</text>
+    <text class="empty-desc">再添加{{3 - clothingCount}}件衣物即可解锁 AI 智能搭配</text>
+    <button class="btn-primary empty-btn" bindtap="goAddClothing">去添加衣物</button>
+  </view>
+
+  <!-- ======= 穿搭推荐 ======= -->
+  <view wx:else class="recommend-wrap">
+    <!-- 加载中 -->
+    <view class="loading-state card" wx:if="{{loading}}">
+      <view class="loading-spinner-box">
+        <text class="loading-spinner-emoji">🪄</text>
+      </view>
+      <text class="loading-title">AI 正在为 {{currentChild.nickname}} 搭配...</text>
+      <text class="loading-sub">请稍等，马上就好</text>
+    </view>
+
+    <!-- 已生成穿搭 -->
+    <view wx:elif="{{outfit}}" class="outfit-section">
+      <!-- 主角卡片 -->
+      <view class="hero-card">
+        <view class="hero-header">
+          <text class="hero-label">今日推荐</text>
+          <view class="hero-scene-chip">
+            <text class="chip-emoji">{{sceneEmoji}}</text>
+            <text class="chip-text">{{selectedSceneLabel}}</text>
+          </view>
+        </view>
+
+        <view class="hero-stage">
+          <view class="stage-bg">
+            <view class="stage-deco stage-cloud-1">☁️</view>
+            <view class="stage-deco stage-cloud-2">☁️</view>
+            <view class="stage-deco stage-sun">☀️</view>
+          </view>
+          <view class="stage-rug">
+            <text class="rug-emoji">{{currentChild.gender === 'boy' ? '👦' : '👧'}}</text>
+          </view>
+        </view>
+
+        <!-- 穿搭清单 -->
+        <view class="outfit-items">
+          <view
+            class="outfit-item"
+            wx:for="{{heroItems}}"
+            wx:key="groupKey"
+            bindtap="onItemTap"
+            data-id="{{item.id}}"
+            data-group="{{item.groupKey}}"
+          >
+            <view class="item-photo-box">
+              <image class="item-photo" src="{{item.photoUrl}}" mode="aspectFill" wx:if="{{item.photoUrl}}" />
+              <view wx:else class="item-photo-placeholder">
+                <text class="placeholder-emoji">{{item.iconEmoji || '👕'}}</text>
+              </view>
+            </view>
+            <view class="item-info">
+              <text class="item-group-label">{{item.groupLabel}}</text>
+              <text class="item-name-text">{{item.displayName}}</text>
+            </view>
+            <view class="item-change-btn">
+              <text class="change-arrow">↻</text>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 搭配理由 -->
+      <view class="ai-reason card" wx:if="{{outfit.reason}}">
+        <view class="reason-header">
+          <view class="reason-icon-box">
+            <text class="reason-icon">💡</text>
+          </view>
+          <text class="reason-title">这样搭配的原因</text>
+        </view>
+        <text class="reason-content">{{outfit.reason}}</text>
+        <text class="reason-tips" wx:if="{{outfit.tips}}">{{outfit.tips}}</text>
+        <view class="reason-warn" wx:for="{{outfit.warnings}}" wx:for-item="warnItem" wx:key="*this" wx:if="{{outfit.warnings && outfit.warnings.length > 0}}">
+          <text class="warn-icon">⚠️</text>
+          <text class="warn-text">{{warnItem}}</text>
+        </view>
+      </view>
+
+      <!-- 场景选择 -->
+      <view class="scene-panel card">
+        <view class="panel-header">
+          <text class="panel-title">🏷 选择场景</text>
+          <text class="panel-sub">不同场景 · 不同穿搭</text>
+        </view>
+        <view class="scene-grid">
+          <view
+            wx:for="{{displayScenes}}"
+            wx:key="value"
+            class="scene-card {{selectedSceneTab === item.value ? 'active' : ''}}"
+            bindtap="selectScene"
+            data-value="{{item.value}}"
+          >
+            <view class="scene-emoji">{{item.icon}}</view>
+            <text class="scene-label">{{item.label}}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 操作按钮 -->
+      <view class="action-bar">
+        <button class="btn-secondary action-btn refresh-btn" bindtap="refreshOutfit">
+          <text class="btn-icon">↻</text>
+          <text class="btn-text">换一套</text>
+        </button>
+        <button class="btn-primary action-btn wear-btn" bindtap="wearThis">
+          <text class="btn-icon">✓</text>
+          <text class="btn-text">就穿这套</text>
+        </button>
+      </view>
+    </view>
+  </view>
+
+  <!-- ======= 替换弹层 ======= -->
+  <view class="replacement-mask" wx:if="{{replacementVisible}}" bindtap="closeReplacement"></view>
+  <view class="replacement-sheet" wx:if="{{replacementVisible}}">
+    <view class="sheet-handle"></view>
+    <view class="sheet-header">
+      <view class="sheet-title-box">
+        <text class="sheet-title">换一件{{replacementGroupLabel}}</text>
+        <text class="sheet-subtitle">从衣橱中选择同类单品</text>
+      </view>
+      <text class="sheet-close" bindtap="closeReplacement">×</text>
+    </view>
+    <scroll-view class="replacement-list" scroll-y="{{true}}" enhanced="{{true}}" show-scrollbar="{{false}}">
+      <view class="replacement-empty" wx:if="{{replacementCandidates.length === 0}}">
+        <text class="empty-emoji-small">🫥</text>
+        <text class="empty-text-small">暂无可替换的同类单品</text>
+      </view>
+      <view
+        wx:for="{{replacementCandidates}}"
+        wx:key="id"
+        class="replacement-item"
+        bindtap="selectReplacement"
+        data-id="{{item.id}}"
+      >
+        <view class="rep-photo-box">
+          <image class="rep-photo" src="{{item.photoUrl}}" mode="aspectFill" wx:if="{{item.photoUrl}}" />
+          <view wx:else class="rep-photo-placeholder">
+            <text>{{item.typeLabel}}</text>
+          </view>
+        </view>
+        <view class="rep-info">
+          <text class="rep-name">{{item.displayName}}</text>
+          <text class="rep-meta">{{item.thicknessLabel}} · {{item.seasonLabel}}</text>
+        </view>
+        <view class="rep-arrow">›</view>
+      </view>
+    </scroll-view>
+  </view>
+</view>

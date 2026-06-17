@@ -1,0 +1,283 @@
+<view class="add-clothing-page {{themeClass}}" style="background: {{themeBgString}};">
+  <!-- ======= 页面标题 ======= -->
+  <view class="page-header">
+    <view class="header-icon-box">
+      <text class="header-emoji">{{isEdit ? '✏️' : '🧺'}}</text>
+    </view>
+    <view class="header-text">
+      <text class="page-title">{{pageTitle}}</text>
+      <text class="page-subtitle">拍照识别，让录入更轻松</text>
+    </view>
+  </view>
+
+  <!-- ======= 照片区卡片 ======= -->
+  <view class="photo-card">
+    <view wx:if="{{photoUrl}}" class="photo-preview-wrap">
+      <image class="photo-preview" src="{{photoUrl}}" mode="aspectFill" />
+      <view class="photo-retake" bindtap="choosePhoto">
+        <text class="retake-emoji">🔄</text>
+        <text class="retake-text">重新选择</text>
+      </view>
+    </view>
+    <view wx:else class="photo-placeholder">
+      <view class="placeholder-icon-box">
+        <text class="placeholder-emoji">📷</text>
+      </view>
+      <text class="placeholder-title">添加衣物照片</text>
+      <text class="placeholder-desc">拍一张清晰的正面照，AI 会自动识别</text>
+      <view class="photo-btn-row">
+        <button class="btn-primary photo-btn photo-btn-primary" bindtap="takePhoto">
+          <text class="photo-btn-emoji">📸</text>
+          <text class="photo-btn-text">立即拍照</text>
+        </button>
+        <button class="btn-secondary photo-btn" bindtap="pickFromAlbum">
+          <text class="photo-btn-emoji">🖼</text>
+          <text class="photo-btn-text">从相册选</text>
+        </button>
+      </view>
+    </view>
+  </view>
+
+  <!-- ======= AI 识别状态卡片 ======= -->
+  <view class="ai-card" wx:if="{{recognizing || recognitionNotes}}">
+    <view class="ai-state-box" wx:if="{{recognizing}}">
+      <view class="ai-spinner-box">
+        <text class="ai-spinner-emoji">🤖</text>
+      </view>
+      <text class="ai-state-title">AI 正在识别中...</text>
+      <text class="ai-state-desc">请稍候，识别完成后可手动调整</text>
+    </view>
+    <view class="ai-result-box" wx:elif="{{recognitionNotes}}">
+      <view class="ai-result-icon">✨</view>
+      <view class="ai-result-text">
+        <text class="ai-result-title">已识别</text>
+        <text class="ai-result-desc">{{recognitionNotes}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- ======= 所属宝贝（多宝贝时）======= -->
+  <view class="form-card" wx:if="{{children.length > 0}}">
+    <view class="card-header">
+      <text class="card-title-emoji">🧸</text>
+      <text class="card-title">所属宝贝</text>
+    </view>
+    <scroll-view class="child-scroll" scroll-x="{{true}}" enhanced="{{true}}" show-scrollbar="{{false}}">
+      <view
+        wx:for="{{children}}"
+        wx:key="id"
+        class="child-pill {{selectedChildId === item.id ? 'active' : ''}}"
+        bindtap="selectChild"
+        data-id="{{item.id}}"
+      >
+        <view class="child-pill-avatar">
+          <text class="pill-emoji">{{item.gender === 'boy' ? '👦' : '👧'}}</text>
+        </view>
+        <text class="child-pill-name">{{item.nickname}}</text>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- ======= 衣物类型 ======= -->
+  <view class="form-card">
+    <view class="card-header">
+      <text class="card-title-emoji">👚</text>
+      <text class="card-title">衣物类型</text>
+      <text class="card-sub">必选</text>
+    </view>
+    <view class="type-grid">
+      <view
+        wx:for="{{typeOptions}}"
+        wx:key="value"
+        class="type-item {{selectedType === item.value ? 'active' : ''}}"
+        bindtap="selectType"
+        data-value="{{item.value}}"
+      >
+        <text class="type-emoji">{{item.icon}}</text>
+        <text class="type-label">{{item.label}}</text>
+      </view>
+    </view>
+
+    <view class="sub-type-wrap" wx:if="{{subTypeOptions.length > 0}}">
+      <text class="mini-label">细分类型</text>
+      <view class="chip-row">
+        <view
+          wx:for="{{subTypeOptions}}"
+          wx:key="value"
+          class="chip-pill {{selectedSubType === item.value ? 'active' : ''}}"
+          bindtap="selectSubType"
+          data-value="{{item.value}}"
+        >
+          <text>{{item.label}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- ======= 颜色 ======= -->
+  <view class="form-card">
+    <view class="card-header">
+      <text class="card-title-emoji">🎨</text>
+      <text class="card-title">颜色</text>
+      <text class="card-sub">必选</text>
+    </view>
+
+    <view class="color-search">
+      <text class="search-emoji">🔍</text>
+      <input
+        class="search-input"
+        placeholder="搜索颜色名称，如：薄荷、薰衣草"
+        placeholder-class="search-placeholder"
+        value="{{colorKeyword}}"
+        bindinput="onColorSearch"
+        confirm-type="search"
+      />
+    </view>
+
+    <scroll-view class="group-scroll" scroll-x="{{true}}" enhanced="{{true}}" show-scrollbar="{{false}}">
+      <view
+        wx:for="{{colorGroups}}"
+        wx:key="value"
+        class="group-pill {{activeColorGroup === item.value ? 'active' : ''}}"
+        bindtap="selectColorGroup"
+        data-value="{{item.value}}"
+      >
+        <text>{{item.label}}</text>
+      </view>
+    </scroll-view>
+
+    <view class="color-grid">
+      <view
+        wx:for="{{filteredColors}}"
+        wx:key="value"
+        class="color-item {{selectedColor === item.value ? 'active' : ''}}"
+        bindtap="selectColor"
+        data-value="{{item.value}}"
+      >
+        <view class="color-dot" style="background: {{item.hex}};"></view>
+        <text class="color-name">{{item.label}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- ======= 花纹 ======= -->
+  <view class="form-card">
+    <view class="card-header">
+      <text class="card-title-emoji">🌼</text>
+      <text class="card-title">花纹</text>
+    </view>
+    <view class="chip-row">
+      <view
+        wx:for="{{patternOptions}}"
+        wx:key="value"
+        class="chip-pill {{selectedPattern === item.value ? 'active' : ''}}"
+        bindtap="selectPattern"
+        data-value="{{item.value}}"
+      >
+        <text>{{item.label}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- ======= 季节 ======= -->
+  <view class="form-card">
+    <view class="card-header">
+      <text class="card-title-emoji">🌤</text>
+      <text class="card-title">适合季节</text>
+      <text class="card-sub">可多选</text>
+    </view>
+    <view class="chip-row">
+      <view
+        wx:for="{{seasonOptions}}"
+        wx:key="value"
+        class="chip-pill {{item.selected ? 'active' : ''}}"
+        bindtap="toggleSeason"
+        data-value="{{item.value}}"
+      >
+        <text>{{item.label}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- ======= 厚度 ======= -->
+  <view class="form-card">
+    <view class="card-header">
+      <text class="card-title-emoji">🧶</text>
+      <text class="card-title">厚度</text>
+      <text class="card-sub">必选</text>
+    </view>
+    <view class="chip-row">
+      <view
+        wx:for="{{thicknessOptions}}"
+        wx:key="value"
+        class="chip-pill {{selectedThickness === item.value ? 'active' : ''}}"
+        bindtap="selectThickness"
+        data-value="{{item.value}}"
+      >
+        <text>{{item.label}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- ======= 风格标签 ======= -->
+  <view class="form-card">
+    <view class="card-header">
+      <text class="card-title-emoji">✨</text>
+      <text class="card-title">风格标签</text>
+      <text class="card-sub">可多选</text>
+    </view>
+    <view class="chip-row">
+      <view
+        wx:for="{{styleOptions}}"
+        wx:key="value"
+        class="chip-pill chip-with-emoji {{item.selected ? 'active' : ''}}"
+        bindtap="toggleStyleTag"
+        data-value="{{item.value}}"
+      >
+        <text class="chip-emoji">{{item.emoji}}</text>
+        <text>{{item.label}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- ======= 品牌 & 尺码 ======= -->
+  <view class="form-card">
+    <view class="card-header">
+      <text class="card-title-emoji">🏷</text>
+      <text class="card-title">品牌 & 尺码</text>
+    </view>
+    <view class="input-row">
+      <view class="input-wrap">
+        <text class="input-label">品牌</text>
+        <input
+          class="form-input"
+          placeholder="如：ZARA、优衣库"
+          placeholder-class="input-placeholder"
+          value="{{brand}}"
+          bindinput="onBrand"
+        />
+      </view>
+      <view class="input-wrap">
+        <text class="input-label">尺码</text>
+        <input
+          class="form-input"
+          placeholder="如：110、M、5T"
+          placeholder-class="input-placeholder"
+          value="{{size}}"
+          bindinput="onSize"
+        />
+      </view>
+    </view>
+  </view>
+
+  <!-- ======= 底部占位 ======= -->
+  <view class="bottom-spacer"></view>
+
+  <!-- ======= 底部固定按钮 ======= -->
+  <view class="bottom-bar">
+    <button class="btn-primary save-btn" bindtap="saveClothing" disabled="{{saving}}">
+      <text wx:if="{{!saving}}" class="save-text">{{isEdit ? '保存修改' : '保存入库'}}</text>
+      <text wx:else class="save-text">保存中...</text>
+    </button>
+  </view>
+</view>

@@ -1,0 +1,196 @@
+<view class="onboarding-page {{themeClass}}" style="background: {{themeBgString}};">
+  <!-- 顶部进度 -->
+  <view class="ob-header">
+    <view class="ob-progress-bar">
+      <view class="ob-progress-fill" style="width: {{(step / 3) * 100}}%"></view>
+    </view>
+    <view class="ob-step-row">
+      <text class="ob-step-label">第 {{step}} 步 · 共 3 步</text>
+      <text class="ob-skip" bindtap="onSkip" wx:if="{{step < 3}}">跳过</text>
+    </view>
+  </view>
+
+  <!-- 步骤 1：基本信息 -->
+  <view class="ob-content" wx:if="{{step === 1}}">
+    <view class="ob-title">你好呀 👋</view>
+    <view class="ob-desc">告诉我们一点点，让推荐更懂你</view>
+
+    <!-- 角色选择 -->
+    <view class="form-group">
+      <text class="form-label">你的角色</text>
+      <view class="role-options">
+        <view class="role-item {{role === '妈妈' ? 'active' : ''}}" bindtap="selectRole" data-role="妈妈">
+          <view class="role-icon-wrap">👩</view>
+          <text class="role-name">妈妈</text>
+        </view>
+        <view class="role-item {{role === '爸爸' ? 'active' : ''}}" bindtap="selectRole" data-role="爸爸">
+          <view class="role-icon-wrap role-icon-yellow">👨</view>
+          <text class="role-name">爸爸</text>
+        </view>
+        <view class="role-item {{role === '其他' ? 'active' : ''}}" bindtap="selectRole" data-role="其他">
+          <view class="role-icon-wrap role-icon-peach">🧑</view>
+          <text class="role-name">其他</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 城市 -->
+    <view class="form-group">
+      <text class="form-label">所在城市</text>
+      <view class="city-picker" bindtap="chooseLocation">
+        <view class="city-icon-wrap">📍</view>
+        <view class="city-text-wrap">
+          <text class="city-text" wx:if="{{city}}">{{city}}</text>
+          <text class="city-placeholder" wx:else>点击选择城市</text>
+        </view>
+        <text class="city-arrow">›</text>
+      </view>
+    </view>
+
+    <!-- 风格偏好 -->
+    <view class="form-group">
+      <text class="form-label">穿搭偏好 <text class="form-label-hint">可多选</text></text>
+      <view class="style-options">
+        <view
+          wx:for="{{styleOptions}}"
+          wx:key="value"
+          class="style-chip {{item.selected ? 'active' : ''}}"
+          bindtap="toggleStyle"
+          data-value="{{item.value}}"
+        >
+          <text class="style-emoji">{{item.emoji}}</text>
+          <text class="style-name">{{item.label}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 步骤 2：添加宝贝 -->
+  <view class="ob-content" wx:if="{{step === 2}}">
+    <view class="ob-title">关于宝贝 🍼</view>
+    <view class="ob-desc">帮我们更懂 TA</view>
+
+    <!-- 昵称 -->
+    <view class="form-group">
+      <text class="form-label">宝贝昵称</text>
+      <input class="form-input" placeholder="如：小豆子" bindinput="onChildName" value="{{childName}}" />
+    </view>
+
+    <!-- 性别 -->
+    <view class="form-group">
+      <text class="form-label">性别</text>
+      <view class="gender-row">
+        <view class="gender-card {{childGender === 'boy' ? 'active' : ''}}" bindtap="selectGender" data-gender="boy">
+          <text class="gender-emoji">👦</text>
+          <text class="gender-text">男孩</text>
+        </view>
+        <view class="gender-card {{childGender === 'girl' ? 'active' : ''}}" bindtap="selectGender" data-gender="girl">
+          <text class="gender-emoji">👧</text>
+          <text class="gender-text">女孩</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 生日 & 身高 -->
+    <view class="form-row">
+      <view class="form-group form-half">
+        <text class="form-label">出生日期</text>
+        <picker mode="date" start="2019-01-01" end="2026-12-31" bindchange="onBirthdayChange">
+          <view class="form-input picker-display">
+            <text wx:if="{{childBirthday}}">{{childBirthday}}</text>
+            <text class="placeholder" wx:else>选择日期</text>
+          </view>
+        </picker>
+      </view>
+      <view class="form-group form-half">
+        <text class="form-label">身高</text>
+        <input class="form-input" type="digit" placeholder="cm" bindinput="onChildHeight" value="{{childHeight}}" />
+      </view>
+    </view>
+
+    <!-- 肤色倾向 -->
+    <view class="form-group">
+      <text class="form-label">肤色倾向 <text class="form-label-hint">选填</text></text>
+      <view class="skin-options">
+        <view
+          wx:for="{{skinToneOptions}}"
+          wx:key="value"
+          class="skin-chip {{childSkinTone === item.value ? 'active' : ''}}"
+          bindtap="selectSkinTone"
+          data-value="{{item.value}}"
+        >
+          <view class="skin-dot" style="background: {{item.color}}"></view>
+          <text class="skin-name">{{item.label}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 照片 -->
+    <view class="form-group">
+      <text class="form-label">宝贝照片 <text class="form-label-hint">选填</text></text>
+      <view class="photo-upload" bindtap="chooseChildPhoto">
+        <image wx:if="{{childPhoto}}" src="{{childPhoto}}" mode="aspectFill" class="photo-preview" />
+        <view wx:else class="photo-placeholder">
+          <text class="photo-icon">📷</text>
+          <text class="photo-text">上传一张可爱的照片</text>
+          <text class="photo-hint">帮助 AI 更好地识别穿搭</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 步骤 3：添加第一件衣物 -->
+  <view class="ob-content" wx:if="{{step === 3}}">
+    <view class="ob-title">开始记录衣橱 👕</view>
+    <view class="ob-desc">拍一张照，添加第一件衣物到衣橱</view>
+
+    <!-- 两个大卡片 -->
+    <view class="entry-options">
+      <view class="entry-card entry-primary" bindtap="takePhoto">
+        <view class="entry-icon-wrap">
+          <text class="entry-emoji">📸</text>
+        </view>
+        <text class="entry-title">拍照识别</text>
+        <text class="entry-desc">AI 自动识别并填写</text>
+        <view class="entry-tag">推荐</view>
+      </view>
+      <view class="entry-card" bindtap="manualAdd">
+        <view class="entry-icon-wrap entry-icon-warm">
+          <text class="entry-emoji">✏️</text>
+        </view>
+        <text class="entry-title">手动添加</text>
+        <text class="entry-desc">自己选择分类</text>
+      </view>
+    </view>
+
+    <!-- 已添加状态 -->
+    <view class="added-card" wx:if="{{firstClothingAdded}}">
+      <view class="added-circle">✅</view>
+      <text class="added-title">第一件衣物已入衣橱！</text>
+      <text class="added-desc">继续添加更多衣物，AI 推荐越精准</text>
+    </view>
+
+    <!-- 可选特性展示 -->
+    <view class="feature-preview">
+      <view class="preview-item">
+        <text class="preview-icon">🌤</text>
+        <text class="preview-text">每日根据天气自动推荐穿搭</text>
+      </view>
+      <view class="preview-item">
+        <text class="preview-icon">📖</text>
+        <text class="preview-text">穿搭日记记录宝贝每一天</text>
+      </view>
+      <view class="preview-item">
+        <text class="preview-icon">♻️</text>
+        <text class="preview-text">衣物闲置提醒，告别浪费</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部按钮 -->
+  <view class="ob-footer">
+    <button class="btn-primary next-btn" bindtap="nextStep" loading="{{saving}}" disabled="{{saving}}">
+      {{saving ? '保存中...' : (step === 3 ? '完成设置，开始使用' : '继续下一步')}}
+    </button>
+  </view>
+</view>

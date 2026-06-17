@@ -1,0 +1,101 @@
+<view class="child-profile-page {{themeClass}}" style="background: {{themeBgString}};">
+  <!-- Avatar Section -->
+  <view class="avatar-section">
+    <view class="avatar-upload" bindtap="choosePhoto">
+      <image wx:if="{{photoUrl}}" src="{{photoUrl}}" mode="aspectFill" class="avatar-image" />
+      <view wx:else class="avatar-placeholder">
+        <text class="avatar-icon">📷</text>
+        <text class="avatar-text">上传照片</text>
+      </view>
+    </view>
+    <view class="avatar-hint">
+      <text class="text-light">上传宝贝正面照，可参考照片生成AI试穿形象</text>
+    </view>
+  </view>
+
+  <!-- AI Avatar Preview -->
+  <view class="ai-avatar-card card" wx:if="{{photoUrl}}">
+    <view class="ai-avatar-header flex-between">
+      <text class="section-title" style="margin-bottom:0;">AI虚拟形象</text>
+      <button class="btn-mini" bindtap="generateAvatar" loading="{{generatingAvatar}}" disabled="{{generatingAvatar}}">
+        {{avatarUrl ? '重新生成' : '生成'}}
+      </button>
+    </view>
+    <view class="ai-avatar-preview" wx:if="{{avatarUrl}}">
+      <image src="{{avatarUrl}}" mode="aspectFit" class="ai-avatar-img" />
+    </view>
+    <view class="ai-avatar-placeholder" wx:else>
+      <text class="text-secondary">点击“生成”创建儿童试穿形象</text>
+    </view>
+    <view class="ai-avatar-message" wx:if="{{avatarMessage}}">
+      <text>{{avatarMessage}}</text>
+    </view>
+    <view class="ai-avatar-prompt" wx:if="{{avatarPrompt}}">
+      <text>{{avatarPrompt}}</text>
+    </view>
+  </view>
+
+  <!-- Form -->
+  <view class="form-container">
+    <view class="form-section">
+      <text class="form-label">宝贝昵称 *</text>
+      <input class="form-input" placeholder="给宝贝起个昵称" bindinput="onNickname" value="{{nickname}}" />
+    </view>
+
+    <view class="form-section">
+      <text class="form-label">性别 *</text>
+      <view class="gender-options">
+        <view class="gender-item {{gender === 'boy' ? 'active' : ''}}" bindtap="selectGender" data-gender="boy">
+          <text class="gender-icon">👦</text>
+          <text>男孩</text>
+        </view>
+        <view class="gender-item {{gender === 'girl' ? 'active' : ''}}" bindtap="selectGender" data-gender="girl">
+          <text class="gender-icon">👧</text>
+          <text>女孩</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="form-section">
+      <text class="form-label">出生日期 *</text>
+      <picker mode="date" start="2019-01-01" end="2026-12-31" bindchange="onBirthdayChange" value="{{birthday}}">
+        <view class="form-input picker-display">
+          <text wx:if="{{birthday}}">{{birthday}}</text>
+          <text wx:else class="placeholder">请选择</text>
+        </view>
+      </picker>
+    </view>
+
+    <view class="form-row">
+      <view class="form-section flex-1">
+        <text class="form-label">身高(cm) *</text>
+        <input class="form-input" type="digit" placeholder="如 90" bindinput="onHeight" value="{{height}}" />
+      </view>
+      <view class="form-section flex-1" style="margin-left: 24rpx;">
+        <text class="form-label">体重(kg)</text>
+        <input class="form-input" type="digit" placeholder="如 12" bindinput="onWeight" value="{{weight}}" />
+      </view>
+    </view>
+
+    <view class="form-section">
+      <text class="form-label">肤色倾向</text>
+      <view class="tag-list">
+        <view
+          wx:for="{{skinToneOptions}}"
+          wx:key="value"
+          class="tag-item {{skinTone === item.value ? 'active' : ''}}"
+          bindtap="selectSkinTone"
+          data-value="{{item.value}}"
+        >
+          {{item.label}}
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="bottom-bar">
+    <button class="btn-primary save-btn" bindtap="save" loading="{{saving}}" disabled="{{saving}}">
+      {{saving ? '保存中...' : '保存'}}
+    </button>
+  </view>
+</view>

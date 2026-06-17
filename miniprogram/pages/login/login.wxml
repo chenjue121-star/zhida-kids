@@ -1,0 +1,65 @@
+<view class="login-page {{themeClass}}" style="background: {{themeBgString}};">
+  <!-- 装饰背景 -->
+  <view class="bg-decor">
+    <view class="blob blob-green"></view>
+    <view class="blob blob-yellow"></view>
+    <view class="blob blob-peach"></view>
+    <view class="sparkle sparkle-1">✦</view>
+    <view class="sparkle sparkle-2">✿</view>
+    <view class="sparkle sparkle-3">✦</view>
+  </view>
+
+  <!-- Logo 区 -->
+  <view class="login-header">
+    <view class="brand-logo">
+      <view class="logo-circle">
+        <text class="logo-emoji">🌿</text>
+      </view>
+      <view class="logo-sun">☀</view>
+    </view>
+    <text class="brand-title">智搭</text>
+    <text class="brand-subtitle">给宝贝的 · 智能穿搭小助手</text>
+  </view>
+
+  <!-- 特色卡片 -->
+  <view class="feature-list">
+    <view class="feature-card">
+      <view class="feature-icon-wrap">
+        <text class="feature-emoji">📸</text>
+      </view>
+      <text class="feature-title">拍照识别</text>
+      <text class="feature-desc">一按建档</text>
+    </view>
+    <view class="feature-card">
+      <view class="feature-icon-wrap icon-yellow">
+        <text class="feature-emoji">🤖</text>
+      </view>
+      <text class="feature-title">AI 搭配</text>
+      <text class="feature-desc">智能推荐</text>
+    </view>
+    <view class="feature-card">
+      <view class="feature-icon-wrap icon-peach">
+        <text class="feature-emoji">📖</text>
+      </view>
+      <text class="feature-title">成长日记</text>
+      <text class="feature-desc">记录每一天</text>
+    </view>
+  </view>
+
+  <!-- 底部操作区 -->
+  <view class="login-footer">
+    <view class="welcome-box">
+      <text class="welcome-text">欢迎来到智搭</text>
+      <text class="welcome-sub">让每个清晨的穿搭都变成小惊喜</text>
+    </view>
+    <button class="btn-primary login-btn" bindtap="onLogin" loading="{{loggingIn}}" disabled="{{loggingIn}}">
+      {{loggingIn ? '登录中...' : '微信一键登录'}}
+    </button>
+    <view class="agreement">
+      <text class="agreement-text">登录即表示同意</text>
+      <text class="agreement-link">《用户协议》</text>
+      <text class="agreement-text">和</text>
+      <text class="agreement-link">《隐私政策》</text>
+    </view>
+  </view>
+</view>

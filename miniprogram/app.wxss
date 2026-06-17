@@ -1,0 +1,373 @@
+/* ===============================================
+   智搭 · 全局设计系统
+   设计语言：温暖奶油 · 自然草木绿 · 阳光金
+   =============================================== */
+
+page {
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB',
+    'Microsoft YaHei', sans-serif;
+  font-size: 28rpx;
+  color: #2A2A28;
+  background-color: #FFF9EF;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.5;
+}
+
+view, text, button, input, textarea {
+  box-sizing: border-box;
+}
+
+/* ========== 容器 ========== */
+.container {
+  padding: 28rpx 32rpx;
+}
+
+/* ========== 卡片系统 ========== */
+.card {
+  background: #FFFFFF;
+  border-radius: 32rpx;
+  padding: 32rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 6rpx 24rpx rgba(173, 156, 108, 0.08),
+              0 2rpx 6rpx rgba(173, 156, 108, 0.04);
+}
+
+.card-flat {
+  background: #FFFFFF;
+  border-radius: 32rpx;
+  padding: 32rpx;
+  border: 2rpx solid #EFE5D3;
+}
+
+/* ========== 按钮系统 ========== */
+.btn-primary {
+  background: linear-gradient(135deg, #7DB96E 0%, #6BA65C 100%);
+  color: #fff;
+  border: none;
+  border-radius: 100rpx;
+  padding: 28rpx 48rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+  text-align: center;
+  letter-spacing: 1rpx;
+  line-height: 1.2;
+  box-shadow: 0 8rpx 24rpx rgba(107, 166, 92, 0.28),
+              0 2rpx 6rpx rgba(107, 166, 92, 0.18);
+}
+
+.btn-primary::after {
+  border: none;
+}
+
+.btn-secondary {
+  background: #FFFFFF;
+  color: #2A2A28;
+  border: 2rpx solid #EFE5D3;
+  border-radius: 100rpx;
+  padding: 26rpx 48rpx;
+  font-size: 30rpx;
+  font-weight: 500;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.btn-secondary::after {
+  border: none;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: #6BA65C;
+  border: 2rpx solid #6BA65C;
+  border-radius: 100rpx;
+  padding: 22rpx 36rpx;
+  font-size: 28rpx;
+  font-weight: 600;
+}
+
+.btn-ghost::after {
+  border: none;
+}
+
+/* ========== 标题与文本 ========== */
+.section-title {
+  font-size: 34rpx;
+  font-weight: 800;
+  color: #2A2A28;
+  margin-bottom: 20rpx;
+  letter-spacing: 1rpx;
+}
+
+.text-secondary {
+  color: #6F6B60;
+  font-size: 26rpx;
+}
+
+.text-light {
+  color: #B5B0A4;
+  font-size: 24rpx;
+}
+
+.text-accent {
+  color: #F2B84B;
+  font-weight: 600;
+}
+
+.text-warm {
+  color: #E67E4C;
+  font-weight: 600;
+}
+
+/* ================================================
+   主题系统 · 4 套主题统一覆盖规则
+   设计：sunny_green · soft_lavender · peach_pink · fresh_blue
+   说明：小程序不支持 CSS 变量，采用 CSS 类选择器覆盖方式
+   ================================================ */
+
+/* --- 晴日草木 · sunny_green --- */
+.theme-sunny_green .btn-primary {
+  background: linear-gradient(135deg, #7DB96E 0%, #6BA65C 100%);
+  box-shadow: 0 8rpx 24rpx rgba(107, 166, 92, 0.28),
+              0 2rpx 6rpx rgba(107, 166, 92, 0.18);
+}
+.theme-sunny_green .btn-ghost {
+  color: #6BA65C;
+  border-color: #6BA65C;
+}
+
+/* --- 云朵薰衣草 · soft_lavender --- */
+.theme-soft_lavender .btn-primary {
+  background: linear-gradient(135deg, #9687CC 0%, #7B6FBF 100%);
+  box-shadow: 0 8rpx 24rpx rgba(123, 111, 191, 0.28),
+              0 2rpx 6rpx rgba(123, 111, 191, 0.18);
+}
+.theme-soft_lavender .btn-secondary {
+  border-color: #E8E3F0;
+}
+.theme-soft_lavender .btn-ghost {
+  color: #7B6FBF;
+  border-color: #7B6FBF;
+}
+
+/* --- 蜜桃粉 · peach_pink --- */
+.theme-peach_pink .btn-primary {
+  background: linear-gradient(135deg, #EC9DA6 0%, #E57A86 100%);
+  box-shadow: 0 8rpx 24rpx rgba(229, 122, 134, 0.28),
+              0 2rpx 6rpx rgba(229, 122, 134, 0.18);
+}
+.theme-peach_pink .btn-secondary {
+  border-color: #F3DEE1;
+}
+.theme-peach_pink .btn-ghost {
+  color: #E57A86;
+  border-color: #E57A86;
+}
+
+/* --- 清爽海蓝 · fresh_blue --- */
+.theme-fresh_blue .btn-primary {
+  background: linear-gradient(135deg, #5AA0C1 0%, #3D8BB1 100%);
+  box-shadow: 0 8rpx 24rpx rgba(61, 139, 177, 0.28),
+              0 2rpx 6rpx rgba(61, 139, 177, 0.18);
+}
+.theme-fresh_blue .btn-secondary {
+  border-color: #D5E3EC;
+}
+.theme-fresh_blue .btn-ghost {
+  color: #3D8BB1;
+  border-color: #3D8BB1;
+}
+
+/* ========== 布局工具 ========== */
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ========== 标签 / Chip ========== */
+.tag {
+  display: inline-block;
+  padding: 10rpx 24rpx;
+  border-radius: 100rpx;
+  font-size: 24rpx;
+  background: #EEF5E5;
+  color: #6BA65C;
+  margin-right: 12rpx;
+  margin-bottom: 12rpx;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.tag-accent {
+  background: #FDF1D9;
+  color: #B8791F;
+}
+
+.tag-warm {
+  background: #FBE9E2;
+  color: #E67E4C;
+}
+
+.tag-outline {
+  background: transparent;
+  border: 2rpx solid #EFE5D3;
+  color: #6F6B60;
+  font-weight: 500;
+}
+
+/* ========== 分隔线 ========== */
+.divider {
+  height: 1rpx;
+  background: #EFE5D3;
+  margin: 24rpx 0;
+}
+
+/* ========== 空状态通用 ========== */
+.empty-state {
+  padding: 80rpx 40rpx;
+  text-align: center;
+  background: #FFFFFF;
+  border-radius: 32rpx;
+  box-shadow: 0 6rpx 24rpx rgba(173, 156, 108, 0.06);
+}
+
+.empty-emoji {
+  display: block;
+  font-size: 88rpx;
+  margin-bottom: 16rpx;
+}
+
+.empty-title {
+  display: block;
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #2A2A28;
+  margin-bottom: 10rpx;
+}
+
+.empty-desc {
+  display: block;
+  font-size: 26rpx;
+  color: #6F6B60;
+  margin-bottom: 32rpx;
+  line-height: 1.5;
+}
+
+.empty-btn {
+  width: 320rpx;
+  height: 88rpx;
+  line-height: 88rpx;
+  margin: 0 auto;
+}
+
+/* ====================================================
+   主题系统 - 基于 CSS 类命名空间（Theme Class System）
+   用法：根容器 <view class="xxx-page theme-sunny-green">
+   主题切换：profile.js → Theme.setTheme(themeKey) → setData
+   ==================================================== */
+
+/* 1. 晴日草木绿 (默认) */
+.theme-sunny-green { color: #2A2A28; }
+.theme-sunny-green .card { background: #FFFFFF; border-color: #EFE5D3; }
+.theme-sunny-green .card-flat { background: #FFFFFF; border-color: #EFE5D3; }
+.theme-sunny-green .btn-primary { background: linear-gradient(135deg, #7DB96E 0%, #6BA65C 100%); box-shadow: 0 8rpx 24rpx rgba(107, 166, 92, 0.28), 0 2rpx 6rpx rgba(107, 166, 92, 0.18); }
+.theme-sunny-green .btn-secondary { color: #2A2A28; border-color: #EFE5D3; }
+.theme-sunny-green .btn-ghost { color: #6BA65C; border-color: #6BA65C; }
+.theme-sunny-green .section-title { color: #2A2A28; }
+.theme-sunny-green .text-secondary { color: #6F6B60; }
+.theme-sunny-green .text-light { color: #B5B0A4; }
+.theme-sunny-green .text-accent { color: #F2B84B; }
+.theme-sunny-green .text-warm { color: #E67E4C; }
+.theme-sunny-green .tag { background: #EEF5E5; color: #6BA65C; }
+.theme-sunny-green .tag-accent { background: #FDF1D9; color: #B8791F; }
+.theme-sunny-green .tag-warm { background: #FBE9E2; color: #E67E4C; }
+.theme-sunny-green .tag-outline { border-color: #EFE5D3; color: #6F6B60; }
+.theme-sunny-green .divider { background: #EFE5D3; }
+.theme-sunny-green .empty-state { background: #FFFFFF; }
+.theme-sunny-green .empty-title { color: #2A2A28; }
+.theme-sunny-green .empty-desc { color: #6F6B60; }
+
+/* 2. 云朵薰衣草 */
+.theme-soft-lavender { color: #2A2A38; }
+.theme-soft-lavender .card { background: #FFFFFF; border-color: #E8E3F0; }
+.theme-soft-lavender .card-flat { background: #FFFFFF; border-color: #E8E3F0; }
+.theme-soft-lavender .btn-primary { background: linear-gradient(135deg, #8B7FCC 0%, #7B6FBF 100%); box-shadow: 0 8rpx 24rpx rgba(123, 111, 191, 0.28), 0 2rpx 6rpx rgba(123, 111, 191, 0.18); }
+.theme-soft-lavender .btn-secondary { color: #2A2A38; border-color: #E8E3F0; }
+.theme-soft-lavender .btn-ghost { color: #7B6FBF; border-color: #7B6FBF; }
+.theme-soft-lavender .section-title { color: #2A2A38; }
+.theme-soft-lavender .text-secondary { color: #6B6880; }
+.theme-soft-lavender .text-light { color: #B4B1C5; }
+.theme-soft-lavender .text-accent { color: #F2B84B; }
+.theme-soft-lavender .text-warm { color: #E67E4C; }
+.theme-soft-lavender .tag { background: #EFECF8; color: #7B6FBF; }
+.theme-soft-lavender .tag-accent { background: #FDF1D9; color: #B8791F; }
+.theme-soft-lavender .tag-warm { background: #FBE9E2; color: #E67E4C; }
+.theme-soft-lavender .tag-outline { border-color: #E8E3F0; color: #6B6880; }
+.theme-soft-lavender .divider { background: #E8E3F0; }
+.theme-soft-lavender .empty-state { background: #FFFFFF; }
+.theme-soft-lavender .empty-title { color: #2A2A38; }
+.theme-soft-lavender .empty-desc { color: #6B6880; }
+
+/* 3. 蜜桃粉 */
+.theme-peach-pink { color: #352828; }
+.theme-peach-pink .card { background: #FFFFFF; border-color: #F3DEE1; }
+.theme-peach-pink .card-flat { background: #FFFFFF; border-color: #F3DEE1; }
+.theme-peach-pink .btn-primary { background: linear-gradient(135deg, #F095A1 0%, #E57A86 100%); box-shadow: 0 8rpx 24rpx rgba(229, 122, 134, 0.28), 0 2rpx 6rpx rgba(229, 122, 134, 0.18); }
+.theme-peach-pink .btn-secondary { color: #352828; border-color: #F3DEE1; }
+.theme-peach-pink .btn-ghost { color: #E57A86; border-color: #E57A86; }
+.theme-peach-pink .section-title { color: #352828; }
+.theme-peach-pink .text-secondary { color: #7A6868; }
+.theme-peach-pink .text-light { color: #C2B0B0; }
+.theme-peach-pink .text-accent { color: #F5B14C; }
+.theme-peach-pink .text-warm { color: #E67E4C; }
+.theme-peach-pink .tag { background: #FCE8EB; color: #E57A86; }
+.theme-peach-pink .tag-accent { background: #FDF1D9; color: #B8791F; }
+.theme-peach-pink .tag-warm { background: #FBE9E2; color: #E67E4C; }
+.theme-peach-pink .tag-outline { border-color: #F3DEE1; color: #7A6868; }
+.theme-peach-pink .divider { background: #F3DEE1; }
+.theme-peach-pink .empty-state { background: #FFFFFF; }
+.theme-peach-pink .empty-title { color: #352828; }
+.theme-peach-pink .empty-desc { color: #7A6868; }
+
+/* 4. 清爽海蓝 */
+.theme-fresh-blue { color: #202E36; }
+.theme-fresh-blue .card { background: #FFFFFF; border-color: #D5E3EC; }
+.theme-fresh-blue .card-flat { background: #FFFFFF; border-color: #D5E3EC; }
+.theme-fresh-blue .btn-primary { background: linear-gradient(135deg, #5FA4C5 0%, #3D8BB1 100%); box-shadow: 0 8rpx 24rpx rgba(61, 139, 177, 0.28), 0 2rpx 6rpx rgba(61, 139, 177, 0.18); }
+.theme-fresh-blue .btn-secondary { color: #202E36; border-color: #D5E3EC; }
+.theme-fresh-blue .btn-ghost { color: #3D8BB1; border-color: #3D8BB1; }
+.theme-fresh-blue .section-title { color: #202E36; }
+.theme-fresh-blue .text-secondary { color: #5F7684; }
+.theme-fresh-blue .text-light { color: #9FB0BA; }
+.theme-fresh-blue .text-accent { color: #F2B84B; }
+.theme-fresh-blue .text-warm { color: #E67E4C; }
+.theme-fresh-blue .tag { background: #DDECF5; color: #3D8BB1; }
+.theme-fresh-blue .tag-accent { background: #FDF1D9; color: #B8791F; }
+.theme-fresh-blue .tag-warm { background: #FBE9E2; color: #E67E4C; }
+.theme-fresh-blue .tag-outline { border-color: #D5E3EC; color: #5F7684; }
+.theme-fresh-blue .divider { background: #D5E3EC; }
+.theme-fresh-blue .empty-state { background: #FFFFFF; }
+.theme-fresh-blue .empty-title { color: #202E36; }
+.theme-fresh-blue .empty-desc { color: #5F7684; }

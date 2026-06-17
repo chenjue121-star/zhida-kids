@@ -1,0 +1,171 @@
+<view class="wardrobe-page {{themeClass}}" style="background: {{themeBgString}};">
+  <!-- 页面标题 -->
+  <view class="page-header">
+    <view class="header-text">
+      <text class="page-title">我的衣橱</text>
+      <text class="page-subtitle">管理宝贝的每一件衣物</text>
+    </view>
+    <view class="header-emoji">👕</view>
+  </view>
+
+  <!-- 宝贝切换器 -->
+  <view class="child-section" wx:if="{{children.length > 0}}">
+    <scroll-view class="child-switcher" scroll-x="{{true}}" enhanced="{{true}}" show-scrollbar="{{false}}">
+      <view
+        wx:for="{{children}}"
+        wx:key="id"
+        class="child-tab {{currentChildIndex === index ? 'active' : ''}}"
+        bindtap="switchChild"
+        data-index="{{index}}"
+      >
+        <view class="child-avatar">
+          <image wx:if="{{item.avatarUrl || item.photoUrl}}" src="{{item.avatarUrl || item.photoUrl}}" mode="aspectFill" class="avatar-img" />
+          <view wx:else class="avatar-fallback">
+            <text class="avatar-emoji">{{item.gender === 'boy' ? '👦' : '👧'}}</text>
+          </view>
+        </view>
+        <view class="child-meta">
+          <text class="child-name">{{item.nickname}}</text>
+          <text class="child-age">{{item.ageText || (item.birthday ? '' : '宝贝')}}</text>
+        </view>
+      </view>
+      <view class="child-add-card" bindtap="goAddChild">
+        <view class="add-circle">＋</view>
+        <text class="add-name">添加</text>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 统计卡片 -->
+  <view class="stats-card card" wx:if="{{wardrobeStats && wardrobeStats.total > 0}}">
+    <view class="stats-header">
+      <text class="stats-title">📊 衣橱统计</text>
+      <text class="stats-total">共 {{wardrobeStats.total}} 件</text>
+    </view>
+
+    <view class="stats-grid">
+      <view class="stats-cell">
+        <text class="stats-number">{{wardrobeStats.active}}</text>
+        <text class="stats-label">可穿</text>
+      </view>
+      <view class="stats-cell cell-warm">
+        <text class="stats-number">{{wardrobeStats.stored}}</text>
+        <text class="stats-label">收纳</text>
+      </view>
+      <view class="stats-cell cell-gray">
+        <text class="stats-number">{{wardrobeStats.retired}}</text>
+        <text class="stats-label">淘汰</text>
+      </view>
+      <view class="stats-cell cell-accent">
+        <text class="stats-number">{{wardrobeStats.wornTotal}}</text>
+        <text class="stats-label">穿着</text>
+      </view>
+    </view>
+
+    <view class="type-chart" wx:if="{{wardrobeStats.topTypes.length > 0}}">
+      <text class="chart-title">类型占比</text>
+      <view class="chart-list">
+        <view class="chart-row" wx:for="{{wardrobeStats.topTypes}}" wx:key="type" wx:for-index="idx">
+          <text class="chart-name">{{item.icon}} {{item.label}}</text>
+          <view class="chart-bar-wrap">
+            <view class="chart-bar">
+              <view class="chart-fill" style="width: {{item.percent}}%;"></view>
+            </view>
+            <text class="chart-percent">{{item.percent}}%</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="stats-tips">
+      <text class="tips-item">✨ 常穿：{{wardrobeStats.mostWornName}}</text>
+      <text class="tips-item">💡 {{wardrobeStats.missingHint}}</text>
+    </view>
+  </view>
+
+  <!-- 筛选标签栏 -->
+  <view class="filter-section" wx:if="{{clothingList.length > 0}}">
+    <scroll-view class="filter-bar" scroll-x="{{true}}" enhanced="{{true}}" show-scrollbar="{{false}}">
+      <view
+        class="filter-tab {{activeFilter === 'all' ? 'active' : ''}}"
+        bindtap="setFilter"
+        data-value="all"
+      >
+        <text class="tab-emoji">✨</text>
+        <text class="tab-text">全部</text>
+      </view>
+      <view
+        wx:for="{{typeFilters}}"
+        wx:key="value"
+        class="filter-tab {{activeFilter === item.value ? 'active' : ''}}"
+        bindtap="setFilter"
+        data-value="{{item.value}}"
+      >
+        <text class="tab-emoji">{{item.icon}}</text>
+        <text class="tab-text">{{item.label}}</text>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 衣物网格 -->
+  <view class="clothing-grid" wx:if="{{filteredList.length > 0}}">
+    <view
+      class="clothing-card"
+      wx:for="{{filteredList}}"
+      wx:key="id"
+      bindtap="goDetail"
+      data-id="{{item.id}}"
+    >
+      <view class="card-image-wrap">
+        <image wx:if="{{item.photoUrl}}" class="card-image" src="{{item.photoUrl}}" mode="aspectFill" />
+        <view wx:else class="card-placeholder">
+          <text class="placeholder-emoji">{{item.typeIcon || '👕'}}</text>
+        </view>
+        <view class="status-badge {{item.status}}" wx:if="{{item.status !== 'active'}}">
+          <text class="badge-text">{{item.status === 'stored' ? '收纳' : '淘汰'}}</text>
+        </view>
+      </view>
+      <view class="card-info">
+        <text class="card-name">{{item.colorLabel}}{{item.subTypeLabel || item.typeLabel}}</text>
+        <view class="card-season">
+          <text class="season-text">🍃 {{item.seasonLabel || '四季'}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态：无宝贝 -->
+  <view class="empty-state card" wx:if="{{children.length === 0}}">
+    <view class="empty-icon-box">
+      <text class="empty-emoji">👶</text>
+    </view>
+    <text class="empty-title">还没有添加宝贝</text>
+    <text class="empty-desc">先添加宝贝信息，才能开始管理他的小衣橱</text>
+    <button class="btn-primary empty-btn" bindtap="goAddChild">添加宝贝</button>
+  </view>
+
+  <!-- 空状态：有宝贝但筛选后无衣物 -->
+  <view class="empty-state card" wx:elif="{{children.length > 0 && activeFilter !== 'all' && filteredList.length === 0}}">
+    <view class="empty-icon-box icon-warm">
+      <text class="empty-emoji">🫥</text>
+    </view>
+    <text class="empty-title">这个分类还没有衣物</text>
+    <text class="empty-desc">添加一件新衣服到衣橱里吧</text>
+    <button class="btn-primary empty-btn" bindtap="goAdd">添加衣物</button>
+  </view>
+
+  <!-- 空状态：衣橱为空 -->
+  <view class="empty-state card" wx:elif="{{children.length > 0 && clothingList.length === 0}}">
+    <view class="empty-icon-box">
+      <text class="empty-emoji">🧺</text>
+    </view>
+    <text class="empty-title">衣橱是空的</text>
+    <text class="empty-desc">拍照添加第一件衣物吧，让宝贝的衣橱丰富起来</text>
+    <button class="btn-primary empty-btn" bindtap="goAdd">添加衣物</button>
+  </view>
+
+  <!-- FAB 浮动按钮 -->
+  <view class="fab-button" bindtap="goAdd" wx:if="{{children.length > 0}}">
+    <text class="fab-icon">＋</text>
+  </view>
+</view>

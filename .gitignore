@@ -1,0 +1,55 @@
+# --- Python / FastAPI ---
+backend/.venv/
+backend/venv/
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# --- 本地敏感配置（绝不提交）---
+backend/.env
+.env
+**/.env.local
+**/.env.*.local
+# 注：.env.example 是模板，可以提交
+
+# --- 本地上传/生成的文件 ---
+backend/uploads/
+
+# --- 微信小程序 ---
+project.private.config.json
+miniprogram/project.private.config.json
+miniprogram/project.config.json
+miniprogram/sitemap.json
+miniprogram/node_modules/
+miniprogram/miniprogram_npm/
+
+# --- macOS ---
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# --- IDE ---
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# --- 日志 ---
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+access.log
+uvicorn.log
+
+# --- 其它依赖 ---
+node_modules/
+dist/
+build/
+.cache/
+coverage/

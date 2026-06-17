@@ -1,0 +1,230 @@
+<view class="profile-page {{themeClass}}" style="background: {{themeBgString}};">
+
+  <!-- ========== 顶部用户 Header ========== -->
+  <view class="user-header">
+    <view class="header-bg"></view>
+    <view class="header-deco leaf-1">🌿</view>
+    <view class="header-deco leaf-2">🍃</view>
+    <view class="header-deco sun">☀️</view>
+
+    <view class="header-top">
+      <view class="greeting-box">
+        <text class="greeting-hi">你好呀</text>
+        <text class="greeting-date">{{todayText}}</text>
+      </view>
+      <view class="greeting-emoji-box">
+        <text class="emoji-big">👋</text>
+      </view>
+    </view>
+
+    <view class="user-card">
+      <view class="avatar-circle">
+        <image wx:if="{{userInfo.avatar}}" src="{{userInfo.avatar}}" class="avatar-img" mode="aspectFill" />
+        <view wx:else class="avatar-fallback">
+          <text class="avatar-initial">{{userInitial}}</text>
+        </view>
+      </view>
+      <view class="user-info">
+        <text class="user-nickname">{{userInfo.nickname}}</text>
+        <view class="user-meta-row">
+          <text wx:if="{{userInfo.role}}" class="meta-chip">{{userInfo.role}}</text>
+          <text wx:if="{{userInfo.city}}" class="meta-chip meta-chip-alt">📍 {{userInfo.city}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="exp-stats">
+      <view class="exp-stat">
+        <text class="stat-emoji">👕</text>
+        <view class="stat-num-box">
+          <text class="stat-num">{{experienceStats.clothingCount}}</text>
+          <text class="stat-label">件衣物</text>
+        </view>
+      </view>
+      <view class="exp-divider"></view>
+      <view class="exp-stat">
+        <text class="stat-emoji">📖</text>
+        <view class="stat-num-box">
+          <text class="stat-num">{{experienceStats.diaryCount}}</text>
+          <text class="stat-label">篇日记</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- ========== 数据概览卡片 ========== -->
+  <view class="card stats-card">
+    <text class="card-title">我的足迹</text>
+    <view class="stats-grid">
+      <view class="stat-cell stat-cell-green">
+        <view class="cell-emoji-box">👶</view>
+        <text class="cell-num">{{experienceStats.childCount}}</text>
+        <text class="cell-label">宝贝数</text>
+      </view>
+      <view class="stat-cell stat-cell-gold">
+        <view class="cell-emoji-box">👕</view>
+        <text class="cell-num">{{experienceStats.clothingCount}}</text>
+        <text class="cell-label">衣物数</text>
+      </view>
+      <view class="stat-cell stat-cell-orange">
+        <view class="cell-emoji-box">📖</view>
+        <text class="cell-num">{{experienceStats.diaryCount}}</text>
+        <text class="cell-label">日记数</text>
+      </view>
+      <view class="stat-cell stat-cell-blue">
+        <view class="cell-emoji-box">👚</view>
+        <text class="cell-num">{{experienceStats.wornCount}}</text>
+        <text class="cell-label">穿着次数</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- ========== 宝贝管理 ========== -->
+  <view class="section">
+    <view class="section-title-row">
+      <text class="section-title">我的宝贝</text>
+      <view class="add-btn" bindtap="addChild">
+        <text class="add-plus">＋</text>
+        <text class="add-text">添加</text>
+      </view>
+    </view>
+
+    <block wx:if="{{children.length > 0}}">
+      <view class="card child-card" wx:for="{{children}}" wx:key="id">
+        <view class="child-avatar-box {{item.gender === 'boy' ? 'boy' : 'girl'}}">
+          <text class="child-avatar-emoji">{{item.gender === 'boy' ? '👦' : '👧'}}</text>
+        </view>
+        <view class="child-info">
+          <text class="child-nickname">{{item.nickname || '宝贝'}}</text>
+          <view class="child-meta">
+            <text class="meta-item">🎂 {{item.birthday || '未设置'}}</text>
+            <text class="meta-item">📏 {{item.height || '--'}}cm</text>
+          </view>
+        </view>
+        <view class="child-actions">
+          <view class="action-btn edit-btn" bindtap="editChild" data-id="{{item.id}}">
+            <text class="action-icon">✏️</text>
+          </view>
+          <view class="action-btn delete-btn" bindtap="deleteChild" data-id="{{item.id}}">
+            <text class="action-icon">🗑</text>
+          </view>
+        </view>
+      </view>
+    </block>
+
+    <view wx:else class="card empty-card">
+      <view class="empty-icon">🧸</view>
+      <text class="empty-title">还没有添加宝贝</text>
+      <text class="empty-desc">添加宝贝信息后，才能开启专属的智能穿搭之旅</text>
+      <view class="empty-add-btn" bindtap="addChild">
+        <text class="empty-add-plus">＋</text>
+        <text class="empty-add-text">添加第一个宝贝</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- ========== 主题皮肤 ========== -->
+  <view class="card theme-card">
+    <text class="card-title">主题皮肤</text>
+    <text class="card-subtitle">选一个你喜欢的颜色心情</text>
+    <view
+      wx:for="{{themes}}"
+      wx:key="key"
+      class="theme-item {{currentThemeKey === item.key ? 'active' : ''}}"
+      bindtap="switchTheme"
+      data-key="{{item.key}}"
+    >
+      <view class="theme-swatches">
+        <view class="swatch-circle" style="background: {{item.swatches[0]}}"></view>
+        <view class="swatch-circle" style="background: {{item.swatches[1]}}"></view>
+        <view class="swatch-circle" style="background: {{item.swatches[2]}}"></view>
+      </view>
+      <view class="theme-info">
+        <text class="theme-name">{{item.name}}</text>
+        <text class="theme-desc">{{item.description}}</text>
+      </view>
+      <view class="theme-check" wx:if="{{currentThemeKey === item.key}}">
+        <text class="check-icon">✓</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- ========== 菜单列表 ========== -->
+  <view class="card menu-card">
+    <view class="menu-item" bindtap="onMenuTap" data-menu="preference">
+      <view class="menu-icon-box box-green">
+        <text class="menu-icon">💝</text>
+      </view>
+      <view class="menu-content">
+        <text class="menu-title">穿搭偏好</text>
+        <text class="menu-desc">设置风格与色彩偏好</text>
+      </view>
+      <text class="menu-arrow">›</text>
+    </view>
+    <view class="menu-item" bindtap="onMenuTap" data-menu="notification">
+      <view class="menu-icon-box box-gold">
+        <text class="menu-icon">🔔</text>
+      </view>
+      <view class="menu-content">
+        <text class="menu-title">消息通知</text>
+        <text class="menu-desc">天气提醒 · 穿搭建议</text>
+      </view>
+      <text class="menu-arrow">›</text>
+    </view>
+    <view class="menu-item" bindtap="onMenuTap" data-menu="help">
+      <view class="menu-icon-box box-orange">
+        <text class="menu-icon">💡</text>
+      </view>
+      <view class="menu-content">
+        <text class="menu-title">帮助反馈</text>
+        <text class="menu-desc">使用教程 · 意见反馈</text>
+      </view>
+      <text class="menu-arrow">›</text>
+    </view>
+  </view>
+
+  <!-- ========== 底部退出登录 ========== -->
+  <view class="footer">
+    <view class="logout-btn" bindtap="logout">
+      <text class="logout-text">退出登录</text>
+    </view>
+    <text class="slogan">🌱 智搭 · 让宝贝的每一天都温暖有型</text>
+  </view>
+
+  <!-- ========== 穿搭偏好编辑弹窗 ========== -->
+  <view class="preference-modal" wx:if="{{preferenceVisible}}">
+    <view class="preference-mask" bindtap="closePreferenceEditor"></view>
+    <view class="preference-panel">
+      <view class="preference-header">
+        <text class="preference-title">穿搭偏好</text>
+        <view class="preference-close" bindtap="closePreferenceEditor">
+          <text class="close-icon">✕</text>
+        </view>
+      </view>
+      <view class="preference-desc">
+        <text>选择你喜欢的风格方向，我们会在后续推荐中优先考虑。可多选。</text>
+      </view>
+      <view class="preference-chips">
+        <view
+          wx:for="{{styleOptions}}"
+          wx:key="value"
+          class="chip {{item.selected ? 'chip-active' : ''}}"
+          bindtap="toggleStyleChip"
+          data-value="{{item.value}}"
+        >
+          <text class="chip-emoji">{{item.emoji}}</text>
+          <text class="chip-label">{{item.label}}</text>
+        </view>
+      </view>
+      <view class="preference-footer">
+        <view class="btn-secondary" bindtap="closePreferenceEditor">
+          <text>取消</text>
+        </view>
+        <view class="btn-primary" bindtap="savePreference">
+          <text>保存偏好</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+</view>

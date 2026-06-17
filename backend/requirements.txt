@@ -1,0 +1,15 @@
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+sqlalchemy==2.0.36
+pymysql==1.1.1
+pydantic-settings==2.7.1
+httpx==0.28.1
+PyJWT==2.10.1
+python-multipart==0.0.20
+PyYAML==6.0.3
+cos-python-sdk-v5==1.9.38
+aliyun-python-sdk-core==2.14.0
+aliyun-python-sdk-viapi==1.0.0
+viapi-python-sdk-core==2.14.0
+viapi-utils-python3==2025.1.1
+urllib3==1.26.20

@@ -1,0 +1,254 @@
+/* ===============================================
+   登录页 · 温暖奶油色系
+   =============================================== */
+
+.login-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
+  padding: 80rpx 40rpx 60rpx;
+  background: linear-gradient(180deg, #FFF9EF 0%, #FFFBF4 55%, #FFFFFF 100%);
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* 背景装饰 */
+.bg-decor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(2rpx);
+  opacity: 0.55;
+}
+
+.blob-green {
+  width: 360rpx;
+  height: 360rpx;
+  top: -80rpx;
+  right: -100rpx;
+  background: radial-gradient(circle at 40% 40%, #DDEBCF 0%, transparent 70%);
+  opacity: 0.7;
+}
+
+.blob-yellow {
+  width: 300rpx;
+  height: 300rpx;
+  top: 220rpx;
+  left: -80rpx;
+  background: radial-gradient(circle at 45% 45%, #F9E3B0 0%, transparent 68%);
+  opacity: 0.55;
+}
+
+.blob-peach {
+  width: 400rpx;
+  height: 400rpx;
+  bottom: 100rpx;
+  right: -120rpx;
+  background: radial-gradient(circle at 50% 50%, #FBE0D0 0%, transparent 70%);
+  opacity: 0.5;
+}
+
+.sparkle {
+  position: absolute;
+  font-size: 32rpx;
+  color: #F2B84B;
+  opacity: 0.55;
+}
+
+.sparkle-1 { top: 120rpx; left: 60rpx; font-size: 28rpx; }
+.sparkle-2 { top: 260rpx; right: 90rpx; color: #6BA65C; opacity: 0.4; font-size: 36rpx; }
+.sparkle-3 { bottom: 400rpx; left: 90rpx; color: #E67E4C; opacity: 0.45; font-size: 24rpx; }
+
+/* ========== 顶部 Header ========== */
+.login-header {
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.brand-logo {
+  position: relative;
+  width: 180rpx;
+  height: 180rpx;
+  margin: 0 auto 28rpx;
+}
+
+.logo-circle {
+  width: 180rpx;
+  height: 180rpx;
+  border-radius: 50%;
+  background: linear-gradient(140deg, #92C585 0%, #6BA65C 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 20rpx 48rpx rgba(107, 166, 92, 0.32),
+              inset 0 4rpx 12rpx rgba(255, 255, 255, 0.4);
+}
+
+.logo-emoji {
+  font-size: 96rpx;
+  line-height: 1;
+  filter: drop-shadow(0 4rpx 6rpx rgba(0, 0, 0, 0.08));
+}
+
+.logo-sun {
+  position: absolute;
+  top: -8rpx;
+  right: -12rpx;
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 50%;
+  background: linear-gradient(140deg, #FFD87A 0%, #F2B84B 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32rpx;
+  color: #fff;
+  box-shadow: 0 8rpx 20rpx rgba(242, 184, 75, 0.38),
+              inset 0 2rpx 6rpx rgba(255, 255, 255, 0.5);
+}
+
+.brand-title {
+  display: block;
+  font-size: 68rpx;
+  font-weight: 900;
+  color: #2A2A28;
+  letter-spacing: 8rpx;
+  margin-bottom: 14rpx;
+  line-height: 1;
+}
+
+.brand-subtitle {
+  display: block;
+  font-size: 26rpx;
+  color: #6F6B60;
+  letter-spacing: 1rpx;
+  font-weight: 500;
+}
+
+/* ========== 特色卡片 ========== */
+.feature-list {
+  display: flex;
+  justify-content: space-between;
+  gap: 16rpx;
+  margin-top: 64rpx;
+  position: relative;
+  z-index: 2;
+}
+
+.feature-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30rpx 14rpx 26rpx;
+  background: rgba(255, 255, 255, 0.75);
+  border-radius: 28rpx;
+  border: 2rpx solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 8rpx 24rpx rgba(173, 156, 108, 0.1);
+  backdrop-filter: blur(6rpx);
+}
+
+.feature-icon-wrap {
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: 26rpx;
+  background: #EEF5E5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14rpx;
+  box-shadow: inset 0 2rpx 6rpx rgba(255, 255, 255, 0.8);
+}
+
+.feature-icon-wrap.icon-yellow {
+  background: #FDF1D9;
+}
+
+.feature-icon-wrap.icon-peach {
+  background: #FBE9E2;
+}
+
+.feature-emoji {
+  font-size: 46rpx;
+  line-height: 1;
+}
+
+.feature-title {
+  font-size: 27rpx;
+  font-weight: 700;
+  color: #2A2A28;
+  margin-bottom: 4rpx;
+}
+
+.feature-desc {
+  font-size: 22rpx;
+  color: #6F6B60;
+}
+
+/* ========== 底部 Footer ========== */
+.login-footer {
+  margin-top: auto;
+  position: relative;
+  z-index: 2;
+}
+
+.welcome-box {
+  text-align: center;
+  margin-bottom: 40rpx;
+}
+
+.welcome-text {
+  display: block;
+  font-size: 34rpx;
+  font-weight: 700;
+  color: #2A2A28;
+  margin-bottom: 8rpx;
+  letter-spacing: 1rpx;
+}
+
+.welcome-sub {
+  display: block;
+  font-size: 24rpx;
+  color: #6F6B60;
+}
+
+.login-btn {
+  width: 100%;
+  height: 110rpx;
+  line-height: 110rpx;
+  margin-bottom: 28rpx;
+  font-size: 32rpx;
+  letter-spacing: 4rpx;
+  box-shadow: 0 14rpx 36rpx rgba(107, 166, 92, 0.34),
+              0 4rpx 10rpx rgba(107, 166, 92, 0.2);
+}
+
+.agreement {
+  text-align: center;
+  font-size: 22rpx;
+  color: #B5B0A4;
+  line-height: 1.8;
+}
+
+.agreement-text {
+  color: #B5B0A4;
+  font-size: 22rpx;
+}
+
+.agreement-link {
+  color: #6BA65C;
+  font-size: 22rpx;
+  font-weight: 500;
+}

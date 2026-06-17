@@ -1,0 +1,235 @@
+<view class="diary-page {{themeClass}}" style="background: {{themeBgString}};">
+  <!-- 头部标题 -->
+  <view class="diary-header">
+    <view class="diary-title-row">
+      <view class="diary-title-box">
+        <text class="diary-title">穿搭日记</text>
+        <text class="diary-subtitle">记录每一天的小小快乐</text>
+      </view>
+      <view class="diary-emoji-box">
+        <text class="diary-emoji">📔</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 月份导航 -->
+  <view class="month-nav">
+    <view class="nav-arrow" bindtap="prevMonth">
+      <text class="arrow-icon">‹</text>
+    </view>
+    <view class="month-label-box">
+      <text class="month-year">{{year}} 年 {{month}} 月</text>
+    </view>
+    <view class="nav-arrow" bindtap="nextMonth">
+      <text class="arrow-icon">›</text>
+    </view>
+  </view>
+
+  <!-- 日历卡片 -->
+  <view class="card calendar-card">
+    <!-- 星期表头 -->
+    <view class="week-header">
+      <view class="week-cell" wx:for="{{weekdays}}" wx:key="*this">
+        <text class="week-text">{{item}}</text>
+      </view>
+    </view>
+    <!-- 日期网格 -->
+    <view class="calendar-grid">
+      <view
+        wx:for="{{calendarDays}}"
+        wx:key="dateStr"
+        class="day-cell {{item.isToday ? 'today' : ''}} {{item.hasDiary ? 'has-diary' : ''}} {{item.isCurrentMonth ? '' : 'out-month'}} {{selectedDate === item.dateStr ? 'selected' : ''}}"
+        bindtap="selectDate"
+        data-date="{{item.dateStr}}"
+      >
+        <view class="day-inner">
+          <text class="day-text">{{item.day}}</text>
+          <view class="diary-dot" wx:if="{{item.hasDiary}}"></view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 本月统计卡片 -->
+  <view class="card stat-card">
+    <view class="stat-title-row">
+      <text class="stat-emoji">🌿</text>
+      <text class="stat-title">本月足迹</text>
+    </view>
+    <view class="stat-grid">
+      <view class="stat-item">
+        <text class="stat-num">{{diaryCount}}</text>
+        <text class="stat-label">记录天数</text>
+      </view>
+      <view class="stat-divider"></view>
+      <view class="stat-item">
+        <text class="stat-num">{{uniqueClothingCount}}</text>
+        <text class="stat-label">穿用衣物</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 选中日期日记区 -->
+  <view wx:if="{{selectedDate}}" class="selected-section">
+    <view class="selected-title-row">
+      <text class="selected-title">
+        🎯 {{month}} 月 {{selectedDate.split('-')[2]}} 日 {{calendarDays[0] ? '' : ''}}
+      </text>
+    </view>
+
+    <!-- 有日记 -->
+    <view wx:if="{{selectedDiary}}" class="diary-detail">
+      <!-- 场景标签 -->
+      <view class="scene-chip">
+        <text class="chip-emoji">🏷</text>
+        <text class="chip-text">{{selectedDiary.sceneLabel || selectedDiary.scene || '日常'}}</text>
+      </view>
+
+      <!-- 评分星级 -->
+      <view class="rating-row" wx:if="{{selectedDiary.rating}}">
+        <block wx:for="{{ratingOptions}}" wx:key="*this">
+          <text class="star-icon {{item <= selectedDiary.rating ? 'on' : 'off'}}">★</text>
+        </block>
+      </view>
+
+      <!-- 心情 -->
+      <view class="mood-row" wx:if="{{selectedDiary.mood}}">
+        <text class="mood-emoji">💭</text>
+        <text class="mood-text">{{selectedDiary.mood}}</text>
+      </view>
+
+      <!-- 日记卡片 - 穿搭横滑 -->
+      <view class="card outfit-slide-card">
+        <view class="outfit-slide-header">
+          <text class="slide-title">👕 今日穿搭</text>
+          <text class="slide-sub">共 {{selectedDiaryClothing.length}} 件</text>
+        </view>
+        <scroll-view class="outfit-scroll" scroll-x="{{true}}" enhanced="{{true}}" show-scrollbar="{{false}}">
+          <view
+            wx:for="{{selectedDiaryClothing}}"
+            wx:key="id"
+            class="outfit-slot"
+          >
+            <view class="slot-photo-box">
+              <image wx:if="{{item.photoUrl}}" class="slot-photo" src="{{item.photoUrl}}" mode="aspectFill" />
+              <view wx:else class="slot-photo-placeholder">
+                <text class="slot-emoji">{{item.typeIcon || '👕'}}</text>
+              </view>
+            </view>
+            <text class="slot-name">{{item.displayName || item.name}}</text>
+            <text class="slot-meta">{{item.subTypeLabel || item.subType || ''}}</text>
+          </view>
+          <view wx:if="{{selectedDiaryClothing.length === 0}}" class="outfit-empty">
+            <text class="outfit-empty-emoji">👔</text>
+            <text class="outfit-empty-text">今日未记录衣物</text>
+          </view>
+        </scroll-view>
+      </view>
+
+      <!-- 实穿照片 -->
+      <view class="card photo-card" wx:if="{{selectedDiary.actualPhotoUrl}}">
+        <view class="photo-header">
+          <text class="photo-title">📸 实穿留念</text>
+        </view>
+        <image class="actual-photo" src="{{selectedDiary.actualPhotoUrl}}" mode="aspectFill" />
+      </view>
+
+      <!-- 备注 -->
+      <view class="card note-card" wx:if="{{selectedDiary.note}}">
+        <view class="note-header">
+          <text class="note-emoji">📝</text>
+          <text class="note-title">今日小记</text>
+        </view>
+        <text class="note-content">{{selectedDiary.note}}</text>
+      </view>
+
+      <!-- 操作按钮 -->
+      <view class="detail-actions" wx:if="{{!editing}}">
+        <button class="btn-secondary detail-btn edit-btn" bindtap="startEdit">
+          <text class="btn-icon">✏️</text>
+          <text class="btn-text">编辑日记</text>
+        </button>
+        <button class="btn-secondary detail-btn delete-btn" bindtap="deleteDiary">
+          <text class="btn-icon">🗑</text>
+          <text class="btn-text">删除</text>
+        </button>
+      </view>
+
+      <!-- 编辑表单 -->
+      <view wx:if="{{editing}}" class="edit-form card">
+        <view class="form-title-row">
+          <text class="form-title">✏️ 编辑日记</text>
+        </view>
+
+        <!-- 实穿照片 -->
+        <view class="form-block">
+          <text class="form-label">📸 实穿照片</text>
+          <view class="photo-picker" bindtap="chooseActualPhoto">
+            <image wx:if="{{formActualPhotoUrl}}" class="picked-photo" src="{{formActualPhotoUrl}}" mode="aspectFill" />
+            <view wx:else class="photo-picker-empty">
+              <text class="picker-plus">＋</text>
+              <text class="picker-hint">点击添加照片</text>
+            </view>
+          </view>
+        </view>
+
+        <!-- 心情输入 -->
+        <view class="form-block">
+          <text class="form-label">💭 今日心情</text>
+          <input
+            class="form-input"
+            placeholder="今天感觉怎么样呀～"
+            placeholder-class="form-placeholder"
+            value="{{formMood}}"
+            bindinput="onMood"
+          />
+        </view>
+
+        <!-- 备注 -->
+        <view class="form-block">
+          <text class="form-label">📝 今日小记</text>
+          <textarea
+            class="form-textarea"
+            placeholder="记录一下今天发生的小事吧～"
+            placeholder-class="form-placeholder"
+            value="{{formNote}}"
+            bindinput="onNote"
+            auto-height="{{true}}"
+            maxlength="500"
+          />
+        </view>
+
+        <!-- 评分 -->
+        <view class="form-block">
+          <text class="form-label">⭐ 给今天打几颗星</text>
+          <view class="rating-picker">
+            <view
+              wx:for="{{ratingOptions}}"
+              wx:key="*this"
+              class="star-box {{formRating >= item ? 'active' : ''}}"
+              bindtap="selectRating"
+              data-rating="{{item}}"
+            >
+              <text class="star-emoji">★</text>
+            </view>
+          </view>
+        </view>
+
+        <!-- 按钮 -->
+        <view class="form-actions">
+          <button class="btn-secondary form-btn" bindtap="cancelEdit">取消</button>
+          <button class="btn-primary form-btn" bindtap="saveDiaryEdit">保存</button>
+        </view>
+      </view>
+    </view>
+
+    <!-- 空日记 -->
+    <view wx:else class="card empty-diary">
+      <view class="empty-diary-icon-box">
+        <text class="empty-diary-emoji">🌱</text>
+      </view>
+      <text class="empty-diary-title">这一天还没有记录哦</text>
+      <text class="empty-diary-desc">到首页为宝贝生成搭配，日记会自动生成～</text>
+    </view>
+  </view>
+</view>
