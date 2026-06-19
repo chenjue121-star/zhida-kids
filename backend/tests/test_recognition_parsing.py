@@ -1,11 +1,8 @@
 import pytest
 from fastapi import HTTPException
 
-from app.routers.clothing import (
-    _extract_json,
-    _pick_recognition_object,
-    _normalize_recognition,
-)
+from app.services.recognition.parsing import _extract_json, _pick_recognition_object
+from app.services.recognition.normalize import _normalize_recognition
 
 
 def test_extract_json_plain_object():
