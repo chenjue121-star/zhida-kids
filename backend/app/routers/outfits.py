@@ -14,6 +14,7 @@ from sqlalchemy.orm import Session
 from ..auth import get_current_user
 from ..config import settings
 from ..database import get_db
+from ..deps import ensure_child_owned
 from ..models import Child, Clothing, OutfitDiary, OutfitRecommendation, User
 from ..schemas import OutfitRecommendIn, OutfitRecommendOut, WeatherSnapshot
 from ..style_rules import StyleRuleset, get_current_ruleset
@@ -66,13 +67,6 @@ PROFILE_SCENE_BASE: dict[str, dict[str, int]] = {
     "party": {"soft_nature": 12, "retro_fun": 10},
     "travel": {"soft_nature": 14, "sporty_play": 8},
 }
-
-
-def ensure_child_owned(db: Session, user: User, child_id: int) -> Child:
-    child = db.scalar(select(Child).where(Child.id == child_id, Child.user_id == user.id))
-    if child is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="宝贝不存在")
-    return child
 
 
 def child_age_months(child: Child) -> int:
