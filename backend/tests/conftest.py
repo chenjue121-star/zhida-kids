@@ -18,7 +18,7 @@ from fastapi.testclient import TestClient
 from app.auth import get_current_user
 from app.database import Base, SessionLocal, engine, get_db
 from app.main import create_app
-from app.models import Child, Clothing, User
+from app.models import Child, Clothing, OutfitDiary, OutfitRecommendation, User
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -40,7 +40,8 @@ def db_session():
 @pytest.fixture
 def seed(db_session):
     """建一个 user + child + 两件 clothing，返回字典方便断言。"""
-    for model in (Clothing, Child, User):
+    # FK 顺序：先删子表（含搭配缓存/日记），再删 Child、User，保证用例间隔离。
+    for model in (Clothing, OutfitDiary, OutfitRecommendation, Child, User):
         db_session.query(model).delete()
     db_session.commit()
 

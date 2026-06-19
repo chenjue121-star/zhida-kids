@@ -49,27 +49,15 @@ def test_recommend_empty_wardrobe_400(client, db_session, monkeypatch):
     assert resp.json()["detail"] == "衣橱暂无可推荐衣物"
 
 
-def test_recommend_cache_hit_returns_same(client, db_session, monkeypatch):
+def test_recommend_cache_hit_returns_same(client, monkeypatch):
     """The second identical request (same child, scene, weather, no exclude/locked)
-    must be served from cache — call_ai_recommend is called at most once total.
+    must be served from cache: call_ai_recommend is invoked exactly once across the
+    two requests — the first computes and stores the cache row, the second hits it.
 
-    Characterization note: OutfitRecommendation rows persist across tests within
-    the same session (conftest.seed only clears User/Child/Clothing, not OutfitRecommendation).
-    So if a prior test already wrote a cache row for this child+date+cache_key, the
-    first call here also hits cache (calls["n"] == 0). We therefore assert <= 1, which
-    covers both: (a) fresh run — first call computes, second hits cache; (b) prior
-    cache row exists — both calls hit cache immediately.
-    The key invariant is that the second call is always served from cache (cached==True)
-    and the AI is never called more than once.
+    The seed fixture clears OutfitRecommendation, so each test starts with no cache
+    rows for the child; the assertion is therefore the precise calls["n"] == 1.
     """
-    from app.models import OutfitRecommendation
-
-    # Clear any existing recommendation cache for this child so we get a clean slate.
     child_id = client.seed["child_id"]
-    db_session.query(OutfitRecommendation).filter(
-        OutfitRecommendation.child_id == child_id
-    ).delete()
-    db_session.commit()
 
     calls = {"n": 0}
 
