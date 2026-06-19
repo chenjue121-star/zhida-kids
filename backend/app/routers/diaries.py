@@ -7,17 +7,11 @@ from sqlalchemy.orm import Session
 
 from ..auth import get_current_user
 from ..database import get_db
+from ..deps import ensure_child_owned
 from ..models import Child, OutfitDiary, User
 from ..schemas import DiaryCreate, DiaryOut, DiaryUpdate
 
 router = APIRouter(prefix="/diaries", tags=["diaries"])
-
-
-def ensure_child_owned(db: Session, user: User, child_id: int) -> Child:
-    child = db.scalar(select(Child).where(Child.id == child_id, Child.user_id == user.id))
-    if child is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="宝贝不存在")
-    return child
 
 
 def get_owned_diary(db: Session, user: User, diary_id: int) -> OutfitDiary:
