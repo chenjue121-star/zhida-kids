@@ -1,4 +1,3 @@
-import logging
 from io import BytesIO
 from pathlib import Path
 from uuid import uuid4
@@ -6,8 +5,6 @@ from uuid import uuid4
 from fastapi import HTTPException, status
 
 from ...config import settings
-
-logger = logging.getLogger(__name__)
 
 
 def _cos_upload(filename: str, content: bytes, content_type: str) -> str:
