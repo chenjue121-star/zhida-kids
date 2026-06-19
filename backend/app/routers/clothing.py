@@ -1,13 +1,9 @@
-import base64
 import json
 import logging
 import mimetypes
 from datetime import datetime
-from io import BytesIO
 from pathlib import Path
 from typing import Any, Union
-from uuid import uuid4
-from urllib.parse import urlparse
 
 from fastapi import APIRouter, Depends, File, HTTPException, Query, UploadFile, status
 import httpx
@@ -34,6 +30,13 @@ from ..schemas import (
     ClothingUpdate,
     ClothingUploadAndRecognizeOut,
 )
+from ..services.images.urls import (
+    _ark_image_url_or_data_url, _image_data_url, _local_upload_path,
+    _public_image_url, _is_local_url,
+)
+from ..services.images.storage import (
+    _build_filename, _cos_upload, _local_persist, _persist_image,
+)
 
 router = APIRouter(prefix="/clothing", tags=["clothing"])
 logger = logging.getLogger(__name__)
@@ -51,64 +54,6 @@ def _mock_recognition() -> ClothingRecognizeOut:
         confidence=0.72,
         notes="开发 mock：请根据实物确认字段。",
     )
-
-
-def _is_local_url(url: str) -> bool:
-    host = (urlparse(url).hostname or "").lower()
-    return host in {"127.0.0.1", "localhost", "::1"} or host.startswith("192.168.") or host.startswith("10.")
-
-
-def _public_image_url(photo_url: str) -> str:
-    public_base = settings.public_base_url.rstrip("/")
-    parsed_public = urlparse(public_base)
-    if not parsed_public.scheme or not parsed_public.netloc:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="请配置可公网访问的 PUBLIC_BASE_URL")
-
-    parsed = urlparse(photo_url)
-    if parsed.scheme in {"http", "https"} and not _is_local_url(photo_url):
-        return photo_url
-
-    path = parsed.path if parsed.scheme else photo_url
-    marker = "/uploads/"
-    if marker not in path:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="仅支持识别已上传图片")
-
-    public_url = f"{public_base}{path[path.find(marker):]}"
-    if _is_local_url(public_url):
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="请先启动 ngrok 并配置 PUBLIC_BASE_URL 后再识别")
-    return public_url
-
-
-def _local_upload_path(photo_url: str) -> Path:
-    parsed = urlparse(photo_url)
-    path = parsed.path if parsed.scheme else photo_url
-    marker = "/uploads/"
-    if marker not in path:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="仅支持识别已上传图片")
-    filename = path.split(marker, 1)[1]
-    if "/" in filename or "\\" in filename or not filename:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="图片地址无效")
-    image_path = Path(settings.upload_dir) / filename
-    if not image_path.exists():
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="图片不存在")
-    return image_path
-
-
-def _image_data_url(photo_url: str) -> str:
-    image_path = _local_upload_path(photo_url)
-    media_type = mimetypes.guess_type(image_path.name)[0] or "image/jpeg"
-    encoded = base64.b64encode(image_path.read_bytes()).decode("utf-8")
-    return f"data:{media_type};base64,{encoded}"
-
-
-def _ark_image_url_or_data_url(photo_url: str) -> str:
-    try:
-        return _public_image_url(photo_url)
-    except HTTPException as exc:
-        if exc.status_code != status.HTTP_400_BAD_REQUEST or not settings.ai_image_data_url_fallback:
-            raise
-        logger.warning("ark clothing image fallback to data_url: reason=%s", exc.detail)
-        return _image_data_url(photo_url)
 
 
 def _compact_ark_request(request_body: dict[str, Any]) -> dict[str, Any]:
@@ -680,72 +625,6 @@ def delete_clothing(
 # ============================================================
 #  上传 → 阿里云抠图 → 阿里云服饰识别
 # ============================================================
-
-def _cos_upload(filename: str, content: bytes, content_type: str) -> str:
-    """把内容上传到腾讯云 COS，返回可公网访问的 URL。"""
-    if not (settings.tencent_cos_secret_id and settings.tencent_cos_secret_key
-            and settings.tencent_cos_region and settings.tencent_cos_bucket):
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="使用阿里云抠图/识别 时需配置腾讯云 COS 以便生成公网图片 URL",
-        )
-    try:
-        from qcloud_cos import CosConfig, CosS3Client
-    except ImportError as exc:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="未安装腾讯云 COS SDK",
-        ) from exc
-
-    prefix = (settings.tencent_cos_prefix or "").strip().strip("/")
-    key = f"{prefix}/{filename}" if prefix else filename
-    config = CosConfig(
-        Region=settings.tencent_cos_region,
-        SecretId=settings.tencent_cos_secret_id,
-        SecretKey=settings.tencent_cos_secret_key,
-        Scheme="https",
-    )
-    client = CosS3Client(config)
-    client.put_object(
-        Bucket=settings.tencent_cos_bucket,
-        Body=BytesIO(content),
-        Key=key,
-        ContentType=content_type,
-    )
-    if settings.tencent_cos_public_base_url:
-        return f"{settings.tencent_cos_public_base_url.rstrip('/')}/{key}"
-    return f"https://{settings.tencent_cos_bucket}.cos.{settings.tencent_cos_region}.myqcloud.com/{key}"
-
-
-def _local_persist(filename: str, content: bytes) -> str:
-    upload_dir = Path(settings.upload_dir)
-    upload_dir.mkdir(parents=True, exist_ok=True)
-    (upload_dir / filename).write_bytes(content)
-    return f"{settings.public_base_url.rstrip('/')}/uploads/{filename}"
-
-
-def _persist_image(
-    filename: str,
-    content: bytes,
-    content_type: str,
-    user_id: int,
-) -> tuple[str, str]:
-    """保存图片，返回 (public_url, stored_filename)。
-
-    如果后端为 COS，则上传到 COS 并返回公网 URL；
-    否则保存到本地 uploads，并返回 PUBLIC_BASE_URL 拼接的地址（便于本地调试）。
-    """
-    backend = (settings.upload_backend or "local").lower()
-    if backend == "cos":
-        url = _cos_upload(filename, content, content_type)
-        return url, filename
-    url = _local_persist(filename, content)
-    return url, filename
-
-
-def _build_filename(user_id: int, suffix: str) -> str:
-    return f"{user_id}_{uuid4().hex}{suffix}"
-
 
 @router.post("/upload-and-recognize", response_model=ClothingUploadAndRecognizeOut)
 async def upload_and_recognize_clothing(
