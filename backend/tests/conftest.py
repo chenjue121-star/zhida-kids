@@ -1,9 +1,11 @@
+import atexit
 import os
 import tempfile
 
 # 必须在导入 app 之前设置：让 database.engine 指向临时 SQLite 文件
 _DB_FD, _DB_PATH = tempfile.mkstemp(suffix=".sqlite3")
 os.close(_DB_FD)
+atexit.register(lambda: os.path.exists(_DB_PATH) and os.unlink(_DB_PATH))
 os.environ["DATABASE_URL"] = f"sqlite+pysqlite:///{_DB_PATH}"
 os.environ["JWT_SECRET"] = "test-secret"
 os.environ["DEV_WECHAT_MOCK"] = "true"
