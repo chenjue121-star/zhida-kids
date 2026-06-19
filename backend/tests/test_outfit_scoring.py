@@ -1,4 +1,4 @@
-from app.routers.outfits import (
+from app.services.outfits.scoring import (
     child_age_months,
     current_season,
     recommended_thickness,
