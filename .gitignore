@@ -10,6 +10,11 @@ backend/venv/
 .mypy_cache/
 .ruff_cache/
 
+# --- 测试产物 ---
+backend/test.db
+*.sqlite
+*.sqlite3
+
 # --- 本地敏感配置（绝不提交）---
 backend/.env
 .env

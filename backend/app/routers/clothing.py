@@ -13,7 +13,7 @@ from ..auth import get_current_user
 from ..config import settings
 from ..database import get_db
 from ..deps import ensure_child_owned, get_owned_clothing
-from ..models import Child, Clothing, User
+from ..models import Clothing, User
 from ..schemas import (
     ClothingCreate,
     ClothingOut,
@@ -22,13 +22,8 @@ from ..schemas import (
     ClothingUpdate,
     ClothingUploadAndRecognizeOut,
 )
-from ..services.images.urls import (
-    _ark_image_url_or_data_url, _image_data_url, _local_upload_path,
-    _public_image_url, _is_local_url,
-)
-from ..services.images.storage import (
-    _build_filename, _cos_upload, _local_persist, _persist_image,
-)
+from ..services.images.urls import _ark_image_url_or_data_url
+from ..services.images.storage import _build_filename, _persist_image
 from ..services.recognition.parsing import _extract_json, _extract_ark_text, _pick_recognition_object
 from ..services.recognition.normalize import _normalize_recognition, _mock_recognition
 from ..services.recognition.prompt import _recognition_prompt

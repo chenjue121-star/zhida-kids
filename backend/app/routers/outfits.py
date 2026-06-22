@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from datetime import date
-from typing import List
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy import select
