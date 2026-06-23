@@ -1,10 +1,8 @@
-import json
 import logging
 import mimetypes
 from datetime import datetime
 from pathlib import Path
 from fastapi import APIRouter, Depends, File, HTTPException, Query, UploadFile, status
-import httpx
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -24,10 +22,13 @@ from ..schemas import (
 )
 from ..services.images.urls import _ark_image_url_or_data_url
 from ..services.images.storage import _build_filename, _persist_image
-from ..services.recognition.parsing import _extract_json, _extract_ark_text, _pick_recognition_object
 from ..services.recognition.normalize import _normalize_recognition, _mock_recognition
 from ..services.recognition.prompt import _recognition_prompt
-from ..services.recognition.ark_client import _compact_ark_request
+from ..services.recognition.recognize import (
+    RecognitionEmptyError,
+    RecognitionError,
+    recognize_image,
+)
 
 router = APIRouter(prefix="/clothing", tags=["clothing"])
 logger = logging.getLogger(__name__)
@@ -67,44 +68,12 @@ async def recognize_clothing(
         raise HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail="未配置 ARK_API_KEY")
 
     image_url = _ark_image_url_or_data_url(payload.photo_url)
-    request_body = {
-        "model": settings.ark_clothing_model,
-        "input": [
-            {
-                "role": "user",
-                "content": [
-                    {"type": "input_image", "image_url": image_url},
-                    {"type": "input_text", "text": _recognition_prompt()},
-                ],
-            }
-        ],
-    }
-    logger.warning("ark clothing request=%s", json.dumps(_compact_ark_request(request_body), ensure_ascii=False))
-
     try:
-        async with httpx.AsyncClient(timeout=60) as client:
-            response = await client.post(
-                settings.ark_responses_url,
-                headers={
-                    "Authorization": f"Bearer {settings.ark_api_key}",
-                    "Content-Type": "application/json",
-                },
-                json=request_body,
-            )
-            logger.warning("ark clothing status_code=%s", response.status_code)
-            logger.warning("ark clothing response=%s", response.text[:3000])
-            response.raise_for_status()
-            data = response.json()
-    except httpx.HTTPError as exc:
+        return await recognize_image(image_url, _recognition_prompt())
+    except RecognitionEmptyError as exc:
+        raise HTTPException(status_code=status.HTTP_502_BAD_GATEWAY, detail="AI 识别服务未返回文本") from exc
+    except RecognitionError as exc:
         raise HTTPException(status_code=status.HTTP_502_BAD_GATEWAY, detail="AI 识别服务调用失败") from exc
-
-    text = _extract_ark_text(data)
-    if not text:
-        raise HTTPException(status_code=status.HTTP_502_BAD_GATEWAY, detail="AI 识别服务未返回文本")
-    logger.warning("ark clothing text=%s", text[:3000])
-    result = _normalize_recognition(_pick_recognition_object(_extract_json(text)))
-    logger.warning("ark clothing normalized=%s", result.model_dump_json())
-    return result
 
 
 @router.get("/{clothing_id}", response_model=ClothingOut)
