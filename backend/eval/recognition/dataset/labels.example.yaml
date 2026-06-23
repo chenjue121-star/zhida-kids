@@ -1,0 +1,17 @@
+# 标注模板。正式标注写入同目录 labels.yaml（可用 --scaffold 生成骨架）。
+- image: img001.jpg
+  type: top
+  sub_type: hoodie
+  main_color: pink
+  pattern: stripe
+  season: [autumn, spring]
+  thickness: normal
+  style_tags: [cute, casual]
+- image: img002.jpg
+  type: pants
+  sub_type: jeans
+  main_color: denim
+  pattern: solid
+  season: [all]
+  thickness: normal
+  style_tags: [casual]
