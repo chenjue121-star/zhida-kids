@@ -58,3 +58,6 @@ dist/
 build/
 .cache/
 coverage/
+
+# --- eval 缓存 ---
+backend/eval/recognition/.cache/
