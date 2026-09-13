@@ -61,3 +61,8 @@ coverage/
 
 # --- eval 缓存 ---
 backend/eval/recognition/.cache/
+
+# Isolated development workspaces and local v2 configuration
+.worktrees/
+backend/.env.v2
+miniprogram-v2/project.private.config.json
