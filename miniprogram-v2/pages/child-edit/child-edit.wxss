@@ -1,0 +1,66 @@
+.child-editor .header {margin-bottom:7px}
+.child-editor-head {display:flex;align-items:center;gap:12px;padding:6px 0 18px;border-bottom:1px solid #e7edf1}
+.child-editor-initial {display:flex;align-items:center;justify-content:center;width:48px;height:48px;flex:none;border-radius:50%;background:#e7f5e9;color:#267647;font-size:20px;font-weight:750}
+.child-editor-identity {min-width:0}
+.child-editor-name {font-size:17px;font-weight:750;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.child-editor-head .meta {margin-top:2px}
+.child-editor .section {margin-top:19px}
+.child-editor .section-title {margin-bottom:16px}
+.child-editor .basic-section {border-top:0;padding-top:0}
+.child-editor .basic-section .field {display:flex;align-items:center;min-height:56px;gap:10px;margin:0;padding:7px 0;border-bottom:1px solid #e7edf1}
+.child-editor .basic-section .field-label {width:106px;flex:none;margin:0;white-space:nowrap;font-size:14px}
+.child-editor .basic-section .field > input,.child-editor .basic-section .field > picker,.child-editor .basic-section .field > .measurements {flex:1;min-width:0}
+.child-editor .section-heading {display:flex;align-items:center;justify-content:space-between}
+.child-editor .section-heading .section-title {margin-bottom:12px}
+.child-editor .measurements .field {min-width:0}
+.child-editor .illustrated-styles .choice {position:relative;display:flex;flex-direction:column;justify-content:center;align-items:center;min-height:160px;padding:8px 5px;text-align:center;background:#fff;overflow:hidden}
+.child-editor .illustrated-styles checkbox {position:absolute;left:7px;top:7px;z-index:2}
+.child-editor .illustrated-styles .choice > text {font-size:14px;font-weight:650;flex:none}
+.mini-style-art {position:relative;width:112px;height:112px;overflow:hidden}
+.mini-style-sprite {position:absolute;width:224px;height:224px}
+.mini-style-sprite.sprite-0 {left:0;top:0}
+.mini-style-sprite.sprite-1 {left:-112px;top:0}
+.mini-style-sprite.sprite-2 {left:0;top:-112px}
+.mini-style-sprite.sprite-3 {left:-112px;top:-112px}
+.child-editor button.primary {width:100%}
+.child-editor .section > button:not(.link) {width:100%}
+.child-editor .section > .actions {margin-top:12px}
+.child-editor .section > .actions button {max-width:100%}
+.child-editor > button.link {display:block;margin:22px auto 0;text-align:center}
+.editor-sheet-mask {position:fixed;inset:0;z-index:20;display:flex;align-items:flex-end;background:rgba(22,29,38,.5)}
+.editor-sheet {width:100%;padding:28px 20px calc(22px + env(safe-area-inset-bottom));border-radius:16px 16px 0 0;background:#fff}
+.editor-sheet-title {font-size:18px;font-weight:750}
+.editor-sheet-copy {margin:9px 0 22px;color:#5c6f83;font-size:14px;line-height:1.6}
+.editor-sheet button {width:100%;margin-top:10px}
+.editor-sheet-cancel {background:#fff;color:#4c6072}
+.child-editor {padding-top:4px}
+.child-editor-head {gap:10px;min-height:72px;padding:0;border-color:#e6ece7}
+.child-editor-initial {width:40px;height:40px;font-size:15px}
+.child-editor-name {font-size:14px;font-weight:700;line-height:1.25}
+.child-editor-age {margin-top:4px;color:#788a80;font-size:11px;line-height:1.25}
+.child-editor .section {margin:17px 0 0;padding:0;border:0}
+.child-editor .section-title {margin:0 0 5px;color:#385442;font-size:12px;font-weight:800}
+.child-editor .basic-section .field {min-height:45px;gap:8px;padding:0;border-color:#e8ede9}
+.child-editor .basic-section .field-label {width:84px;color:#2e4437;font-size:13px;font-weight:600}
+.child-editor .basic-section input,.child-editor .basic-section .picker {height:44px;min-height:44px;border:0;border-radius:0;background:transparent;font-size:13px;text-align:right;color:#394b3f}
+.child-editor .basic-section .picker {padding:11px 20px 11px 0}
+.child-editor .basic-section .picker::after {right:4px;top:17px;width:6px;height:6px}
+.child-editor .basic-section .measurements {gap:4px}
+.child-editor .basic-section .measurements .picker {padding-right:14px;font-size:12px}
+.child-editor .basic-section .measurements .picker::after {right:2px}
+.measurement-summary {display:flex;align-items:center;gap:10px;min-height:72px;border-bottom:1px solid #e8ede9}
+.measurement-value {display:flex;flex-direction:column;min-width:84px}
+.measurement-value > text:first-child {color:#7a8a7d;font-size:11px}
+.measurement-number {margin-top:3px;color:#203029;font-size:15px;font-weight:750}
+.measurement-toggle {margin-left:auto;padding:0 2px;min-height:44px;background:transparent;color:#2e884d;font-size:12px}
+.measurement-date {margin-top:6px;color:#91a096;font-size:10px}
+.measurement-form {margin-top:16px;padding:12px;border:1px solid #e2ebe3;border-radius:8px;background:#f9fbf8}
+.measurement-form .field-label {font-size:12px}
+.measurement-form button {width:100%}
+.preference-entry {display:flex;align-items:center;justify-content:space-between;width:100%;min-height:45px;padding:0;border-radius:0;border-bottom:1px solid #e8ede9;background:#fff;font-size:13px;font-weight:600;color:#2e4437}
+.preference-entry text:last-child {color:#2e884d;font-size:12px;font-weight:600}
+.editor-save {margin-top:28px}
+.editor-save button {width:100%;min-height:47px}
+.editor-danger {display:flex;justify-content:center;margin-top:12px}
+.editor-danger button {font-size:12px;color:#ac5653}
+.child-editor > button.link {margin-top:12px;font-size:12px}

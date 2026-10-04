@@ -1,0 +1,432 @@
+{
+  "schema_version": 1,
+  "kind": "ai_annotation_review_part",
+  "reviewer": "Codex_agent",
+  "items": [
+    {
+      "image": "c033.png",
+      "reviewed": false,
+      "scene": "product_screenshot",
+      "hero_region_hint": [0.0, 0.089, 1.0, 0.663],
+      "suggestions": [
+        {
+          "draft_id": "c033-main-01",
+          "description": "米色底短袖翻领碎花服装，前方有纽扣，腰下有裙摆层，裙摆下露出两条短裤腿；裙摆与裤身的连接不清楚。",
+          "bbox": [0.134, 0.143, 0.864, 0.610],
+          "category": null,
+          "colors": ["beige", "pink", "green"],
+          "pattern": "print",
+          "thickness": null,
+          "fields_needing_review": ["category：需裁决带裙摆的连体短裤属于 onesie，还是独立上衣/裙装与裤件", "object_count：连接被裙摆遮挡，当前暂按一个主视觉对象记录，不能据商品文字决定实物件数", "colors：奶油底映射 beige/white、碎花中的绿色与棕色小面积是否计入需统一", "thickness：图片不能可靠判断"]
+        }
+      ],
+      "secondary_visuals": ["下方颜色选择有同花色布面缩略图，不作为新的主商品对象。", "页面的商品名、尺码、价格和按钮不是衣物视觉真值，不能据此推断拥有、合身、厚薄。"],
+      "open_questions": ["裙摆与下方裤件是否同一件连体服装？若确认是独立套装，需要重新拆对象和边界框。"],
+      "possible_related_images": ["c047.png（米色粉绿碎花视觉相似，但款式不同；未确认是否关联）", "c045.png（部分花边/裤件视觉相似，未确认关联）"]
+    },
+    {
+      "image": "c034.png",
+      "reviewed": false,
+      "scene": "product_screenshot",
+      "hero_region_hint": [0.0, 0.089, 1.0, 0.663],
+      "suggestions": [
+        {
+          "draft_id": "c034-main-01",
+          "description": "短袖翻领连衣裙，蓝色与白色横条纹，表面可见竖向麻花针织纹理，下摆为裙形。",
+          "bbox": [0.156, 0.144, 0.848, 0.612],
+          "category": "dress",
+          "colors": ["blue", "white"],
+          "pattern": "stripe",
+          "thickness": null,
+          "fields_needing_review": ["pattern：横向色条拟标 stripe，麻花针织纹理不另标条纹，需确认口径", "colors：胸口微小浅色标志不增加颜色；白色与奶白边界待确认", "thickness：针织外观不能直接等同厚款"]
+        }
+      ],
+      "secondary_visuals": ["下方同花色缩略图是颜色选择，不作为另一件衣物。"],
+      "open_questions": ["麻花纹理与色条并存时，应统一按显著色条标 stripe。"],
+      "possible_related_images": []
+    },
+    {
+      "image": "c035.png",
+      "reviewed": false,
+      "scene": "product_screenshot",
+      "hero_region_hint": [0.0, 0.089, 1.0, 0.663],
+      "suggestions": [
+        {
+          "draft_id": "c035-main-01",
+          "description": "浅蓝色短袖翻领裙装，领缘和口袋边有浅色刺绣状装饰，胸前纽扣，腰下有褶皱裙摆。",
+          "bbox": [0.151, 0.143, 0.853, 0.565],
+          "category": "dress",
+          "colors": ["blue", "white"],
+          "pattern": "solid",
+          "thickness": null,
+          "fields_needing_review": ["pattern：主体单色，局部刺绣是否仍计 solid 需统一", "colors：领缘白色装饰是否达到颜色集合纳入阈值；左下微小橙色标志拟忽略", "category：裙装与下方裤件的独立关系待确认", "thickness：图片不能可靠判断"]
+        },
+        {
+          "draft_id": "c035-main-02",
+          "description": "裙摆下露出的浅蓝色裤件，能看到底部及两个腿口，上方被裙摆遮挡。",
+          "bbox": [0.278, 0.536, 0.727, 0.611],
+          "category": "bottom",
+          "colors": ["blue"],
+          "pattern": "solid",
+          "thickness": null,
+          "fields_needing_review": ["object_count/category：裤件是否为独立罩裤，还是连接裙装的连体结构，需人工裁决", "bbox：只标可见裤件范围，上边和腰部被遮挡，未外推隐藏轮廓", "pattern：可见织物纹理拟按 solid，需统一", "thickness：图片不能可靠判断"]
+        }
+      ],
+      "secondary_visuals": ["下方颜色缩略图显示同色布面和标志，不计为另一件主商品。"],
+      "open_questions": ["裙装与露出裤件是否两件独立实物？当前拆为两个视觉对象，件数仍待审核。", "遮挡裤件的评测框采用可见范围还是完整实物推定范围？本草稿只提供可见范围。"],
+      "possible_related_images": ["c036.png（浅蓝布面与小标志相似，但裤长和款式不同，未确认关联）"]
+    },
+    {
+      "image": "c036.png",
+      "reviewed": false,
+      "scene": "product_screenshot",
+      "hero_region_hint": [0.0, 0.089, 1.0, 0.663],
+      "suggestions": [
+        {
+          "draft_id": "c036-main-01",
+          "description": "浅蓝色长裤，松紧腰和收口裤脚，左腰下有很小的橙色标志，布面有细小织物纹理。",
+          "bbox": [0.146, 0.144, 0.854, 0.612],
+          "category": "bottom",
+          "colors": ["blue"],
+          "pattern": "solid",
+          "thickness": null,
+          "fields_needing_review": ["pattern：细小织物纹理拟归 solid，不凭商品文字判断材质", "colors：微小橙色标志拟不计入整体颜色集合，需确认小面积阈值", "thickness：图片不能可靠判断"]
+        }
+      ],
+      "secondary_visuals": ["下方颜色选择缩略图是同商品布面，不作新主件。"],
+      "open_questions": ["是否统一忽略微小标志的独立颜色？"],
+      "possible_related_images": ["c035.png（浅蓝布面与小标志相似但款式不同，未确认关联）"]
+    },
+    {
+      "image": "c037.png",
+      "reviewed": false,
+      "scene": "product_screenshot",
+      "hero_region_hint": [0.0, 0.089, 1.0, 0.663],
+      "suggestions": [
+        {
+          "draft_id": "c037-main-01",
+          "description": "浅蓝色无袖翻领针织上衣，胸前纽扣，下摆罗纹，表面竖向麻花纹理。",
+          "bbox": [0.249, 0.144, 0.747, 0.444],
+          "category": "top",
+          "colors": ["blue"],
+          "pattern": "solid",
+          "thickness": null,
+          "fields_needing_review": ["pattern：单色麻花针织纹理拟计 solid，不把结构纹理当彩色 stripe，需统一", "colors：浅色小纽扣拟不增加颜色集合", "thickness：针织外观不能可靠判断厚薄"]
+        },
+        {
+          "draft_id": "c037-main-02",
+          "description": "浅蓝色针织短裤，两个短裤腿清楚可见，表面麻花纹理，腰部被上衣下摆遮挡。",
+          "bbox": [0.247, 0.432, 0.747, 0.612],
+          "category": "bottom",
+          "colors": ["blue"],
+          "pattern": "solid",
+          "thickness": null,
+          "fields_needing_review": ["pattern：单色麻花纹理是否计 solid 需统一", "bbox：只包含可见短裤，隐藏腰部不猜轮廓", "thickness：图片不能可靠判断"]
+        }
+      ],
+      "secondary_visuals": ["下方颜色缩略图为同色针织纹理，不计为新对象。"],
+      "open_questions": ["两个视觉对象拟按上下套装分别记录；请审核独立件数及被遮挡腰部的标框规则。"],
+      "possible_related_images": []
+    },
+    {
+      "image": "c038.png",
+      "reviewed": false,
+      "scene": "product_screenshot",
+      "hero_region_hint": [0.0, 0.124, 1.0, 0.700],
+      "suggestions": [
+        {
+          "draft_id": "c038-main-01",
+          "description": "蓝色长袖翻领碎花裙装，白色细小枝叶状花纹，前中纽扣，腰下为褶皱裙摆。",
+          "bbox": [0.111, 0.204, 0.891, 0.575],
+          "category": "dress",
+          "colors": ["blue", "white"],
+          "pattern": "print",
+          "thickness": null,
+          "fields_needing_review": ["category/object_count：与下方裤件是否独立两件需确认", "thickness：长袖和商品文字均不能确定厚薄"]
+        },
+        {
+          "draft_id": "c038-main-02",
+          "description": "裙摆下露出的蓝底白色碎花裤件，底部与两个腿口可见，上方遮挡。",
+          "bbox": [0.318, 0.551, 0.672, 0.621],
+          "category": "bottom",
+          "colors": ["blue", "white"],
+          "pattern": "print",
+          "thickness": null,
+          "fields_needing_review": ["object_count/category：独立罩裤与连接式连体结构待裁决", "bbox：只框可见部分，不推定被裙摆遮住的腰部", "thickness：图片不能可靠判断"]
+        }
+      ],
+      "secondary_visuals": ["下方颜色缩略图为同花色布面，不计为额外主商品。"],
+      "open_questions": ["需确认裙装与下方裤件的实际独立件数。", "与 c039 的关系是否同商品同图片放大，审核前不能视作新增独立样本。"],
+      "possible_related_images": ["c039.png（蓝白碎花、纽扣和轮廓高度相似，疑似同主图放大；未确认关联）", "c040.png（相似花纹但颜色与袖型不同，未确认关联）", "c041.png（相似花纹但颜色与袖型不同，未确认关联）"]
+    },
+    {
+      "image": "c039.png",
+      "reviewed": false,
+      "scene": "product_screenshot",
+      "hero_region_hint": [0.0, 0.054, 1.0, 0.905],
+      "suggestions": [
+        {
+          "draft_id": "c039-main-01",
+          "description": "放大显示的蓝底白色碎花长袖裙装，翻领、前中纽扣和褶皱裙摆可见，两袖外侧在画面边缘被裁切。",
+          "bbox": [0.0, 0.182, 1.0, 0.709],
+          "category": "dress",
+          "colors": ["blue", "white"],
+          "pattern": "print",
+          "thickness": null,
+          "fields_needing_review": ["bbox：两侧袖子已被原截图裁切，框到原图边界，不外推不可见袖边", "object_count/category：与下方裤件独立关系待确认", "thickness：图片不能可靠判断"]
+        },
+        {
+          "draft_id": "c039-main-02",
+          "description": "蓝白碎花裙摆下露出的裤件，两个腿口及底部清楚可见，腰部被裙摆遮住。",
+          "bbox": [0.244, 0.688, 0.702, 0.782],
+          "category": "bottom",
+          "colors": ["blue", "white"],
+          "pattern": "print",
+          "thickness": null,
+          "fields_needing_review": ["object_count/category：独立罩裤还是裙装连接部分待裁决", "bbox：仅可见范围，隐藏腰部未推断", "thickness：图片不能可靠判断"]
+        }
+      ],
+      "secondary_visuals": ["关闭、页码、左右箭头及浏览器地址栏为 UI，不是额外衣物。"],
+      "open_questions": ["原图两侧裁切需要在评测中明确可见框口径。", "请确认与 c038 是否同商品放大图，并分到同一关联组，避免开发/测试泄漏。"],
+      "possible_related_images": ["c038.png（疑似同商品页面主图与放大图，未确认关联）", "c040.png（花纹相似但颜色与袖型不同，未确认关联）", "c041.png（花纹相似但颜色与袖型不同，未确认关联）"]
+    },
+    {
+      "image": "c040.png",
+      "reviewed": false,
+      "scene": "product_screenshot",
+      "hero_region_hint": [0.0, 0.124, 1.0, 0.700],
+      "suggestions": [
+        {
+          "draft_id": "c040-main-01",
+          "description": "珊瑚红/深粉色无袖翻领裙装，浅色碎花枝叶图案，前中纽扣，腰下褶皱裙摆。",
+          "bbox": [0.135, 0.180, 0.864, 0.589],
+          "category": "dress",
+          "colors": ["red", "white"],
+          "pattern": "print",
+          "thickness": null,
+          "fields_needing_review": ["colors：主色位于 red/pink 边界，当前 red 是待裁决草稿；不能根据商品颜色名定真值", "category/object_count：与下方裤件是否独立待确认", "thickness：图片不能可靠判断"]
+        },
+        {
+          "draft_id": "c040-main-02",
+          "description": "裙摆下露出的同色碎花裤件，底部及两个腿口可见，腰部被遮住。",
+          "bbox": [0.300, 0.568, 0.678, 0.646],
+          "category": "bottom",
+          "colors": ["red", "white"],
+          "pattern": "print",
+          "thickness": null,
+          "fields_needing_review": ["colors：red/pink 边界需与裙装采用一致人工口径", "object_count/category：独立罩裤还是连接结构待裁决", "bbox：仅可见裤件范围，隐藏腰部未推断", "thickness：图片不能可靠判断"]
+        }
+      ],
+      "secondary_visuals": ["下方颜色缩略图为同花色布面，不计额外对象。"],
+      "open_questions": ["请统一珊瑚红/深粉的 V2 颜色桶。", "裙装与露出裤件是否两件独立实物？", "请确认与 c041 是否同主图放大。"],
+      "possible_related_images": ["c041.png（相同颜色、花纹和轮廓，疑似放大图，未确认关联）", "c038.png（花纹相似，颜色与袖型不同，未确认关联）", "c039.png（花纹相似，颜色与袖型不同，未确认关联）"]
+    },
+    {
+      "image": "c041.png",
+      "reviewed": false,
+      "scene": "product_screenshot",
+      "hero_region_hint": [0.0, 0.054, 1.0, 0.905],
+      "suggestions": [
+        {
+          "draft_id": "c041-main-01",
+          "description": "放大显示的珊瑚红/深粉无袖碎花裙装，翻领、纽扣、口袋和褶皱裙摆可见，裙摆两侧接近画面边缘且有裁切。",
+          "bbox": [0.0, 0.146, 1.0, 0.741],
+          "category": "dress",
+          "colors": ["red", "white"],
+          "pattern": "print",
+          "thickness": null,
+          "fields_needing_review": ["colors：red/pink 边界需人工裁决，不能依据商品文字", "bbox：截图裙摆两侧裁切，边界落到原图左右边缘，不推断截图之外", "object_count/category：下方裤件独立关系待确认", "thickness：图片不能可靠判断"]
+        },
+        {
+          "draft_id": "c041-main-02",
+          "description": "裙摆下露出的同色碎花裤件，能看到收拢腿口和底部，腰部不可见。",
+          "bbox": [0.233, 0.712, 0.741, 0.819],
+          "category": "bottom",
+          "colors": ["red", "white"],
+          "pattern": "print",
+          "thickness": null,
+          "fields_needing_review": ["colors：red/pink 边界与裙装统一待裁决", "object_count/category：独立罩裤还是连接部分待裁决", "bbox：只给可见范围，不推定隐藏腰部", "thickness：图片不能可靠判断"]
+        }
+      ],
+      "secondary_visuals": ["关闭、页码、箭头与地址栏为 UI，不是衣物。"],
+      "open_questions": ["确认 c040/c041 关系及同组分割，放大图不能冒充新增独立样本。", "裁切和遮挡边界框口径需审核。"],
+      "possible_related_images": ["c040.png（疑似同商品主图放大，未确认关联）", "c038.png（花纹相似但颜色、袖型不同，未确认关联）", "c039.png（花纹相似但颜色、袖型不同，未确认关联）"]
+    },
+    {
+      "image": "c042.png",
+      "reviewed": false,
+      "scene": "product_screenshot",
+      "hero_region_hint": [0.0, 0.089, 1.0, 0.663],
+      "suggestions": [
+        {
+          "draft_id": "c042-main-01",
+          "description": "粉色肩带裙装，裙身没有可见裤腿分叉，两侧口袋，胸前、口袋及前中有麻花针织纹理。",
+          "bbox": [0.163, 0.143, 0.837, 0.612],
+          "category": "dress",
+          "colors": ["pink"],
+          "pattern": "solid",
+          "thickness": null,
+          "fields_needing_review": ["category：肩带不自动代表 bottom/onesie；当前按可见连续裙摆拟标 dress，需审核", "pattern：单色麻花结构纹理拟计 solid，需统一", "thickness：针织外观不能直接判厚"]
+        }
+      ],
+      "secondary_visuals": ["下方粉色颜色缩略图不是另一件商品。"],
+      "open_questions": ["单色麻花针织纹理是否统一纳入 solid？"],
+      "possible_related_images": []
+    },
+    {
+      "image": "c043.png",
+      "reviewed": false,
+      "scene": "product_screenshot",
+      "hero_region_hint": [0.0, 0.089, 1.0, 0.663],
+      "suggestions": [
+        {
+          "draft_id": "c043-main-01",
+          "description": "浅绿色无袖连体短裤形服装，前中纽扣，胸腰连为一体，底部两个短裤腿；领缘、门襟和口袋边有米色碎花滚边，布面有细小孔纹。",
+          "bbox": [0.159, 0.145, 0.841, 0.612],
+          "category": "onesie",
+          "colors": ["green", "beige"],
+          "pattern": "solid",
+          "thickness": null,
+          "fields_needing_review": ["pattern：主体单色带细孔针织纹理，局部碎花滚边是否把整体改为 print 需人工统一", "colors：米色碎花滚边拟纳入 beige，微小粉花、胸前浅色标志拟忽略，需确认面积阈值", "category：胸腰连体且有两裤腿拟标 onesie，不是仅凭商品名", "thickness：细孔/针织外观不能确定厚薄"]
+        }
+      ],
+      "secondary_visuals": ["下方颜色缩略图显示同色布面与微小标志，不计为新主件。"],
+      "open_questions": ["局部花边与单色主体并存时，pattern、colors 的统一标注口径是什么？"],
+      "possible_related_images": ["c045.png（浅绿布面和米色碎花滚边相似，款式不同，未确认关联）"]
+    },
+    {
+      "image": "c044.png",
+      "reviewed": false,
+      "scene": "product_screenshot",
+      "hero_region_hint": [0.0, 0.089, 1.0, 0.663],
+      "suggestions": [
+        {
+          "draft_id": "c044-main-01",
+          "description": "带荷叶肩带的宽摆上衣，视觉为多色三角拼块，拼块中有条纹、碎花和细点状图案。",
+          "bbox": [0.109, 0.147, 0.890, 0.494],
+          "category": "top",
+          "colors": ["multicolor"],
+          "pattern": "print",
+          "thickness": null,
+          "fields_needing_review": ["category：宽摆长上衣与 dress 边界需人工裁决，当前按与裤件成套的上件拟标 top", "colors：multicolor 与逐色集合口径待统一，不凭商品文字确定颜色", "pattern：多种图案拼块拟统一 print，不能只因部分有线条就标 stripe/plaid", "thickness：图片不能可靠判断"]
+        },
+        {
+          "draft_id": "c044-main-02",
+          "description": "上衣下方露出的多色拼块短裤形裤件，收拢腿口可见，腰部被上衣遮挡。",
+          "bbox": [0.193, 0.473, 0.813, 0.606],
+          "category": "bottom",
+          "colors": ["multicolor"],
+          "pattern": "print",
+          "thickness": null,
+          "fields_needing_review": ["colors：multicolor 与逐色集合口径需统一", "pattern：拼块内不同纹样拟统一 print，需审核", "bbox：仅框可见下件，隐藏腰部不猜", "object_count：上下件是否独立需审核，当前分别保留两个视觉对象", "thickness：图片不能可靠判断"]
+        }
+      ],
+      "secondary_visuals": ["下方缩略图是同拼块布面，不计额外商品。"],
+      "open_questions": ["多色拼块应采用 multicolor 桶还是同时列每个颜色？", "上件是长上衣还是裙装，需统一类别边界。"],
+      "possible_related_images": []
+    },
+    {
+      "image": "c045.png",
+      "reviewed": false,
+      "scene": "product_screenshot",
+      "hero_region_hint": [0.0, 0.089, 1.0, 0.663],
+      "suggestions": [
+        {
+          "draft_id": "c045-main-01",
+          "description": "左侧浅绿色长袖开襟衣物，前中多颗纽扣，米色碎花翻领，布面有细小竖向纹理。",
+          "bbox": [0.110, 0.243, 0.591, 0.419],
+          "category": "outerwear",
+          "colors": ["green", "beige"],
+          "pattern": "solid",
+          "thickness": null,
+          "fields_needing_review": ["category：开襟衣物是 top 还是 outerwear 需按用途统一，图片不能确定穿搭层级", "pattern：主体单色、花领局部装饰是否仍计 solid 需审核", "colors：花领 beige 纳入，微小粉花和标志是否纳入需统一", "thickness：图片不能可靠判断"]
+        },
+        {
+          "draft_id": "c045-main-02",
+          "description": "左侧开襟衣物下露出的米色碎花短裤形裤件，粉色小花和绿色叶片可见，收拢腿口。",
+          "bbox": [0.193, 0.408, 0.503, 0.508],
+          "category": "bottom",
+          "colors": ["beige", "pink", "green"],
+          "pattern": "print",
+          "thickness": null,
+          "fields_needing_review": ["bbox：腰部被上件遮挡，只框可见部分", "colors：碎花中的绿色与棕色细线是否分别计入待审核", "thickness：图片不能可靠判断"]
+        },
+        {
+          "draft_id": "c045-main-03",
+          "description": "右侧独立摆放的浅绿色细肩带连体衣，裆部纽扣及腿口可见，边缘有米色碎花滚边。",
+          "bbox": [0.615, 0.274, 0.892, 0.512],
+          "category": "onesie",
+          "colors": ["green", "beige"],
+          "pattern": "solid",
+          "thickness": null,
+          "fields_needing_review": ["pattern：主体单色、花边局部装饰是否计 solid 需统一", "colors：细碎花边的粉色和微小标志拟忽略，需审核小面积规则", "thickness：图片不能可靠判断"]
+        }
+      ],
+      "secondary_visuals": ["下方颜色缩略图仅展示套装布面，不计额外对象。", "右侧连体衣在主图片区清楚独立摆放，计为主商品视觉对象，不作为 UI 缩略图。"],
+      "open_questions": ["当前按三个主视觉对象拆分，请核对上衣与裤件的独立件数。", "绿色开襟款的 top/outerwear 边界需要用途确认，不能仅靠长袖和纽扣判断。"],
+      "possible_related_images": ["c043.png（绿色细孔纹理与花边相似，但连体形态不同，未确认关联）", "c033.png（米色碎花相似但款式不同，未确认关联）", "c047.png（米色碎花相似但款式不同，未确认关联）"]
+    },
+    {
+      "image": "c046.png",
+      "reviewed": false,
+      "scene": "product_screenshot",
+      "hero_region_hint": [0.0, 0.089, 1.0, 0.663],
+      "suggestions": [
+        {
+          "draft_id": "c046-main-01",
+          "description": "短袖圆领裙装，肩部纽扣，多种颜色的横向几何针织花纹带，腰下展开为裙摆。",
+          "bbox": [0.154, 0.144, 0.846, 0.568],
+          "category": "dress",
+          "colors": ["multicolor"],
+          "pattern": null,
+          "thickness": null,
+          "fields_needing_review": ["pattern：多色针织几何提花在 V2 stripe/print 中如何归类需裁决，当前不把商品文字当依据", "colors：multicolor 与逐色集合规则待统一", "category/object_count：下方绿色裤件是否独立待确认", "thickness：针织外观不能确定厚薄"]
+        },
+        {
+          "draft_id": "c046-main-02",
+          "description": "裙摆下露出的灰绿色针织裤件，底部和两个腿口可见，中部有孔纹，上方被裙摆遮住。",
+          "bbox": [0.338, 0.547, 0.681, 0.608],
+          "category": "bottom",
+          "colors": ["green"],
+          "pattern": "solid",
+          "thickness": null,
+          "fields_needing_review": ["object_count/category：独立罩裤还是连接式结构待裁决", "colors：灰绿在 green/gray 颜色桶边界需审核", "pattern：单色针织孔纹拟计 solid，需统一", "bbox：只给可见范围，隐藏腰部不推定", "thickness：图片不能可靠判断"]
+        }
+      ],
+      "secondary_visuals": ["下方颜色缩略图为同多色针织花纹，不计另一件主商品。"],
+      "open_questions": ["多色针织几何提花应映射 print、stripe，还是保持不可判定？", "裙装与可见裤件是否独立实物？"],
+      "possible_related_images": []
+    },
+    {
+      "image": "c047.png",
+      "reviewed": false,
+      "scene": "product_screenshot",
+      "hero_region_hint": [0.0, 0.089, 1.0, 0.663],
+      "suggestions": [
+        {
+          "draft_id": "c047-main-01",
+          "description": "米色底短袖翻领宽摆上衣，粉色碎花和绿色枝叶，领缘与腰线有粉色小格纹装饰，前中纽扣。",
+          "bbox": [0.116, 0.143, 0.885, 0.513],
+          "category": "top",
+          "colors": ["beige", "pink", "green"],
+          "pattern": "print",
+          "thickness": null,
+          "fields_needing_review": ["category：宽摆长上衣与 dress 的边界需审核，当前拟 top", "pattern：主体碎花拟 print，局部格纹边缘不另改整体类别，需统一", "colors：奶油底 beige/white 边界、细枝 brown/green 和小面积颜色口径需审核", "thickness：图片不能可靠判断"]
+        },
+        {
+          "draft_id": "c047-main-02",
+          "description": "上件下方露出的粉色与白色格纹短裤形裤件，裤腿收口，腰部被上衣遮挡。",
+          "bbox": [0.199, 0.484, 0.798, 0.612],
+          "category": "bottom",
+          "colors": ["pink", "white"],
+          "pattern": "plaid",
+          "thickness": null,
+          "fields_needing_review": ["colors：粉色与珊瑚红边界需审核，当前拟 pink", "bbox：只框可见下件，不推定隐藏腰部", "object_count：当前拆两视觉对象，实物独立关系需审核", "thickness：图片不能可靠判断"]
+        }
+      ],
+      "secondary_visuals": ["下方颜色缩略图是碎花布面，不计额外主商品。"],
+      "open_questions": ["上件是长上衣还是裙装？需统一 top/dress 边界。", "请核对上下件实物独立关系；不能将商品标题作为唯一件数证据。"],
+      "possible_related_images": ["c033.png（碎花视觉相似，款式不同，未确认关联）", "c045.png（碎花视觉相似，款式不同，未确认关联）"]
+    }
+  ]
+}

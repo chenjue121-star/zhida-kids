@@ -1,0 +1,12 @@
+<view class="city-page">
+  <view class="city-header"><view class="city-marker">⌖</view><view class="city-title">获取当地天气</view><view class="city-copy">知道所在城市，才能给宝贝更合适的穿衣建议。</view></view>
+  <view class="auto-location" bindtap="auto" aria-role="button"><view class="locate-icon">◎</view><view><view class="auto-title">使用当前位置</view><view class="auto-copy">自动获取城市与天气</view></view><text class="auto-arrow">›</text></view>
+  <view class="city-divider">或手动选择</view>
+  <view class="city-label">城市名称</view>
+  <view class="search-row"><input value="{{city}}" bindinput="inputCity" placeholder="例如 上海、成都" maxlength="80"/><button bindtap="search" loading="{{loading}}">搜索</button></view>
+  <view wx:if="{{error}}" class="notice error">{{error}}</view>
+  <view wx:if="{{message}}" class="city-hint">{{message}}</view>
+  <view wx:for="{{suggestions}}" wx:key="index" class="city-result {{selectedCity === item.name ? 'selected' : ''}}" data-city="{{item.name}}" data-region="{{item.region}}" bindtap="choose" aria-role="button"><text>{{item.name}}</text><text>{{item.region}} {{selectedCity === item.name ? '✓' : ''}}</text></view>
+  <button class="city-save" bindtap="confirmCity" disabled="{{!city || loading}}">使用{{selectedCity || city}} <text wx:if="{{selectedRegion}}">· {{selectedRegion}}</text></button>
+  <view class="city-hint">天气服务不可用时，不显示模拟温度。</view>
+</view>

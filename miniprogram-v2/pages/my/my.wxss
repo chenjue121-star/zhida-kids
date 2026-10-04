@@ -1,0 +1,20 @@
+.my-page {min-height:100vh;background:linear-gradient(180deg,#eaf7ff 0%,#fff 36%);padding:24px 20px calc(86px + env(safe-area-inset-bottom))}
+.my-title {font-size:21px;font-weight:750;margin:4px 0 24px}
+.my-profile {display:flex;align-items:center;gap:14px;padding:19px 0 24px;border-bottom:1px solid #e2eaf0}
+.my-avatar {width:63px;height:63px;flex:none;border-radius:50%;background:#e7f4eb;color:#2e8347;display:flex;align-items:center;justify-content:center;font-size:23px;font-weight:750}
+.my-profile-copy {min-width:0}
+.my-name {font-size:17px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.my-caption {font-size:13px;color:#597187;margin-top:3px}
+.my-section-title {font-size:15px;font-weight:700;margin:30px 0 10px}
+.my-rows {border-top:1px solid #e5ecf0}
+.my-row {min-height:65px;display:flex;align-items:center;gap:13px;border-bottom:1px solid #e5ecf0;font-size:15px;font-weight:600}
+.my-row.disabled {opacity:.5}
+.my-row-icon {width:36px;height:36px;display:flex;align-items:center;justify-content:center;flex:none;border-radius:10px;font-size:21px}
+.icon-child {background:#e6f5fb;color:#2e789a}.icon-style {background:#fff4d5;color:#a47722}.icon-family {background:#e8f5e9;color:#2c8245}
+.my-row .row-arrow {margin-left:auto;font-size:25px;color:#74869a;font-weight:400}
+.my-family-count {color:#596d82;font-size:12px;margin:12px 0}
+.my-logout {margin:46px auto 0;background:#fff;color:#b73d38;border:1px solid #efceca;width:100%}
+.bottom-nav {position:fixed;left:0;right:0;bottom:0;height:calc(56px + env(safe-area-inset-bottom));padding-bottom:env(safe-area-inset-bottom);display:flex;background:#fff;border-top:1px solid #e4ebee;z-index:5}
+.bottom-nav button {flex:1;min-height:56px;margin:0;padding:2px;background:transparent;border-radius:0;color:#64758a;font-size:11px;line-height:1.2}
+.bottom-nav button.active {color:#2e864a}
+.bottom-nav .nav-icon {display:block;font-size:24px;line-height:1.2}

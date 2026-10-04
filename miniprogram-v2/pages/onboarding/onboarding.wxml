@@ -1,0 +1,44 @@
+<view class="welcome">
+  <view class="welcome-brand">
+    <view class="hanger-mark" aria-hidden="true"><view class="hanger-hook"></view><view class="hanger-shoulder"></view></view>
+    <view class="brand-name">智搭</view>
+    <view class="brand-note">让每天穿搭更轻松一点</view>
+  </view>
+  <view class="welcome-hero">
+    <view class="hero-cloud hero-cloud-left"></view>
+    <view class="hero-cloud hero-cloud-right"></view>
+    <view class="welcome-title">先认识一下宝贝</view>
+    <image class="hero-clothes" src="/assets/welcome-clothes.png" mode="aspectFit" aria-hidden="true"/>
+    <view class="hero-ground"></view>
+    <view class="hero-sun" aria-hidden="true">✦</view>
+  </view>
+  <view class="welcome-form">
+    <view class="age-row"><text class="age-label">年龄 <text class="required">*</text></text>
+      <picker range="{{years}}" value="{{yearIndex}}" bindchange="yearChange"><view class="age-picker">{{yearIndex < 0 ? '选择岁数' : years[yearIndex] + ' 岁'}} <text>⌄</text></view></picker>
+      <picker range="{{months}}" value="{{monthIndex}}" bindchange="monthChange"><view class="age-picker">{{monthIndex < 0 ? '选择月份' : months[monthIndex] + ' 个月'}} <text>⌄</text></view></picker>
+    </view>
+    <view class="name-row"><text>昵称</text><input value="{{nickname}}" bindinput="nicknameInput" maxlength="80" placeholder="宝贝"/></view>
+    <view class="style-heading"><text>喜欢的风格</text><text class="style-optional">可跳过</text></view>
+    <view class="style-picks">
+      <view wx:for="{{styleOptions}}" wx:key="key" class="style-pick {{item.selected ? 'active' : ''}}" data-key="{{item.key}}" bindtap="chooseStyle" aria-role="button">
+        <view class="style-check">{{item.selected ? '✓' : ''}}</view>
+        <view class="style-image"><image class="style-sprite style-sprite-{{index}}" src="/assets/style-sprite.png" mode="scaleToFill" aria-hidden="true"/></view>
+        <text>{{item.label}}</text>
+      </view>
+    </view>
+    <view class="choose-for-me {{!selectedStyles.length ? 'active' : ''}}" bindtap="chooseForMe" aria-role="button"><view class="help-radio">{{!selectedStyles.length ? '✓' : ''}}</view><text>帮我选</text><text class="help-caption">还没有偏好</text></view>
+    <view wx:if="{{error}}" class="notice error">{{error}}</view>
+    <view class="welcome-start {{busy || loading ? 'inactive' : ''}}" bindtap="start" aria-role="button">{{busy ? '保存中…' : '开始搭配'}} <text>→</text></view>
+  </view>
+  <view wx:if="{{loginSheet}}" class="sheet-mask" bindtap="closeLogin">
+    <view class="login-sheet" catchtap="noop">
+      <view class="sheet-handle"></view>
+      <view class="sheet-icon" aria-hidden="true">☁</view>
+      <view class="sheet-title">登录后保存宝贝档案</view>
+      <view class="sheet-copy">当前填写会保留，登录后可以在不同设备查看宝贝资料。</view>
+      <view wx:if="{{loginError}}" class="sheet-error" role="alert">{{loginError}}</view>
+      <view class="welcome-start {{busy ? 'inactive' : ''}}" bindtap="loginAndSave" aria-role="button">{{busy ? '登录中…' : '微信登录并保存'}}</view>
+      <button class="sheet-cancel" bindtap="closeLogin" disabled="{{busy}}">暂不登录</button>
+    </view>
+  </view>
+</view>

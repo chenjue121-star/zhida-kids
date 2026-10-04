@@ -1,0 +1,2 @@
+@import "../../d.wxss";
+.d-section .name {font-size:16px}.d-garment .name {font-size:15px}.d-source {margin-top:18px}.d-actions {margin-bottom:6px}.d-sheet .primary {width:100%;margin-top:18px}.d-sheet > button {width:100%}.d-sheet .d-source {margin-top:0}

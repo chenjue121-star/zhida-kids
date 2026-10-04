@@ -1,0 +1,43 @@
+<view class="page preference-page">
+  <view class="header"><view class="title">穿衣偏好</view></view>
+  <view class="preference-child"><view class="preference-initial" aria-hidden="true">{{childInitial}}</view><view><view class="name">{{child.nickname}}</view><view class="meta">为宝贝找到舒服又好看的穿搭</view></view></view>
+  <view wx:if="{{loading}}" class="loading">正在读取偏好…</view>
+  <view wx:if="{{error}}" class="notice error">{{error}}<button class="link" bindtap="reloadConfirm" disabled="{{busy || loading}}">重新加载</button></view>
+  <view wx:if="{{ready && role === 'viewer'}}" class="notice">当前权限：仅查看</view>
+  <block wx:if="{{ready}}">
+    <view class="section">
+      <view class="tabs"><button class="{{profileTab === 'family' ? 'active' : ''}}" data-tab="family" bindtap="tab">家庭共同偏好</button><button class="{{profileTab === 'me' ? 'active' : ''}}" data-tab="me" bindtap="tab">我的个人偏好</button></view>
+      <view class="section-heading"><view class="section-title">喜欢的穿搭风格</view><view class="meta">多选</view></view>
+      <view wx:if="{{profileNote}}" class="notice">{{profileNote}}</view><checkbox-group class="style-grid preference-styles" bindchange="styles"><label wx:for="{{styleOptions}}" wx:key="key" class="choice"><checkbox value="{{item.key}}" checked="{{item.checked}}" color="#267a42" disabled="{{busy || role === 'viewer'}}"/><view class="preference-style-art"><image class="preference-style-sprite sprite-{{index}}" src="/assets/style-sprite.png" mode="scaleToFill" aria-hidden="true"/></view><text>{{item.label}}</text></label></checkbox-group>
+      <label class="choice"><checkbox-group bindchange="noStyles"><checkbox checked="{{!selectedStyles.length}}" color="#267a42" disabled="{{busy || role === 'viewer'}}"/></checkbox-group><text>暂无偏好，帮我选</text></label>
+      <view wx:if="{{role !== 'viewer'}}" class="actions"><button class="primary" bindtap="saveProfile" disabled="{{busy || conflict}}" loading="{{busy}}">保存{{profileTab === 'family' ? '共同' : '个人'}}风格</button></view>
+      <view class="inferred-section"><view class="section-heading"><view class="section-title">反馈推断的偏好</view><view class="meta">与明确选择分开</view></view><view class="meta">已选方案是较弱依据，款式反馈是明确依据。舒适、换洗、缺件和偏小不推断审美。</view><view wx:if="{{!inferredTags.length}}" class="empty">暂无推断标签，仍可按上方明确选择推荐。</view><view wx:for="{{inferredTags}}" wx:key="style" class="inferred-row"><view class="row"><view class="name">{{item.label}}</view><text class="badge">{{item.directionLabel}}</text></view><view class="meta">依据 {{item.evidence_count}} 条选择与风格反馈</view><button class="link" data-style="{{item.style}}" bindtap="evidence">查看反馈依据</button><view wx:if="{{role !== 'viewer'}}" class="actions"><button wx:if="{{item.canAccept}}" data-style="{{item.style}}" data-action="accept" bindtap="tagAction" disabled="{{busy || conflict}}">采纳</button><button data-style="{{item.style}}" bindtap="editInferred" disabled="{{busy || conflict}}">编辑明确偏好</button><button data-style="{{item.style}}" data-action="dismiss" bindtap="tagAction" disabled="{{busy || conflict}}">移除推断</button></view></view></view>
+    </view>
+    <form bindsubmit="saveSettings">
+      <view class="section">
+        <view class="section-title">推荐依据</view>
+        <view class="field"><picker range="{{modeOptions}}" range-key="label" value="{{modeIndex}}" data-name="mode" bindchange="option" disabled="{{busy || role === 'viewer'}}"><view class="picker">{{modeOptions[modeIndex].label}}</view></picker></view>
+        <view wx:if="{{form.mode === 'designated_member'}}" class="field"><text class="field-label">指定家庭成员</text><picker range="{{members}}" range-key="label" value="{{memberIndex}}" bindchange="member" disabled="{{busy || role === 'viewer' || !members.length}}"><view class="picker">{{members[memberIndex].label || '暂无有效成员'}}</view></picker></view>
+        <view wx:if="{{form.mode === 'designated_member' && previewMemberId}}" class="field">
+          <view class="field-label">{{members[memberIndex].label}}的个人偏好 · 只读</view>
+          <view wx:if="{{previewLoading}}" class="loading">正在读取成员偏好…</view>
+          <view wx:elif="{{previewError}}" class="notice error">{{previewError}}</view>
+          <view wx:elif="{{memberPreview}}">
+            <text wx:if="{{!previewStyles.length}}">暂无偏好</text>
+            <view wx:for="{{previewStyles}}" wx:key="key">{{item.label}}</view>
+            <view class="meta">反馈推断 · 只读</view><view wx:if="{{!memberInferredTags.length}}" class="meta">暂无推断标签</view><view wx:for="{{memberInferredTags}}" wx:key="style"><view>{{item.label}} · {{item.directionLabel}}</view><view wx:for="{{item.evidence}}" wx:for-item="proof" wx:key="event_id" class="meta">{{proof.dateLabel}} · {{proof.signalLabel}} · {{proof.reasonLabel}}</view></view>
+          </view>
+        </view>
+      </view>
+      <view class="section">
+        <view class="section-title">孩子的舒适偏好</view>
+        <view class="field"><text class="field-label">冷暖感受</text><picker range="{{thermalOptions}}" range-key="label" value="{{thermalIndex}}" data-name="thermal" bindchange="option" disabled="{{busy || role === 'viewer'}}"><view class="picker">{{thermalOptions[thermalIndex].label}}</view></picker></view>
+        <view class="field"><text class="field-label">松紧偏好</text><picker range="{{fitOptions}}" range-key="label" value="{{fitIndex}}" data-name="fit" bindchange="option" disabled="{{busy || role === 'viewer'}}"><view class="picker">{{fitOptions[fitIndex].label}}</view></picker></view>
+        <view class="field"><text class="field-label">高领衣物</text><picker range="{{neckOptions}}" range-key="label" value="{{neckIndex}}" data-name="neck" bindchange="option" disabled="{{busy || role === 'viewer'}}"><view class="picker">{{neckOptions[neckIndex].label}}</view></picker></view>
+        <button wx:if="{{role !== 'viewer'}}" class="primary" form-type="submit" disabled="{{busy || conflict}}" loading="{{busy}}">保存依据与舒适偏好</button>
+      </view>
+    </form>
+  </block>
+  <button class="link" bindtap="goFamilies" disabled="{{busy}}">返回我的家庭</button>
+  <view wx:if="{{evidenceTag}}" class="d-sheet-mask" bindtap="closeEvidence"><view class="d-sheet" catchtap="noop"><view class="d-sheet-heading"><view class="name">{{evidenceTag.label}}的反馈依据</view><button bindtap="closeEvidence" aria-label="关闭反馈依据">×</button></view><view class="meta">{{evidenceTag.directionLabel}} · {{profileTab === 'family' ? '家庭共同偏好' : '我的个人偏好'}}</view><view wx:if="{{!evidenceTag.evidence.length}}" class="empty">暂无可显示的反馈详情</view><view wx:for="{{evidenceTag.evidence}}" wx:key="event_id" class="d-evidence"><view>{{item.signalLabel}} · {{item.reasonLabel}}</view><view class="meta">{{item.dateLabel}} · 方案第 {{item.plan_version}} 版</view><button class="link" data-id="{{item.plan_id}}" bindtap="evidencePlan">回看来源方案</button></view><view class="meta">这些是反馈记录，不能证明实际穿过。</view></view></view>
+</view>

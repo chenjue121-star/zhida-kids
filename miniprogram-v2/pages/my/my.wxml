@@ -1,0 +1,17 @@
+<view class="my-page">
+  <view class="my-title">我的</view>
+  <view wx:if="{{loading}}" class="loading">正在读取…</view>
+  <view wx:if="{{error}}" class="notice error">{{error}}<button class="link" bindtap="reload">重试</button></view>
+  <view wx:if="{{ready}}" class="my-content">
+    <view class="my-profile"><view class="my-avatar">我</view><view class="my-profile-copy"><view class="my-name">{{user.nickname || '微信用户'}}</view><view class="my-caption">{{child ? '正在为 ' + child.nickname + ' 搭配' : '欢迎来到智搭'}}</view></view></view>
+    <view class="my-section-title">宝贝与家庭</view>
+    <view class="my-rows">
+      <view class="my-row" bindtap="children" aria-role="button"><view class="my-row-icon icon-child">☺</view><text>宝贝档案</text><text class="row-arrow">›</text></view>
+      <view class="my-row {{!child ? 'disabled' : ''}}" bindtap="preferences" aria-role="button"><view class="my-row-icon icon-style">✿</view><text>穿衣偏好</text><text class="row-arrow">›</text></view>
+      <view class="my-row" bindtap="families" aria-role="button"><view class="my-row-icon icon-family">⌂</view><text>家庭与成员</text><text class="row-arrow">›</text></view>
+    </view>
+    <view class="my-family-count">{{families.length}} 个可访问家庭</view>
+    <button class="my-logout" bindtap="logout">退出登录</button>
+  </view>
+  <view class="bottom-nav"><button bindtap="home"><text class="nav-icon">⌂</text><view>搭配</view></button><button bindtap="wardrobe"><text class="nav-icon">▥</text><view>衣橱</view></button><button bindtap="calendar"><text class="nav-icon">▦</text><view>日历</view></button><button class="active"><text class="nav-icon">♙</text><view>我的</view></button></view>
+</view>

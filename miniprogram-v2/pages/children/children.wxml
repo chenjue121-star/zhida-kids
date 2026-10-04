@@ -1,0 +1,15 @@
+<view class="children-page">
+  <view class="children-heading">宝贝档案</view>
+  <view class="children-family">我的家庭 · {{family.name || '未命名家庭'}}</view>
+  <view wx:if="{{loading}}" class="loading">正在读取档案…</view>
+  <view wx:if="{{cached}}" class="notice">正在核对最新档案与权限</view>
+  <view wx:if="{{error}}" class="notice error">{{error}}<button class="link" bindtap="reload" disabled="{{loading}}">重新连接</button></view>
+  <block wx:if="{{ready}}"><view wx:for="{{children}}" wx:key="id" class="child-record {{currentChildId === item.id ? 'selected' : ''}}">
+    <view class="record-avatar" aria-hidden="true">{{item.initial}}</view>
+    <view class="record-info"><view class="record-name">{{item.nickname}}</view><view class="record-age">{{item.ageLabel}}</view><view wx:if="{{item.latest_measurement}}" class="record-measure">身高 {{item.heightLabel}} · 体重 {{item.weightLabel}}</view></view>
+    <view class="record-actions"><view wx:if="{{currentChildId === item.id}}" class="record-select is-current" aria-label="当前宝贝">●</view><view wx:else class="record-select" data-id="{{item.id}}" bindtap="choose" aria-role="button" aria-label="切换宝贝">○</view><view class="record-edit" bindtap="edit" data-id="{{item.id}}" aria-role="button" aria-label="{{role === 'viewer' ? '查看宝贝' : '编辑宝贝'}}">{{role === 'viewer' ? '查看' : '✎'}}</view></view>
+  </view></block>
+  <view wx:if="{{ready && !children.length}}" class="children-empty">{{role === 'viewer' ? '家庭还没有孩子档案，请联系管理员添加。' : '还没有孩子档案，先添加一个宝贝。'}}</view>
+  <view wx:if="{{ready && (role === 'admin' || role === 'editor')}}" class="add-record" bindtap="add" aria-role="button"><text class="add-icon">＋</text><view><view>添加宝贝</view><view class="add-sub">只需填写年龄，快速创建</view></view><text class="add-arrow">›</text></view>
+  <view class="children-bottom"><view bindtap="goFamilies" aria-role="button">切换家庭 <text>›</text></view><view bindtap="familyDetail" aria-role="button">家庭与成员 <text>›</text></view><view bindtap="goHome" aria-role="button">返回搭配首页 <text>›</text></view></view>
+</view>

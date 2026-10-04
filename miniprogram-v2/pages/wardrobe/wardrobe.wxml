@@ -1,0 +1,51 @@
+<view class="b-page">
+ <view wx:if="{{loading && !ready}}" class="loading">正在读取家庭衣橱…</view>
+ <view wx:if="{{error}}" class="notice error">{{error}}<button wx:if="{{accessRevoked}}" bindtap="goFamilies">选择家庭</button><button wx:else bindtap="reload">重新读取</button></view>
+ <block wx:if="{{ready}}">
+  <view wx:if="{{child}}" class="b-child"><view class="b-initial">{{child.nickname[0]}}</view><view class="b-child-copy"><view class="b-child-name">{{child.nickname}}的衣橱</view><view class="meta">{{child.ageLabel}}{{role === 'viewer' ? ' · 仅查看' : ''}}</view></view><picker range="{{children}}" range-key="nickname" bindchange="child"><view class="b-select b-switch">切换</view></picker></view>
+  <view wx:if="{{batches.length && writable}}" class="b-draft" bindtap="openDrafts"><view>{{pendingTitle}}<view class="b-muted">{{batches.length}} 批进度{{pendingPhotos ? ' · '+pendingPhotos+' 条记录待完善' : ''}} · 仅由录入人继续</view></view><button catchtap="openDrafts">继续 ›</button></view>
+  <view wx:if="{{pendingOperation && writable}}" class="b-note">上次批量操作结果尚待核实。<button bindtap="queryBulk" disabled="{{busy}}">查询原操作结果</button><button bindtap="resolveBulk" disabled="{{busy}}">核实未执行</button></view>
+  <view wx:if="{{bulkResult && writable && !bulkSheet}}" class="b-results"><view>原操作结果</view><view wx:for="{{bulkResult.results}}" wx:key="id" class="b-result-row">{{item.name}} · {{item.status === 'success' ? '已完成' : item.error.message}}</view></view>
+  <block wx:if="{{!emptyCloset}}">
+   <view class="b-toolbar"><text>{{bulkMode ? '选择要管理的衣物' : '常穿衣物'}}</text><button wx:if="{{writable}}" bindtap="add">＋ 添加衣物</button></view>
+   <scroll-view scroll-x class="b-categories"><view class="b-category-row"><button wx:for="{{categories}}" wx:key="key" class="b-chip {{categoryKey === item.key ? 'active' : ''}}" data-key="{{item.key}}" bindtap="category">{{item.label}}</button></view></scroll-view>
+   <view class="b-summary"><text>{{total}} 件实物{{hasFilters ? ' · 已筛选' : ''}}</text><view class="b-summary-actions"><button wx:if="{{writable && items.length}}" bindtap="toggleBulk">{{bulkMode ? '完成选择' : '批量管理'}}</button><button class="b-select b-filter-trigger" bindtap="openFilters">筛选</button></view></view>
+  </block>
+  <view wx:if="{{bulkMode}}" class="b-selection-scope"><text>当前筛选已加载 {{items.length}} 件，新加载不会自动选中</text><checkbox-group bindchange="selectAll"><label class="b-check {{allSelected ? 'selected' : selected.length ? 'partial' : ''}}"><checkbox value="all" checked="{{allSelected}}"/><view class="b-circle"></view><text>全选本页</text></label></checkbox-group></view>
+  <view wx:if="{{!child}}" class="b-empty"><view class="b-empty-title">先添加一个宝贝</view><view class="b-empty-copy">家庭衣物会按宝贝分别显示合身情况。</view><button wx:if="{{writable}}" class="primary" bindtap="addChild">添加宝贝</button></view>
+  <view wx:elif="{{!items.length}}" class="b-empty">
+   <image wx:if="{{!hasFilters}}" src="/assets/welcome-clothes.png" mode="aspectFit"/>
+   <view class="b-empty-title">{{hasFilters ? '暂无匹配衣物' : '先录入常穿的衣服'}}</view>
+   <view class="b-empty-copy">{{hasFilters ? '可以调整筛选，查看其他衣物。' : writable ? '拍下手边这一批，确认后放进衣橱。不用一次整理所有衣服。' : '家人确认入库后，就能在这里查看。'}}</view>
+   <button wx:if="{{hasFilters}}" bindtap="clearFilters">重置筛选</button>
+   <block wx:elif="{{writable}}"><button class="primary" data-method="camera" bindtap="begin">拍照录入</button><button class="secondary" data-method="album" bindtap="begin">从相册选择</button><button class="link" bindtap="add">手动补充 / 更多方式</button></block>
+  </view>
+  <checkbox-group bindchange="selectionChange"><view class="b-grid"><view wx:for="{{items}}" wx:key="id" class="b-card {{item.checked ? 'selected' : ''}}" data-id="{{item.id}}" bindtap="open"><view class="b-card-photo">
+   <label wx:if="{{bulkMode}}" class="b-check b-card-check {{item.checked ? 'selected' : ''}}" catchtap="noop"><checkbox value="{{item.id}}" checked="{{item.checked}}"/><view class="b-circle"></view></label>
+   <image wx:if="{{item.image}}" class="b-photo" src="{{item.image}}" mode="aspectFit"/><view wx:else class="b-photo-empty">{{item.asset_id ? item.imageError ? '原图暂不可用' : '原图加载中' : '手动录入'}}</view>
+   <view wx:if="{{item.owners.length > 1}}" class="b-photo-label {{bulkMode ? 'bulk' : ''}}">共用</view></view>
+   <view class="b-card-copy"><view class="b-card-name">{{item.name}}</view><view class="b-card-meta">{{item.colorLabel}} · {{item.categoryLabel}}<view>{{item.ownerLabel}}</view></view><view class="b-state {{item.state}}">{{item.stateLabel}}</view></view>
+  </view><button wx:if="{{writable && !bulkMode && items.length}}" class="b-add-tile" bindtap="add"><text>＋</text>添加衣物</button></view></checkbox-group>
+  <button wx:if="{{nextCursor}}" class="link" bindtap="more" disabled="{{loading}}">继续加载</button>
+  <button wx:if="{{!items.length && !hasFilters}}" class="link b-archive-entry" bindtap="removed">查看家庭已移除衣物 ›</button>
+ </block>
+ <view wx:if="{{bulkMode}}" class="b-fixed b-bulk-footer"><view class="b-footer-note">已选 {{selected.length}} 件 · {{selectedSharedCount}} 件共用</view><view class="actions"><button data-action="state" bindtap="openBulk" disabled="{{!selected.length}}">修改状态</button><button data-action="archive" bindtap="openBulk" disabled="{{!selected.length}}">移出衣橱</button></view></view>
+ <view wx:else class="b-nav"><button bindtap="home"><view class="b-nav-icon home"></view>搭配</button><button class="active"><view class="b-nav-icon hanger"></view>衣橱</button><button bindtap="calendar"><text class="b-nav-icon">▦</text>日历</button><button bindtap="my"><view class="b-nav-icon person"></view>我的</button></view>
+ <view wx:if="{{filterSheet}}" class="b-mask" bindtap="closeFilters"><view class="b-sheet" catchtap="noop"><view class="b-handle"></view><view class="b-sheet-heading"><view class="b-sheet-title">筛选衣物</view><button class="b-close" bindtap="closeFilters">×</button></view><view class="b-muted">默认全部，合身按当前宝贝筛选。</view>
+  <view class="b-filter-title">实物状态</view><view class="b-filter-options"><button wx:for="{{states}}" wx:key="key" class="b-choice {{filterDraft.stateIndex === index ? 'active' : ''}}" data-field="stateIndex" data-index="{{index}}" bindtap="chooseFilter">{{item.label}}</button></view>
+  <view class="b-filter-title">当前宝贝合身</view><view class="b-filter-options"><button wx:for="{{fits}}" wx:key="key" class="b-choice {{filterDraft.fitIndex === index ? 'active' : ''}}" data-field="fitIndex" data-index="{{index}}" bindtap="chooseFilter">{{item.label}}</button></view>
+  <view class="b-filter-title">使用关系</view><view class="b-filter-options"><button wx:for="{{sharedOptions}}" wx:key="key" class="b-choice {{filterDraft.sharedIndex === index ? 'active' : ''}}" data-field="sharedIndex" data-index="{{index}}" bindtap="chooseFilter">{{item.label}}</button></view>
+  <button class="b-archive-link" bindtap="removed">已移除衣物<text>查看记录 ›</text></button><view class="actions"><button bindtap="resetFilterDraft">重置</button><button class="primary" bindtap="applyFilters">应用筛选</button></view>
+ </view></view>
+ <view wx:if="{{addSheet && writable}}" class="b-mask" bindtap="closeAdd"><view class="b-sheet" catchtap="noop"><view class="b-handle"></view><view class="b-sheet-heading"><view class="b-sheet-title">添加衣物</view><button class="b-close" bindtap="closeAdd">×</button></view><view class="b-batch-child"><text>本批默认宝贝</text><picker range="{{children}}" range-key="nickname" value="{{addChildIndex}}" bindchange="addChildChoice"><view class="b-select">{{children[addChildIndex].nickname}}</view></picker></view>
+  <button class="b-method" data-method="camera" bindtap="begin"><view class="b-method-icon camera"></view><view><view class="b-method-name">连续拍照</view><view class="b-muted">先拍一批，识别时也能继续拍</view></view><text>›</text></button>
+  <button class="b-method" data-method="album" bindtap="begin"><view class="b-method-icon album"></view><view><view class="b-method-name">从相册选择</view><view class="b-muted">支持多选，也能核对多件图</view></view><text>›</text></button>
+  <button class="link b-manual-method" data-method="manual" bindtap="begin">手动补充一件</button><view class="b-muted b-centered">照片先保存，明确确认后才进入衣橱</view>
+ </view></view>
+ <view wx:if="{{draftSheet && writable}}" class="b-mask" bindtap="closeDrafts"><view class="b-sheet" catchtap="noop"><view class="b-sheet-heading"><view class="b-sheet-title">继续本人的录入进度</view><button class="b-close" bindtap="closeDrafts">×</button></view><button wx:for="{{batches}}" wx:key="id" class="b-draft-option" data-id="{{item.id}}" bindtap="resume">第 {{index+1}} 批 · {{item.draftTitle}}<text>继续 ›</text></button></view></view>
+ <view wx:if="{{bulkSheet}}" class="b-mask" bindtap="closeBulk"><view class="b-sheet" catchtap="noop"><view class="b-handle"></view><view class="b-sheet-title">{{bulkAction === 'state' ? '修改实物状态' : '移出家庭衣橱'}}</view><view class="b-muted">已选 {{selected.length}} 件 · {{selectedSharedCount}} 件共用</view><view class="b-note">{{bulkAction === 'state' ? '所有使用者同步变更；已是目标状态也算完成。' : '所有宝贝的衣橱都会移出同一件实物，原图和历史保留，可逐件核对后恢复。'}}</view>
+  <view class="b-bulk-targets"><view wx:for="{{selectedItems}}" wx:key="id" class="b-bulk-target"><image wx:if="{{item.image}}" src="{{item.image}}" mode="aspectFit"/><view><view>{{item.name}}</view><view class="b-muted">{{item.ownerLabel}} · {{item.stateLabel}}</view></view></view></view>
+  <view wx:if="{{bulkAction === 'state'}}" class="b-filter-options b-status-options"><button wx:for="{{stateOptions}}" wx:key="key" class="b-choice {{targetState === item.key ? 'active' : ''}}" data-key="{{item.key}}" bindtap="state">{{item.label}}</button></view>
+  <view wx:if="{{bulkResult}}" class="b-results"><view wx:for="{{bulkResult.results}}" wx:key="id" class="b-result-row">{{item.name}} · {{item.status === 'success' ? '已完成' : item.error.message}}</view></view><view class="actions"><button bindtap="closeBulk" disabled="{{busy}}">取消</button><button class="primary" bindtap="applyBulk" loading="{{busy}}" disabled="{{busy || !selected.length || (bulkAction === 'state' && !targetState)}}">{{bulkResult ? '仅重试失败项' : '确认'}}</button></view><button wx:if="{{error}}" class="link" bindtap="queryBulk">查询原操作结果</button>
+ </view></view>
+</view>

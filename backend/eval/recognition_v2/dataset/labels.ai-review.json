@@ -1,0 +1,197 @@
+{
+  "schema_version": 1,
+  "kind": "ai_annotation_review_draft",
+  "created_on": "2026-10-03",
+  "provenance": "Codex 对现有原图的视觉观察；未执行候选模型 API；未完成人工独立审核。",
+  "image_root_from_backend": "eval/recognition/dataset/images",
+  "use": "development_review_only",
+  "instructions": [
+    "本文件不是正式评测清单，不能作为准确率真值。",
+    "suggestions 只覆盖明确主体，可能遗漏边缘或遮挡衣物；主件数不等于整图真值数量。",
+    "框是 EXIF 转正后可见区域的近似框，需人工对照原图修正。",
+    "先裁决所有 open_questions 和 possible_other_garments，再由两人独立核对并解决分歧。",
+    "枚举不适用或语义未定义，不等于视觉不可观察；这些问题裁决前不能迁为正式 null 标签。",
+    "单独创建正式 labels.reviewed.json；不要只修改本文件中的 reviewed 标志。",
+    "这些已被查看和分析的图片仅用于 development；来源或同实物关系未核实前，不拆到不同集合。"
+  ],
+  "items": [
+    {
+      "image": "img002.jpg",
+      "sha256": "4a0d309f35dfcf5f9c5ba8bf67683fc15db29a452049f8e7ab3dd8d0c3fddc9e",
+      "oriented_size": [1280, 1707],
+      "reviewed": false,
+      "formal_objects": null,
+      "suggested_scene": "multi_flat_overlap_with_partial_background",
+      "source_status": "拍摄家庭与实物归属未核实",
+      "main_object_count_suggestion": 3,
+      "suggestions": [
+        {
+          "draft_id": "img002_outerwear",
+          "description": "浅蓝灰色拉链外套",
+          "bbox": [0.148, 0.08, 0.925, 0.507],
+          "category": "outerwear",
+          "colors": ["blue"],
+          "pattern": "solid",
+          "thickness": null,
+          "fields_needing_review": ["bbox", "colors"]
+        },
+        {
+          "draft_id": "img002_top",
+          "description": "外套内的浅色文字和图形上衣",
+          "bbox": [0.409, 0.095, 0.653, 0.434],
+          "category": "top",
+          "colors": ["beige", "blue"],
+          "pattern": "print",
+          "thickness": null,
+          "fields_needing_review": ["bbox", "colors", "pattern"]
+        },
+        {
+          "draft_id": "img002_bottom",
+          "description": "灰色工装长裤",
+          "bbox": [0.15, 0.437, 0.85, 0.984],
+          "category": "bottom",
+          "colors": ["gray"],
+          "pattern": "solid",
+          "thickness": null,
+          "fields_needing_review": ["bbox", "colors", "pattern"]
+        }
+      ],
+      "possible_other_garments": [
+        {
+          "region": "右上角黑灰色物体",
+          "bbox_hint": [0.613, 0.0, 1.0, 0.257],
+          "decision": "pending",
+          "reason": "形似衣物，但不能确认是否独立服装，禁止直接当背景排除。"
+        }
+      ],
+      "open_questions": [
+        "外套的蓝灰色如何统一映射 blue 或 gray？上衣的暖白如何区分 white 和 beige？",
+        "颜色标签是否包含大面积印花色？裤腿的小标签是否计入？规则应先冻结再评分。",
+        "上衣框只框可见部分，不推断被外套遮挡的完整轮廓。",
+        "右上角物体裁决后，整图正式对象数可能大于三个。"
+      ]
+    },
+    {
+      "image": "img003.jpg",
+      "sha256": "0855fa0eaf441467fb0c0cedb68c774bf50deb7b50917a713dfea45ee4995387",
+      "oriented_size": [1080, 1920],
+      "reviewed": false,
+      "formal_objects": null,
+      "suggested_scene": "main_top_with_partial_background",
+      "source_status": "拍摄家庭与实物归属未核实；可能与 img005 同会话",
+      "main_object_count_suggestion": 1,
+      "suggestions": [
+        {
+          "draft_id": "img003_top",
+          "description": "浅色短袖文字上衣",
+          "bbox": [0.0, 0.227, 1.0, 0.925],
+          "category": "top",
+          "colors": ["white"],
+          "pattern": "print",
+          "thickness": null,
+          "fields_needing_review": ["bbox", "colors", "pattern"]
+        }
+      ],
+      "possible_other_garments": [
+        {
+          "region": "上边缘浅色布料",
+          "bbox_hint": [0.482, 0.0, 1.0, 0.118],
+          "decision": "pending",
+          "reason": "可能为一个或多个被截断衣物；仅据此不能确定数量和类别。"
+        },
+        {
+          "region": "右下边缘绿白格子布料",
+          "bbox_hint": [0.933, 0.531, 1.0, 1.0],
+          "decision": "pending",
+          "reason": "疑似 img005 的主体衣物局部；需人工核实，不应凭外观确定同实物。"
+        }
+      ],
+      "open_questions": [
+        "小面积文字或徽标按 print 还是 solid 处理？当前 V2 只有一个 pattern 字段。",
+        "主色 white 与 beige 的分界受室内光线影响，需要裁决。",
+        "可见边缘衣物需确定是否为独立对象，不能默认整图只有一件。",
+        "核实与 img005 的家庭、拍摄会话和实物关系；确认前同组保留于 development。"
+      ]
+    },
+    {
+      "image": "img005.jpg",
+      "sha256": "1aaeb2eddc87c7416d23e62e8dbd9f9343cdddbff4009fa04c4dffcf91ebf1d5",
+      "oriented_size": [1080, 1920],
+      "reviewed": false,
+      "formal_objects": null,
+      "suggested_scene": "main_overall_with_partial_background",
+      "source_status": "拍摄家庭与实物归属未核实；可能与 img003 同会话",
+      "main_object_count_suggestion": 1,
+      "suggestions": [
+        {
+          "draft_id": "img005_overall",
+          "description": "绿白格子背带短裤，配灰色口袋和胸前装饰",
+          "bbox": [0.053, 0.202, 0.957, 0.951],
+          "category": null,
+          "category_options": ["bottom", "onesie"],
+          "colors": ["green", "white", "gray"],
+          "pattern": "plaid",
+          "thickness": null,
+          "fields_needing_review": ["bbox", "category", "colors", "pattern"]
+        }
+      ],
+      "possible_other_garments": [
+        {
+          "region": "上边缘浅粉和浅色布料",
+          "bbox_hint": [0.0, 0.0, 0.72, 0.208],
+          "decision": "pending",
+          "reason": "有袖口或褶皱特征，独立衣物数量及彼此关系待核实。"
+        },
+        {
+          "region": "左侧被截断的浅色短袖衣物",
+          "bbox_hint": [0.0, 0.305, 0.244, 0.687],
+          "decision": "pending",
+          "reason": "可见衣物局部；需给它独立对象及可观察字段，不能按背景删除。"
+        },
+        {
+          "region": "右侧浅色布料，上下两处露出",
+          "bbox_hint": [0.843, 0.0, 1.0, 0.661],
+          "decision": "pending",
+          "reason": "可能同一衣物，也可能两个对象，当前框只是区域提示，不能直接作正式对象框。"
+        }
+      ],
+      "open_questions": [
+        "背带短裤在当前七类中归 bottom 还是 onesie？映射尚未定义，规则应覆盖其他背带款。",
+        "单枚举 pattern 拟以主导格子 plaid 表达，胸前刺绣另记描述；需人工裁决。",
+        "颜色拟包括大面积绿、白和灰口袋，不把每个小装饰色都纳入；需冻结统一规则。",
+        "补齐边缘独立衣物后，正式整图对象数会多于一个。",
+        "厚薄和隐藏内里无法仅由这张正面图确认，thickness 保持不可观察。"
+      ]
+    },
+    {
+      "image": "img008.jpg",
+      "sha256": "c20dd18be0fc1759d362860be5310e595d8e7e5b32ce4b8fb984fb6bc5386ea3",
+      "oriented_size": [1206, 1214],
+      "reviewed": false,
+      "formal_objects": null,
+      "suggested_scene": "product_photo_shoe_pair_white_background",
+      "source_status": "外观类似商品图，授权来源与实际拥有情况未核实",
+      "main_object_count_suggestion": 1,
+      "suggestions": [
+        {
+          "draft_id": "img008_shoe_pair",
+          "description": "一双浅蓝色鞋，黄橙色绑带和白色鞋底",
+          "bbox": [0.241, 0.516, 0.76, 0.78],
+          "category": "shoes",
+          "colors": ["blue", "yellow", "orange", "white"],
+          "pattern": null,
+          "thickness": null,
+          "fields_needing_review": ["bbox", "colors", "pattern"]
+        }
+      ],
+      "possible_other_garments": [],
+      "open_questions": [
+        "按现有样本规范一双鞋作一个管理单位；生产提示词尚未明确配对规则，正式对测前需统一契约。",
+        "多色鞋是明确色集还是 multicolor？当前颜色评分比较完整集合，需固定口径。",
+        "鞋面可见，孔洞纹理和彩色拼接如何映射现有 pattern 枚举尚未定义；null 是待裁决占位，不能直接转为正式不可观察标签。",
+        "白底商品图能测基本识别，但不能代表家庭复杂背景下的鞋类表现。",
+        "识别鞋款不证明家庭拥有这双鞋。"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,105 @@
+<style>
+  .review-head {max-width: 1080px; margin: 0 auto 18px;}
+  .review-head h2 {font-size: 23px; margin: 0 0 6px;}
+  .review-head p {font-size: 13px; line-height: 1.6; color: #61736c; margin: 0;}
+  .compare-grid {display: grid; grid-template-columns: repeat(2, minmax(330px, 1fr)); gap: 18px; max-width: 1080px; margin: auto;}
+  .compare-panel {background: white; border: 1px solid #dce8df; border-radius: 8px; padding: 14px 10px 16px;}
+  .compare-panel .phone {position: relative; width: 330px; height: 715px; margin: auto; overflow: hidden; border: 7px solid #27332f; border-radius: 34px; background: #fff; color: #203029; box-shadow: 0 10px 26px rgba(30,48,36,.13);}
+  .compare-panel .status {height: 27px; padding: 10px 18px 0; display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; line-height: 1;}
+  .compare-panel .nav {height: 39px; position: relative; text-align: center; padding-top: 6px; font-size: 15px; font-weight: 700; background: #fff;}
+  .compare-panel .nav .back {position: absolute; left: 17px; top: -3px; font-size: 27px; font-weight: 400;}
+  .compare-panel .nav .capsule {position: absolute; top: 0; right: 12px; width: 62px; height: 28px; border: 1px solid #d9dfdb; border-radius: 20px; font-size: 16px; font-weight: 400; letter-spacing: 3px; line-height: 25px;}
+  .compare-panel .kid-avatar {width: 40px; height: 40px; flex: none; border-radius: 50%; object-fit: cover; background: #e7f1e9; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 700; color: #7f5970;}
+  .compare-panel .kid-avatar.initial {background: #f6e8eb;}
+  .compare-panel .kid-copy {flex: 1; min-width: 0;}
+  .compare-panel .kid-name {display: block; font-size: 14px; line-height: 1.25; font-weight: 700;}
+  .compare-panel .kid-age {display: block; margin-top: 4px; font-size: 11px; color: #788a80; line-height: 1.25;}
+  .compare-panel .home-scene {height: 583px; padding: 11px 16px 0; background: linear-gradient(180deg,#eff8fd 0%,#fff 45%);}
+  .compare-panel .home-top {display: flex; align-items: center; gap: 8px;}
+  .compare-panel .home-top img {width: 34px; height: 34px; border-radius: 50%; object-fit: cover;}
+  .compare-panel .home-top b {font-size: 14px;}
+  .compare-panel .home-top small {margin-left: auto; color: #7b8985; font-size: 10px;}
+  .compare-panel .weather {margin-top: 13px; font-size: 11px; color: #47654f;}
+  .compare-panel .weather span {float: right; color: #277b44; font-weight: 700;}
+  .compare-panel .hero {height: 387px; margin-top: 18px; padding: 22px 11px 0; background: linear-gradient(180deg,#f4f9ef,#fff); border: 1px solid #e6eee4; border-radius: 8px; text-align: center;}
+  .compare-panel .hero h4 {margin: 0; font-size: 21px; line-height: 1.25;}
+  .compare-panel .hero p {margin: 7px 0 0; font-size: 11px; color: #718078;}
+  .compare-panel .hero img {width: 100%; height: 220px; object-fit: contain;}
+  .compare-panel .hero .btn {height: 45px; margin: 0 6px; border-radius: 8px; background: #32884e; color: #fff; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center;}
+  .compare-panel .tabs {height: 57px; position: absolute; left: 0; right: 0; bottom: 0; border-top: 1px solid #e4e9e5; background: #fff; display: flex; justify-content: space-around; padding-top: 6px; font-size: 10px; color: #73817b; text-align: center;}
+  .compare-panel .tabs strong {color: #32844c;}
+  .compare-panel .tabs .icon {display: block; font-size: 20px; line-height: 21px;}
+  .compare-panel .scrim {position: absolute; inset: 66px 0 0; background: rgba(25,38,31,.34);}
+  .compare-panel .sheet {position: absolute; left: 0; right: 0; bottom: 0; height: 316px; background: #fff; border-radius: 16px 16px 0 0; padding: 9px 17px 14px; box-shadow: 0 -7px 22px rgba(27,43,31,.09);}
+  .compare-panel .handle {height: 4px; width: 31px; margin: 0 auto 11px; border-radius: 4px; background: #d9e2db;}
+  .compare-panel .sheet-title {font-size: 15px; font-weight: 750; margin-bottom: 3px;}
+  .compare-panel .sheet-meta {font-size: 11px; color: #7b8a7f; margin-bottom: 6px;}
+  .compare-panel .kid-row {height: 68px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #e9eee9;}
+  .compare-panel .kid-row.active {background: #f4f9f2; border-radius: 7px; border: 1px solid #d7ead5; padding: 0 9px; margin: 0 -9px; height: 69px;}
+  .compare-panel .kid-check {width: 18px; height: 18px; border-radius: 50%; border: 1px solid #b9c9bd; flex: none;}
+  .compare-panel .active .kid-check {color: #fff; border-color: #32884e; background: #32884e; text-align: center; line-height: 16px; font-size: 12px; font-weight: 700;}
+  .compare-panel .kid-edit {width: 31px; height: 34px; display: flex; align-items: center; justify-content: center; border-left: 1px solid #e5ebe6; margin-left: 2px; padding-left: 8px; color: #54825e; font-size: 15px;}
+  .compare-panel .add-link {height: 48px; display: flex; align-items: center; gap: 9px; color: #2d8348; font-size: 13px; font-weight: 700; border-bottom: 1px solid #e9eee9;}
+  .compare-panel .add-link .plus {width: 22px; height: 22px; line-height: 20px; border: 1.5px solid #3c9255; border-radius: 50%; text-align: center; font-size: 19px; font-weight: 400;}
+  .compare-panel .add-link .arrow {margin-left: auto; color: #829889; font-size: 18px; font-weight: 400;}
+  .compare-panel .edit-body {height: 570px; padding: 5px 16px 0; overflow: hidden; background: #fff;}
+  .compare-panel .identity {height: 72px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #e6ece7;}
+  .compare-panel .photo-action {font-size: 11px; color: #2d814a; font-weight: 700; white-space: nowrap;}
+  .compare-panel .group-title {font-size: 12px; font-weight: 800; color: #385442; margin: 19px 0 5px;}
+  .compare-panel .field {height: 45px; border-bottom: 1px solid #e8ede9; display: flex; align-items: center; gap: 8px;}
+  .compare-panel .field .field-label {font-size: 13px; font-weight: 600; min-width: 63px; color: #2e4437;}
+  .compare-panel .field .field-value {font-size: 13px; color: #394b3f; margin-left: auto; white-space: nowrap;}
+  .compare-panel .field .field-value.muted {color: #8c9b91;}
+  .compare-panel .field .chev {font-size: 17px; color: #90a096; margin-left: 2px;}
+  .compare-panel .measurement {height: 72px; display: flex; align-items: center; margin-top: 4px; border-bottom: 1px solid #e8ede9;}
+  .compare-panel .measurement .measure-item {min-width: 90px;}
+  .compare-panel .measurement .measure-label {display: block; font-size: 11px; color: #7a8a7d;}
+  .compare-panel .measurement .measure-value {display: block; margin-top: 3px; font-size: 15px; font-weight: 750;}
+  .compare-panel .measurement .measure-edit {margin-left: auto; color: #2e884d; font-size: 12px; font-weight: 700;}
+  .compare-panel .measure-date {margin-top: 6px; font-size: 10px; color: #91a096;}
+  .compare-panel .fixed-action {position: absolute; left: 0; right: 0; bottom: 0; height: 61px; padding: 7px 16px 8px; border-top: 1px solid #e7ede8; background: #fff;}
+  .compare-panel .fixed-action .button {height: 44px; display: flex; align-items: center; justify-content: center; background: #31884c; color: #fff; border-radius: 7px; font-size: 14px; font-weight: 800;}
+  .compare-panel .caption {max-width: 330px; margin: 12px auto 0;}
+  .compare-panel .caption h3 {font-size: 16px; color: #27362c; margin: 0 0 4px;}
+  .compare-panel .caption p {font-size: 12px; color: #687a70; line-height: 1.5; margin: 0;}
+  .approval {max-width: 1080px; margin: 20px auto 0;}
+  .approval .subtitle {font-size: 13px; margin-bottom: 10px;}
+  .approval .option {border-color: #dce7de; border-radius: 7px;}
+  .approval .option.selected {border-color: #31884c; background: #f1f8f0;}
+  @media (max-width: 755px) {.compare-grid {grid-template-columns: 1fr;} .review-head h2 {font-size: 20px;}}
+</style>
+
+<div class="review-head"><h2>宝贝资料 · 与切换弹层对齐</h2><p>左边是刚确认的切换方式，右边是重画的编辑页。两处使用同一尺寸、同一圆形头像和同一级姓名/年龄；未上传照片时用姓名首字占位。</p></div>
+
+<div class="compare-grid">
+  <div class="compare-panel">
+    <div class="phone">
+      <div class="status"><span>9:41</span><span>●●● ▰</span></div><div class="nav">智搭 <span class="capsule">···</span></div>
+      <div class="home-scene"><div class="home-top"><img src="/files/child-avatar.png" alt=""><b>小豆子的穿搭日</b><small>切换宝贝 ⌄</small></div><div class="weather">⌖ 当前城市 · 天气暂不可用 <span>选择城市 ›</span></div><div class="hero"><h4>每天的穿搭，<br>从一点灵感开始</h4><p>一套适合宝贝的轻松搭配</p><img src="/files/outfit-flatlay.png" alt=""><div class="btn">看看搭配示例 ›</div></div></div>
+      <div class="tabs"><div><strong><span class="icon">⌂</span>搭配</strong></div><div><span class="icon">♙</span>我的</div></div><div class="scrim"></div>
+      <div class="sheet"><div class="handle"></div><div class="sheet-title">切换宝贝</div><div class="sheet-meta">我的宝贝 · 2 位</div><div class="kid-row active"><img class="kid-avatar" src="/files/child-avatar.png" alt=""><div class="kid-copy"><span class="kid-name">小豆子</span><span class="kid-age">2岁3个月</span></div><span class="kid-check">✓</span><span class="kid-edit">✎</span></div><div class="kid-row"><div class="kid-avatar initial">花</div><div class="kid-copy"><span class="kid-name">小花</span><span class="kid-age">4岁1个月</span></div><span class="kid-check"></span><span class="kid-edit">✎</span></div><div class="add-link"><span class="plus">+</span>添加宝贝 <span class="arrow">›</span></div></div>
+    </div>
+    <div class="caption"><h3>已确认 · 首页底部弹层</h3><p>资料入口与切换动作分开，点铅笔进入右侧编辑页。</p></div>
+  </div>
+  <div class="compare-panel">
+    <div class="phone">
+      <div class="status"><span>9:41</span><span>●●● ▰</span></div><div class="nav"><span class="back">‹</span>编辑宝贝 <span class="capsule">···</span></div>
+      <div class="edit-body">
+        <div class="identity"><img class="kid-avatar" src="/files/child-avatar.png" alt=""><div class="kid-copy"><span class="kid-name">小豆子</span><span class="kid-age">2岁3个月</span></div><span class="photo-action">更换照片 ›</span></div>
+        <div class="group-title">基本资料</div>
+        <div class="field"><span class="field-label">昵称</span><span class="field-value">小豆子</span><span class="chev">›</span></div>
+        <div class="field"><span class="field-label">生日</span><span class="field-value">2024-07-01</span><span class="chev">›</span></div>
+        <div class="field"><span class="field-label">肤色</span><span class="field-value muted">未填写</span><span class="chev">›</span></div>
+        <div class="group-title">身体信息</div>
+        <div class="measurement"><div class="measure-item"><span class="measure-label">身高</span><span class="measure-value">92 cm</span></div><div class="measure-item"><span class="measure-label">体重</span><span class="measure-value">13 kg</span></div><span class="measure-edit">更新 ›</span></div>
+        <div class="measure-date">最近测量 2026-09-20</div>
+        <div class="group-title">穿搭偏好</div>
+        <div class="field"><span class="field-label">喜欢的风格</span><span class="field-value">自然舒适、运动活力</span><span class="chev">›</span></div>
+      </div>
+      <div class="fixed-action"><div class="button">保存修改</div></div>
+    </div>
+    <div class="caption"><h3>待确认 · 编辑宝贝</h3><p>身份区不再放大；照片可选，资料行与首次建档的输入字号一致，保存按钮固定在底部。</p></div>
+  </div>
+</div>
+
+<div class="approval"><h3>编辑宝贝页这样对齐可以吗？</h3><p class="subtitle">本轮只确认这页的层级、密度和头像处理。</p><div class="options"><div class="option" data-choice="edit-profile-approved" onclick="toggleSelect(this)"><div class="letter">✓</div><div class="content"><h3>可以，继续画其他 A 阶段页面</h3><p>保留紧凑身份区与统一资料行。</p></div></div><div class="option" data-choice="edit-profile-revise" onclick="toggleSelect(this)"><div class="letter">✎</div><div class="content"><h3>还需要调整</h3><p>可以直接告诉我头像、内容或字号哪里不协调。</p></div></div></div></div>

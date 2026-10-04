@@ -1,0 +1,100 @@
+<style>
+  .review-head {max-width: 1080px; margin: 0 auto 18px;}
+  .review-head h2 {font-size: 23px; margin: 0 0 6px;}
+  .review-head p {font-size: 13px; line-height: 1.6; color: #61736c; margin: 0;}
+  .flow-grid {display: grid; grid-template-columns: repeat(2, minmax(330px, 1fr)); gap: 18px; max-width: 1080px; margin: auto;}
+  .flow-panel {background: #fff; border: 1px solid #dce8df; border-radius: 8px; padding: 14px 10px 16px;}
+  .flow-panel .phone {position: relative; width: 330px; height: 715px; margin: auto; overflow: hidden; border: 7px solid #27332f; border-radius: 34px; background: #fff; color: #203029; box-shadow: 0 10px 26px rgba(30,48,36,.13);}
+  .flow-panel .status {height: 27px; padding: 10px 18px 0; display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; line-height: 1;}
+  .flow-panel .nav {height: 39px; position: relative; text-align: center; padding-top: 6px; font-size: 15px; font-weight: 700; background: #fff;}
+  .flow-panel .nav .back {position: absolute; left: 17px; top: -3px; font-size: 27px; font-weight: 400;}
+  .flow-panel .nav .capsule {position: absolute; top: 0; right: 12px; width: 62px; height: 28px; border: 1px solid #d9dfdb; border-radius: 20px; font-size: 16px; font-weight: 400; letter-spacing: 3px; line-height: 25px;}
+  .flow-panel .page-body {padding: 0 16px; height: 583px; overflow: hidden; background: linear-gradient(180deg,#eff8fd 0%,#fff 135px);}
+  .flow-panel .account {display: flex; align-items: center; gap: 10px; height: 78px; border-bottom: 1px solid #e5ede8;}
+  .flow-panel .account-avatar {height: 40px; width: 40px; flex: none; display: flex; align-items: center; justify-content: center; border-radius: 50%; color: #57726a; background: #deedf0; font-size: 15px; font-weight: 700;}
+  .flow-panel .account-name {font-size: 14px; font-weight: 750; line-height: 1.2;}
+  .flow-panel .account-meta {font-size: 11px; margin-top: 4px; color: #73877d;}
+  .flow-panel .section-label {font-size: 12px; font-weight: 800; color: #44634d; margin: 19px 0 5px;}
+  .flow-panel .row {display: flex; align-items: center; min-height: 48px; border-bottom: 1px solid #e8eee9; gap: 9px;}
+  .flow-panel .row-label {font-size: 13px; font-weight: 600;}
+  .flow-panel .row-meta {margin-left: auto; font-size: 11px; color: #788b80; white-space: nowrap;}
+  .flow-panel .row-arrow {color: #9aaca0; font-size: 18px; line-height: 1;}
+  .flow-panel .baby-row {height: 64px;}
+  .flow-panel .baby-avatar {width: 40px; height: 40px; flex: none; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #4d7585; background: #e1f0f7; font-size: 15px; font-weight: 750;}
+  .flow-panel .baby-name {font-size: 14px; font-weight: 750; line-height: 1.2;}
+  .flow-panel .baby-age {font-size: 11px; color: #788b80; margin-top: 4px; line-height: 1.2;}
+  .flow-panel .family-row {height: 61px;}
+  .flow-panel .family-thumb {width: 42px; height: 42px; flex: none; object-fit: contain;}
+  .flow-panel .family-name {font-size: 13px; font-weight: 750; line-height: 1.2;}
+  .flow-panel .family-meta {font-size: 11px; color: #788b80; margin-top: 4px; line-height: 1.2;}
+  .flow-panel .logout {font-size: 12px; color: #a45a58; padding-top: 19px; text-align: center;}
+  .flow-panel .tabs {height: 57px; position: absolute; left: 0; right: 0; bottom: 0; border-top: 1px solid #e4e9e5; background: #fff; display: flex; justify-content: space-around; padding-top: 6px; font-size: 10px; color: #73817b; text-align: center;}
+  .flow-panel .tabs strong {color: #32844c;}
+  .flow-panel .tabs .icon {display: block; font-size: 20px; line-height: 21px;}
+  .flow-panel .family-head {height: 90px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #e5ede8;}
+  .flow-panel .family-head img {height: 56px; width: 56px; flex: none; object-fit: contain;}
+  .flow-panel .family-title {font-size: 16px; font-weight: 800; line-height: 1.2;}
+  .flow-panel .family-status {display: inline-block; margin-left: 5px; font-size: 10px; font-weight: 700; padding: 3px 5px; border-radius: 4px; color: #357449; background: #e6f4e5; vertical-align: 1px;}
+  .flow-panel .family-subtitle {font-size: 11px; color: #718579; margin-top: 6px;}
+  .flow-panel .member-row {height: 62px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #e8eee9;}
+  .flow-panel .member-avatar {height: 36px; width: 36px; flex: none; background: #f3e9e2; color: #8b6551; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 13px; font-weight: 700;}
+  .flow-panel .member-name {font-size: 13px; font-weight: 700; line-height: 1.2;}
+  .flow-panel .member-role {font-size: 11px; color: #718579; margin-top: 4px;}
+  .flow-panel .member-arrow {margin-left: auto; font-size: 18px; color: #9aaca0;}
+  .flow-panel .invite-button {height: 43px; margin-top: 18px; display: flex; align-items: center; justify-content: center; background: #31884c; color: white; border-radius: 7px; font-size: 13px; font-weight: 800;}
+  .flow-panel .secondary-row {margin-top: 19px;}
+  .flow-panel .leave {font-size: 12px; color: #a45a58; text-align: center; margin-top: 21px;}
+  .flow-panel .caption {max-width: 330px; margin: 12px auto 0;}
+  .flow-panel .caption h3 {font-size: 16px; color: #27362c; margin: 0 0 4px;}
+  .flow-panel .caption p {font-size: 12px; color: #687a70; line-height: 1.5; margin: 0;}
+  .scope-note {max-width: 1080px; margin: 17px auto 0; background: #edf6ed; border-left: 3px solid #388b50; padding: 12px 15px; font-size: 13px; line-height: 1.55; color: #47634e;}
+  .approval {max-width: 1080px; margin: 20px auto 0;}
+  .approval .subtitle {font-size: 13px; margin-bottom: 10px;}
+  .approval .option {border-color: #dce7de; border-radius: 7px;}
+  .approval .option.selected {border-color: #31884c; background: #f1f8f0;}
+  @media (max-width: 755px) {.flow-grid {grid-template-columns: 1fr;} .review-head h2 {font-size: 20px;}}
+</style>
+
+<div class="review-head"><h2>我的与家庭入口</h2><p>首页先服务一个孩子；管理内容从“我的”按需进入。只有一个家庭时直接到家庭详情，不让家长先经过只有一行内容的家庭列表。</p></div>
+
+<div class="flow-grid">
+  <div class="flow-panel">
+    <div class="phone">
+      <div class="status"><span>9:41</span><span>●●● ▰</span></div><div class="nav">我的 <span class="capsule">···</span></div>
+      <div class="page-body">
+        <div class="account"><div class="account-avatar">我</div><div><div class="account-name">微信用户</div><div class="account-meta">已登录</div></div></div>
+        <div class="section-label">宝贝</div>
+        <div class="row baby-row"><div class="baby-avatar">豆</div><div><div class="baby-name">小豆子</div><div class="baby-age">2岁3个月</div></div><span class="row-meta">编辑档案</span><span class="row-arrow">›</span></div>
+        <div class="section-label">偏好与天气</div>
+        <div class="row"><span class="row-label">喜欢的风格</span><span class="row-meta">自然舒适、运动活力</span><span class="row-arrow">›</span></div>
+        <div class="row"><span class="row-label">所在地</span><span class="row-meta">自动获取</span><span class="row-arrow">›</span></div>
+        <div class="section-label">家庭</div>
+        <div class="row family-row"><img class="family-thumb" src="/files/family-house.png" alt=""><div><div class="family-name">我的家庭</div><div class="family-meta">1 位成员</div></div><span class="row-arrow" style="margin-left:auto">›</span></div>
+        <div class="logout">退出登录</div>
+      </div>
+      <div class="tabs"><div><span class="icon">⌂</span>搭配</div><div><strong><span class="icon">♙</span>我的</strong></div></div>
+    </div>
+    <div class="caption"><h3>01 · 我的</h3><p>档案、偏好、天气城市和家庭四个常用入口；家庭协作不占据首次使用流程。</p></div>
+  </div>
+  <div class="flow-panel">
+    <div class="phone">
+      <div class="status"><span>9:41</span><span>●●● ▰</span></div><div class="nav"><span class="back">‹</span>家庭与成员 <span class="capsule">···</span></div>
+      <div class="page-body">
+        <div class="family-head"><img src="/files/family-house.png" alt=""><div><div class="family-title">我的家庭 <span class="family-status">管理员</span></div><div class="family-subtitle">1 位宝贝 · 1 位成员</div></div></div>
+        <div class="section-label">家庭资料</div>
+        <div class="row"><span class="row-label">家庭名称</span><span class="row-meta">我的家庭</span><span class="row-arrow">›</span></div>
+        <div class="row"><span class="row-label">备用城市</span><span class="row-meta">未设置</span><span class="row-arrow">›</span></div>
+        <div class="section-label">家庭成员 · 1</div>
+        <div class="member-row"><div class="member-avatar">我</div><div><div class="member-name">微信用户（我）</div><div class="member-role">管理员</div></div><span class="member-arrow">›</span></div>
+        <div class="invite-button">邀请家人</div>
+        <div class="row secondary-row"><span class="row-label">切换或新建家庭</span><span class="row-arrow" style="margin-left:auto">›</span></div>
+        <div class="leave">退出家庭</div>
+      </div>
+    </div>
+    <div class="caption"><h3>02 · 家庭与成员</h3><p>默认个人家庭直接显示详情。邀请、成员权限和其他家庭都从这里继续进入。</p></div>
+  </div>
+</div>
+
+<div class="scope-note">A 阶段的宝贝头像统一为默认占位，照片上传和“更换照片”入口暂不出现；后续接入真实照片时沿用同一圆形尺寸。家庭备用城市与用户当前位置分开，前者不是定位结果。</div>
+
+<div class="approval"><h3>“我的 → 家庭与成员”这样顺手吗？</h3><p class="subtitle">本轮只确认入口层级和页面密度；邀请与权限细节下一组再看。</p><div class="options"><div class="option" data-choice="my-family-approved" onclick="toggleSelect(this)"><div class="letter">✓</div><div class="content"><h3>可以，继续画邀请与成员权限</h3><p>默认家庭直接看详情，多家庭再进入切换列表。</p></div></div><div class="option" data-choice="my-family-revise" onclick="toggleSelect(this)"><div class="letter">✎</div><div class="content"><h3>还需要调整</h3><p>可以指出入口顺序、字号、家庭内容哪里不合适。</p></div></div></div></div>

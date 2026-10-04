@@ -1,0 +1,10 @@
+<view class="page login-page">
+  <view class="login-brand-row"><view class="login-logo">⌂</view><view class="login-brand">智搭</view></view>
+  <image class="login-illustration" src="/assets/welcome-clothes.png" mode="aspectFit" aria-hidden="true"/>
+  <view class="login-title">{{hasInvitation ? '登录后查看家庭邀请' : '记录宝贝的每一天'}}</view>
+  <view class="subtitle">登录后，宝贝档案可在不同设备安全同步。</view>
+  <view class="section">
+    <view wx:if="{{error}}" class="notice error">{{error}}</view>
+    <button class="primary" bindtap="login" loading="{{busy}}" disabled="{{busy}}">微信登录并继续</button>
+  </view>
+</view>

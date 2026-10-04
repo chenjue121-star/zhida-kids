@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>智搭 · B 阶段第三组：衣橱维护与多宝归属</title>
+  <link rel="stylesheet" href="/files/phase-b-review-v2.css">
+  <style>
+    .board:last-child {grid-column:1/-1}
+    .screen.manage-screen {bottom:89px}
+    .footer {position:absolute;left:0;right:0;bottom:0;padding:11px 16px 22px;height:89px;background:white;border-top:1px solid var(--line)}
+    .footer .small-copy {margin:0 0 7px;text-align:center;font-size:10px}
+    .footer button {font-size:13px}
+    .footer .two-actions {display:flex;gap:9px}
+    .two-actions button {flex:1}
+    .secondary {background:white;border:1px solid #c8dccb}
+    button:disabled {background:#e9eeeb;color:#53645b;cursor:default;filter:none}
+    .item-hero {position:relative;height:182px;background:#f4f6f2;border-radius:8px;margin:11px 0 12px;overflow:hidden}
+    .item-hero img {width:100%;height:100%;object-fit:contain}
+    .origin-button {position:absolute;right:6px;bottom:6px;min-height:34px;background:rgba(255,255,255,.96);border:1px solid #d2dfd4;padding:6px 9px;font-size:10px;font-weight:650}
+    .item-title {display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .item-title h3 {font-size:19px;line-height:1.3;font-weight:750;margin:0}
+    .item-title button {font-size:11px;min-height:44px;padding:5px 8px;background:#fff5df;color:#875619;font-weight:650;border:1px solid #dec697}
+    .item-meta {color:var(--muted);font-size:11px;line-height:1.7;margin:5px 0 9px}
+    .detail-row {display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:39px;font-size:12px;border-top:1px solid var(--line)}
+    .detail-row span:last-child {color:var(--muted)}
+    .detail-label {display:flex;align-items:center;justify-content:space-between;min-height:37px;margin-top:9px;font-size:12px;font-weight:650;border-top:1px solid var(--line);padding-top:5px}
+    .detail-label small {font-size:10px;color:var(--muted);font-weight:400}
+    .wearer-row {display:flex;align-items:center;gap:9px;min-height:55px;border-bottom:1px solid var(--line)}
+    .wearer-row .avatar {height:33px;width:33px;font-size:14px}
+    .wearer-row .copy {flex:1;min-width:0}
+    .wearer-row b {font-size:12px;font-weight:650;display:block}
+    .wearer-row small {font-size:10px;color:var(--muted);display:block}
+    .wearer-row .fit {font-size:11px;color:var(--green)}
+    .ownership-links {display:flex;justify-content:space-between;gap:12px}
+    .transfer-link {background:transparent;color:var(--green);font-size:11px;padding:7px 0;min-height:44px;font-weight:650}
+    .danger-link {color:#a83532;background:transparent;font-size:11px;padding:7px 0;min-height:44px;font-weight:500}
+    .sheet-heading {font-size:16px;font-weight:750;display:flex;justify-content:space-between;align-items:center}
+    .filter-sheet {padding-bottom:23px}
+    .sheet-summary {font-size:11px;color:var(--muted);line-height:1.6;margin:0 0 13px}
+    .filter-title {font-size:12px;font-weight:650;margin:13px 0 7px}
+    .chips {display:flex;flex-wrap:wrap;gap:7px}
+    .chips button {flex:1 1 56px;min-height:36px;padding:7px 7px;border:1px solid #d5dfd6;background:white;font-size:11px;color:var(--muted);font-weight:500}
+    .chips button.selected {color:var(--green);background:#f1f8ef;border-color:var(--green);font-weight:650}
+    .ownership-chips button {flex-basis:79px;line-height:1.4}
+    .fit-chips {display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+    .fit-chips button {min-height:36px;padding:7px 5px;font-size:11px;font-weight:500;color:var(--muted);background:white;border:1px solid #d5dfd6}
+    .fit-chips button.selected {color:var(--green);background:#f1f8ef;border-color:var(--green);font-weight:650}
+    .archive-link {width:100%;display:flex;align-items:center;justify-content:space-between;min-height:44px;margin:13px 0 6px;padding:7px 0;background:white;border-top:1px solid var(--line);border-radius:0;font-size:12px;font-weight:500;text-align:left}
+    .filter-actions {display:flex;gap:9px;margin-top:9px}
+    .filter-actions .reset {flex:0 0 70px;background:white;border:1px solid #d5dfd6}
+    .filter-actions .primary {flex:1;font-size:13px}
+    .background-grid {display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:16px}
+    .background-grid img {height:153px;width:100%;object-fit:contain;background:#f5f6f3;border-radius:7px}
+    .page-heading {font-size:18px;font-weight:750;line-height:1.35;margin:15px 0 5px}
+    .page-explain {font-size:12px;line-height:1.65;color:var(--muted);margin:0 0 12px}
+    .item-context {display:flex;align-items:center;gap:10px;min-height:88px;border-bottom:1px solid var(--line);padding:9px 0}
+    .item-context img {width:58px;height:70px;object-fit:contain;background:#f4f6f2;border-radius:6px;flex:none}
+    .item-context b {font-size:14px;font-weight:650;display:block}
+    .item-context small {display:block;font-size:11px;color:var(--muted);margin-top:3px}
+    .family-tag {font-size:11px;color:var(--muted);margin:14px 0 3px}
+    .child-check-row {display:flex;align-items:center;gap:9px;min-height:64px;padding:8px 0;border-bottom:1px solid var(--line)}
+    .child-check-row input {appearance:none;-webkit-appearance:none;flex:none;margin:0;width:18px;height:18px;border:1px solid #a7baab;border-radius:4px;background:#fff;cursor:pointer}
+    .child-check-row input:checked {background:var(--green);border-color:var(--green)}
+    .child-check-row input:checked::after {content:'✓';display:block;color:white;font-size:12px;line-height:16px;text-align:center;font-weight:750}
+    .child-check-row .avatar {width:34px;height:34px;font-size:14px}
+    .avatar.flower {background:#f6e8eb;color:#835469}
+    .child-check-row .copy {flex:1;min-width:0}
+    .child-check-row b {font-size:12px;font-weight:650;display:block}
+    .child-check-row small {display:block;font-size:10px;color:var(--muted);margin-top:2px}
+    select {font:11px/1.5 -apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;color:#375a42;max-width:104px;height:44px;padding:10px 32px 10px 12px;border:1px solid #cddbd0;border-radius:6px;background-color:white}
+    select.required {border-color:#cba763;background-color:#fff8e9;color:#875619}
+    .shared-state {margin-top:15px;padding:11px;background:#fff5df;border-radius:7px;font-size:11px;color:#78501c}
+    .shared-state b {display:block;font-size:12px;font-weight:650;margin-bottom:3px}
+    .shared-state p {font-size:10px;margin:0;line-height:1.7}
+    .rule-note {font-size:10px;line-height:1.7;color:var(--muted);margin:11px 0 0}
+    .transfer-path {display:flex;align-items:center;gap:7px;padding:15px 0;border-bottom:1px solid var(--line)}
+    .transfer-person {flex:1;text-align:center}
+    .transfer-person .avatar {margin:0 auto 5px;width:37px;height:37px;font-size:15px}
+    .transfer-person b {display:block;font-size:13px;font-weight:650}
+    .transfer-person small {display:block;font-size:10px;color:var(--muted);margin-top:2px}
+    .transfer-arrow {font-size:23px;color:var(--green)}
+    .form-row {display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:51px;border-bottom:1px solid var(--line);font-size:12px}
+    .form-row b {font-weight:650}
+    .transfer-summary {margin-top:13px;padding:11px 12px;border-radius:7px;background:var(--soft);font-size:11px;color:#32543c;line-height:1.8}
+    .transfer-summary b {display:block;font-size:12px;font-weight:650;margin-bottom:3px}
+    .transfer-footer p {font-size:10px;color:var(--muted);margin:0 0 7px;text-align:center}
+    .removal-dialog {position:absolute;left:18px;right:18px;top:220px;padding:19px 17px 17px;border:1px solid #e3e9e2;border-radius:12px;background:#fff;z-index:2;box-shadow:0 8px 27px rgba(25,38,31,.1)}
+    .removal-dialog h3 {font-size:18px;line-height:1.4;font-weight:750;margin:0 0 9px}
+    .removal-dialog .item-name {font-size:13px;color:var(--ink);font-weight:650;margin-bottom:11px}
+    .removal-dialog p {font-size:12px;line-height:1.8;color:var(--muted);margin:0 0 8px}
+    .removal-dialog .restore-tip {font-size:11px;background:var(--soft);color:#355d3e;padding:10px 11px;border-radius:7px;margin:12px 0 15px;line-height:1.8}
+    .removal-dialog .two-actions {display:flex;gap:9px}
+    .removal-dialog button {font-size:12px}
+    .danger {color:#a83532;background:white;border:1px solid #e1bcb9}
+    .photo-dialog {position:absolute;inset:66px 0 0;display:none;flex-direction:column;background:rgba(17,26,21,.96);z-index:4;color:white;padding:15px 14px}
+    .photo-dialog.open {display:flex}
+    .photo-dialog header {display:flex;align-items:center;justify-content:space-between;font-size:13px}
+    .photo-dialog button {min-height:44px;min-width:44px;padding:0;background:transparent;font-size:22px;color:white}
+    .photo-dialog img {flex:1;min-height:0;width:100%;object-fit:contain;margin:8px 0}
+    .photo-dialog p {color:#dbe4dd;font-size:11px;text-align:center;margin:10px 0 9px}
+    @media(max-width:760px) {.board:last-child {grid-column:auto}}
+  </style>
+</head>
+<body>
+  <main class="review">
+    <header class="review-head"><div><div class="eyebrow">智搭 · B 阶段 / 第 3 组</div><h1>同一件衣物，各宝贝分别合身</h1><p class="intro">前两组已确认。本组处理入库后的日常维护：实物状态、浏览筛选、共用、转交，以及可恢复的移出衣橱。</p></div><span class="review-state">第三组 · 箭头调整 v2</span></header>
+    <div class="flow"><b>查看衣物</b><span>→</span><b>筛选 / 改状态</b><span>→</span><b>调整使用者</b><span>→</span><span>每位宝贝分别确认合身</span></div>
+    <nav class="review-nav" aria-label="查看画板"><a href="#detail">10 衣物详情</a><a href="#filter">11 浏览筛选</a><a href="#sharing">12 共用设置</a><a href="#transfer">13 转交确认</a><a href="#remove">14 移出衣橱</a></nav>
+    <div class="boards">
+      <section class="board" id="detail"><div class="board-head"><h2>衣物详情</h2><span class="board-num">10 / 实物与孩子分开</span></div><div class="phone"><div class="status"><span>9:41</span><span>●●● ▰</span></div><div class="nav"><button class="back" aria-label="返回衣橱，示意">‹</button>衣物详情<span class="capsule">···</span></div><div class="screen manage-screen"><div class="item-hero"><img src="/files/img005.jpg" alt="绿格背带裤原图"><button class="origin-button" onclick="openOriginal('detail-original')">查看原图 ↗</button></div><div class="item-title"><h3>绿格背带裤</h3><button class="dropdown-trigger" aria-label="衣物状态：待洗，示意">待洗<svg class="dropdown-icon" viewBox="0 0 12 8" aria-hidden="true" focusable="false"><path d="M1 1.5 6 6.5 11 1.5"/></svg></button></div><p class="item-meta">连体 · 绿色 / 米白色 · 格纹</p><div class="detail-row"><span>厚薄</span><span>暂不清楚</span></div><div class="detail-row"><span>维护记录</span><span>由我添加</span></div><div class="detail-label"><span>给哪些宝贝使用</span><small>合身按宝贝分别记录</small></div><div class="wearer-row"><div class="avatar">豆</div><div class="copy"><b>小豆子</b><small>2岁3个月</small></div><span class="fit">合身</span></div><div class="ownership-links"><button class="transfer-link" onclick="document.querySelector('#transfer').scrollIntoView()">转交衣物 ›</button><button class="danger-link" onclick="document.querySelector('#remove').scrollIntoView()">移出衣橱 ›</button></div></div><div class="footer"><p class="small-copy">衣物状态由家庭共享维护</p><div class="two-actions"><button class="primary">编辑资料</button><button class="secondary" onclick="document.querySelector('#sharing').scrollIntoView()">调整归属</button></div></div><div class="photo-dialog" id="detail-original" role="dialog" aria-label="背带裤完整原图" aria-modal="true"><header>绿格背带裤 · 原图<button aria-label="关闭原图" onclick="closeOriginal('detail-original')">×</button></header><img src="/files/img005.jpg" alt="绿格背带裤完整原图"><p>对应同一件实物，原图保留供核对</p></div></div><p class="caption"><b>先看实物，再看适配孩子。</b>当前待洗状态对所有使用者一致；合身为每个宝贝单独记录。资料编辑复用已确认的字段样式。</p></section>
+      <section class="board" id="filter"><div class="board-head"><h2>衣橱筛选</h2><span class="board-num">11 / 筛选只是浏览</span></div><div class="phone"><div class="status"><span>9:41</span><span>●●● ▰</span></div><div class="nav">衣橱<span class="capsule">···</span></div><div class="screen"><div class="child-row"><div class="avatar">豆</div><div class="child-copy"><div class="child-name">小豆子的衣橱</div><div class="child-age">2岁3个月</div></div><button class="switch dropdown-trigger">切换<svg class="dropdown-icon" viewBox="0 0 12 8" aria-hidden="true" focusable="false"><path d="M1 1.5 6 6.5 11 1.5"/></svg></button></div><div class="background-grid"><img src="/files/img003.jpg" alt="米白短袖"><img src="/files/img005.jpg" alt="绿格背带裤"></div></div><div class="scrim"></div><div class="sheet filter-sheet"><div class="handle"></div><div class="sheet-heading">筛选衣物<button class="close" aria-label="关闭筛选，示意">×</button></div><p class="sheet-summary">当前查看小豆子，包括与其共用的衣物</p><div class="filter-title">衣物状态</div><div class="chips" id="filter-state"><button onclick="selectFilter(this)">全部</button><button onclick="selectFilter(this)">可穿</button><button class="selected" onclick="selectFilter(this)">待洗</button><button onclick="selectFilter(this)">找不到</button></div><div class="filter-title">对小豆子的合身情况</div><div class="fit-chips" id="filter-fit"><button class="selected" onclick="selectFilter(this)">全部</button><button onclick="selectFilter(this)">合身</button><button onclick="selectFilter(this)">偏大</button><button onclick="selectFilter(this)">偏小</button><button onclick="selectFilter(this)">暂不清楚</button></div><div class="filter-title">归属方式</div><div class="chips ownership-chips" id="filter-owner"><button class="selected" onclick="selectFilter(this)">全部</button><button onclick="selectFilter(this)">仅小豆子</button><button onclick="selectFilter(this)">与其他宝贝共用</button></div><button class="archive-link">已移除衣物<span>›</span></button><div class="filter-actions"><button class="reset" onclick="resetFilters()">重置</button><button class="primary">应用筛选</button></div></div></div><p class="caption"><b>默认全部可浏览。</b>待洗、找不到和不合身衣物仍能管理。已移除为独立归档入口；筛选结果不代表符合推荐条件。</p></section>
+      <section class="board" id="sharing"><div class="board-head"><h2>让多个宝贝共用</h2><span class="board-num">12 / 每人分别合身</span></div><div class="phone"><div class="status"><span>9:41</span><span>●●● ▰</span></div><div class="nav"><button class="back" aria-label="返回详情" onclick="document.querySelector('#detail').scrollIntoView()">‹</button>调整归属<span class="capsule">···</span></div><div class="screen manage-screen"><div class="item-context"><img src="/files/img005.jpg" alt="绿格背带裤"><div><b>绿格背带裤</b><small>同一件衣物 · 当前待洗</small></div></div><h3 class="page-heading">给哪些宝贝使用？</h3><p class="page-explain">选择使用者，并分别确认合身情况。</p><div class="family-tag">我的家庭 · 2 位宝贝</div><div class="child-check-row"><input type="checkbox" id="use-dou" checked aria-label="给小豆子使用" onchange="validateSharing()"><div class="avatar">豆</div><div class="copy"><b>小豆子</b><small>2岁3个月</small></div><select class="dropdown-select" id="fit-dou" aria-label="小豆子的合身情况" onchange="validateSharing()"><option selected>合身</option><option>偏大</option><option>偏小</option><option>暂不清楚</option></select></div><div class="child-check-row"><input type="checkbox" id="use-hua" checked aria-label="给小花使用" onchange="validateSharing()"><div class="avatar flower">花</div><div class="copy"><b>小花</b><small>4岁1个月<br>新增使用者</small></div><select id="fit-hua" class="dropdown-select required" aria-label="小花的合身情况" onchange="validateSharing()"><option value="" selected>请选择</option><option>合身</option><option>偏大</option><option>偏小</option><option>暂不清楚</option></select></div><div class="shared-state"><b>待洗状态随同一件衣物保留</b><p>这是同一件衣物。洗好后改一次状态，所有使用者都会看到更新。</p></div><p class="rule-note">取消一位宝贝，只停止给他使用，其他宝贝保留。<br>至少保留一位；所有人都不再使用可移出衣橱。</p></div><div class="footer"><p class="small-copy" id="sharing-help">请确认小花的合身情况，拿不准可选暂不清楚</p><button id="save-sharing" class="primary block" disabled>保存归属</button></div></div><p class="caption"><b>共用保持同一实物。</b>已有合身记录保留；新增孩子需明确确认，可选未知。调整使用者不新增一件衣服，不清除待洗状态。</p></section>
+      <section class="board" id="transfer"><div class="board-head"><h2>转交给另一个宝贝</h2><span class="board-num">13 / 单人衣物快捷转交</span></div><div class="phone"><div class="status"><span>9:41</span><span>●●● ▰</span></div><div class="nav"><button class="back" aria-label="返回归属设置" onclick="document.querySelector('#sharing').scrollIntoView()">‹</button>转交衣物<span class="capsule">···</span></div><div class="screen manage-screen"><div class="item-context"><img src="/files/img005.jpg" alt="绿格背带裤"><div><b>绿格背带裤</b><small>当前给小豆子使用 · 待洗</small></div></div><div class="transfer-path"><div class="transfer-person"><div class="avatar">豆</div><b>小豆子</b><small>转交后不再使用</small></div><span class="transfer-arrow">→</span><div class="transfer-person"><div class="avatar flower">花</div><b>小花</b><small>转交后开始使用</small></div></div><div class="form-row"><b>转交给</b><select class="dropdown-select" aria-label="转交目标"><option>小花</option></select></div><div class="form-row"><b>对小花是否合身</b><select id="transfer-fit" class="dropdown-select required" aria-label="转交后小花的合身情况" onchange="validateTransfer()"><option value="" selected>请选择</option><option>合身</option><option>偏大</option><option>偏小</option><option>暂不清楚</option></select></div><div class="transfer-summary"><b>确认后会发生什么</b><div>小豆子衣橱不再展示这件衣物。</div><div>小花衣橱新增这件衣物。</div><div>原图和资料保留，待洗状态不变。</div></div><p class="rule-note">如果两个宝贝都还要使用，请改为共用。<br>共用衣物通过调整使用者处理。</p><button class="manual" onclick="document.querySelector('#sharing').scrollIntoView()">改为共用 ›</button></div><div class="footer transfer-footer"><p>请先确认新宝贝的合身情况</p><button id="save-transfer" class="primary block" disabled>确认转交</button></div></div><p class="caption"><b>快捷转交只用于一位使用者。</b>目标限同家庭、未归档的宝贝；结束原适配、建立新适配。共用衣物直接调整使用者，保留其他人的关系；确认时如家人已改为共用，提示重新核对。</p></section>
+      <section class="board" id="remove"><div class="board-head"><h2>移出衣橱</h2><span class="board-num">14 / 可恢复的移除</span></div><div class="phone"><div class="status"><span>9:41</span><span>●●● ▰</span></div><div class="nav">衣物详情<span class="capsule">···</span></div><div class="screen"><div class="item-hero"><img src="/files/img005.jpg" alt="绿格背带裤"><button class="origin-button">查看原图 ↗</button></div><div class="item-title"><h3>绿格背带裤</h3><button class="dropdown-trigger" aria-label="衣物状态：待洗，示意">待洗<svg class="dropdown-icon" viewBox="0 0 12 8" aria-hidden="true" focusable="false"><path d="M1 1.5 6 6.5 11 1.5"/></svg></button></div><p class="item-meta">连体 · 绿色 / 米白色 · 格纹</p><div class="detail-row"><span>厚薄</span><span>暂不清楚</span></div><div class="detail-label"><span>给哪些宝贝使用</span></div><div class="wearer-row"><div class="avatar">豆</div><div class="copy"><b>小豆子</b><small>2岁3个月</small></div><span class="fit">合身</span></div></div><div class="scrim"></div><div class="removal-dialog"><h3>将这件衣物移出衣橱？</h3><div class="item-name">绿格背带裤</div><p>所有宝贝的衣橱都会移除这件衣物。原图和衣物资料保留，已有搭配记录也会保留。</p><div class="restore-tip">可以在“衣橱 → 筛选 → 已移除衣物”找到它，核对后恢复。</div><div class="two-actions"><button class="secondary" onclick="document.querySelector('#detail').scrollIntoView()">保留衣物</button><button class="danger">移出衣橱</button></div></div></div><p class="caption"><b>移出影响这件实物的所有使用者。</b>可恢复，保留资料及历史引用。只想取消某位宝贝时应调整归属；恢复前核对当前孩子、合身与状态。恢复核对页在补充稿展开。</p></section>
+    </div>
+    <section class="decision"><h2>本轮产品规则</h2><p>实物状态全家共享，各宝贝的合身状态独立。共用是增加同一件衣物的使用者；转交结束原使用者关系，新增新使用者关系。新增使用者需要明确核对合身，允许暂不清楚。</p><p>移出衣橱提供恢复入口；恢复时先核对上次归属、当前合身和实物状态，恢复衣物不会恢复宝贝档案，也不会重建已归档宝贝的使用关系。筛选默认全部，不自动把待洗或未知合身的衣物隐藏。</p><div class="scope-note">本组为设计评审：所有姓名、状态与操作结果均为示例，不修改业务数据。可演示筛选选择、归属勾选、合身确认和原图查看。批量归属、批量改状态与恢复核对流程会在后续补充稿中展开；异常组继续覆盖去重、局部失败、进度恢复与权限变化。</div></section>
+  </main>
+  <script>
+    function openOriginal(id) {document.getElementById(id).classList.add('open')}
+    function closeOriginal(id) {document.getElementById(id).classList.remove('open')}
+    function selectFilter(button) {button.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('selected'));button.classList.add('selected')}
+    function resetFilters() {['filter-state','filter-fit','filter-owner'].forEach(id=>{const options=document.getElementById(id).querySelectorAll('button');options.forEach(b=>b.classList.remove('selected'));options[0].classList.add('selected')})}
+    function validateSharing() {const dou=document.getElementById('use-dou').checked;const hua=document.getElementById('use-hua').checked;const fit=document.getElementById('fit-hua');fit.disabled=!hua;document.getElementById('fit-dou').disabled=!dou;const ready=(dou||hua)&&(!hua||fit.value);document.getElementById('save-sharing').disabled=!ready;fit.classList.toggle('required',hua&&!fit.value);document.getElementById('sharing-help').textContent=!dou&&!hua?'至少保留一位宝贝，或返回详情移出衣橱':hua&&!fit.value?'请确认小花的合身情况，拿不准可选暂不清楚':'保存使用者与各自合身，待洗状态保持不变'}
+    function validateTransfer() {const fit=document.getElementById('transfer-fit');document.getElementById('save-transfer').disabled=!fit.value;fit.classList.toggle('required',!fit.value)}
+  </script>
+</body>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>智搭 · B 阶段第二组：候选与集中确认</title>
+  <link rel="stylesheet" href="/files/phase-b-review.css">
+  <style>
+    .screen.form-screen {bottom:89px}
+    .board:last-child {grid-column:1/-1}
+    .footer {position:absolute;left:0;right:0;bottom:0;height:89px;padding:9px 16px 22px;background:white;border-top:1px solid var(--line)}
+    .footer p {font-size:11px;color:var(--muted);text-align:center;margin:0 0 7px}
+    .footer button {min-height:44px;font-size:13px}
+    button:disabled {background:#e9eeeb;color:#53645b;cursor:default;box-shadow:none;filter:none}
+    .step-context {min-height:43px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;font-size:12px}
+    .step-context span {color:var(--green);font-weight:650}
+    .page-heading {font-size:18px;font-weight:750;margin:15px 0 5px;line-height:1.35}
+    .page-explain {font-size:12px;color:var(--muted);margin:0;line-height:1.6}
+    .origin {height:165px;position:relative;background:#f5f6f3;border-radius:8px;margin:12px 0 0;overflow:hidden;display:flex;align-items:center;justify-content:center}
+    .origin img {height:100%;width:100%;object-fit:contain}
+    .origin-link {position:absolute;right:6px;bottom:6px;min-height:33px;padding:6px 9px;background:rgba(255,255,255,.96);border:1px solid #d1dfd4;font-size:10px;font-weight:650}
+    .candidate-title {display:flex;align-items:center;justify-content:space-between;font-size:12px;margin:10px 0 0;min-height:26px}
+    .candidate-title small {font-size:10px;color:var(--muted)}
+    .candidate {display:flex;align-items:center;gap:9px;min-height:64px;padding:7px 1px;border-bottom:1px solid var(--line);cursor:pointer}
+    .candidate input {appearance:none;-webkit-appearance:none;position:relative;flex:none;margin:0;width:19px;height:19px;border:1px solid #a7baab;border-radius:4px;background:#fff}
+    .candidate input:checked {background:var(--green);border-color:var(--green)}
+    .candidate input:checked::after {content:'✓';display:block;color:white;text-align:center;font-size:12px;line-height:17px;font-weight:750}
+    .candidate .number {width:31px;height:36px;border-radius:5px;background:#f0f5ed;color:#477153;font-size:13px;font-weight:650;display:flex;align-items:center;justify-content:center;flex:none}
+    .candidate .copy {flex:1;min-width:0}
+    .candidate b {display:block;font-size:12px;font-weight:650}
+    .candidate small {display:block;font-size:10px;color:var(--muted);margin-top:2px}
+    .no-auto {font-size:10px;color:var(--muted);line-height:1.6;margin-top:9px}
+    .batch-setting {display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:47px;border-bottom:1px solid var(--line);font-size:12px}
+    .batch-setting b {font-weight:650}
+    .batch-setting button {font-size:11px;background:transparent;min-width:58px;padding:8px 0;text-align:right}
+    .default-notice {padding:9px 11px;background:var(--soft);border-radius:7px;margin:10px 0 5px}
+    .default-notice b {font-size:12px;font-weight:650;display:block;color:#2d603b}
+    .default-notice small {font-size:10px;color:var(--muted);display:block;margin-top:3px;line-height:1.6}
+    .confirm-row {display:flex;gap:9px;align-items:center;min-height:96px;padding:9px 0;border-bottom:1px solid var(--line)}
+    .confirm-row .thumb {height:73px;width:57px;flex:none;object-fit:contain;background:#f5f7f3;border-radius:6px}
+    .confirm-row .copy {flex:1;min-width:0}
+    .confirm-row h4 {font-size:12px;font-weight:650;margin:0 0 3px}
+    .confirm-row p {font-size:10px;color:var(--muted);line-height:1.5;margin:0}
+    .confirm-row .confirm-check {width:15px;height:15px;border-radius:4px;background:var(--green);color:white;font-size:10px;line-height:15px;text-align:center;flex:none;align-self:flex-start;margin-top:4px}
+    .row-edit {font-size:11px;color:var(--green);min-width:45px;padding:8px 0 8px 4px;background:transparent;flex:none}
+    .optional {color:#875619!important;display:inline-block;font-size:10px;background:#fff5df;padding:2px 5px;margin-top:4px;border-radius:3px}
+    .batch-shortcuts {display:flex;justify-content:space-between;gap:5px;border-bottom:1px solid var(--line);margin-top:1px}
+    .batch-shortcuts button {font-size:11px;background:transparent;padding:9px 3px;font-weight:650}
+    .leftovers {font-size:10px;color:var(--muted);line-height:1.6;margin-top:9px}
+    .crop-thumb {position:relative;height:73px;width:57px;flex:none;background:#f5f7f3;overflow:hidden;border-radius:6px}
+    .crop-thumb img {height:135px;width:101px;max-width:none;object-fit:cover;position:absolute;left:-22px}
+    .crop-thumb.jacket img {top:0}
+    .crop-thumb.shorts img {top:-66px}
+    .detail-hero {display:flex;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+    .detail-hero img {height:99px;width:76px;object-fit:contain;background:#f4f6f3;border-radius:7px;flex:none}
+    .detail-hero h3 {font-size:15px;margin:0 0 4px;font-weight:750}
+    .detail-hero p {font-size:11px;color:var(--muted);margin:0}
+    .detail-hero button {font-size:11px;padding:8px 0;background:transparent;font-weight:650}
+    .form-label {font-size:12px;font-weight:650;display:block;margin:12px 0 5px}
+    .name-field {height:42px;min-height:42px;width:100%;padding:9px 10px;border:1px solid #d8e1d9;border-radius:7px;font:13px/1.5 inherit;color:var(--ink);background:white}
+    .field-row {display:flex;justify-content:space-between;align-items:center;gap:10px;min-height:44px;border-bottom:1px solid var(--line);font-size:12px}
+    .field-row b {font-weight:500;color:#37573f}
+    .field-row span:last-child {color:var(--muted);text-align:right}
+    .thickness-options {display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin:5px 0 0}
+    .thickness-options button {font-size:12px;background:white;border:1px solid #d8e1d9;min-height:38px;padding:7px 5px;font-weight:500;color:var(--muted)}
+    .thickness-options button.selected {color:var(--green);border-color:var(--green);background:#f1f8ef;font-weight:650}
+    .field-help {font-size:10px;line-height:1.65;color:var(--muted);margin:8px 0 0}
+    .note-inline {font-size:10px;color:var(--muted);margin-top:10px;line-height:1.6}
+    .exception-sheet {padding-bottom:23px}
+    .item-context {display:flex;align-items:center;gap:8px;padding:5px 0 10px;border-bottom:1px solid var(--line)}
+    .item-context .crop-thumb {width:43px;height:49px}
+    .item-context .crop-thumb img {width:72px;height:97px;left:-15px;top:-45px}
+    .item-context b {font-size:13px;font-weight:650}
+    .item-context small {display:block;font-size:10px;color:var(--muted)}
+    .field-name {font-size:12px;font-weight:650;margin:12px 0 6px}
+    .segmented {display:flex;gap:6px}
+    .segmented button {flex:1;font-size:11px;min-height:38px;padding:8px 4px;background:white;border:1px solid #d4dfd5;color:var(--muted);font-weight:500}
+    .segmented button.selected {border-color:var(--green);background:#f1f8ef;color:var(--green);font-weight:650}
+    .state-choices {display:flex;flex-wrap:wrap;gap:7px}
+    .state-choices button {min-height:37px;flex:1 1 75px;font-size:11px;padding:8px 5px;background:white;border:1px solid #d4dfd5;font-weight:500;color:var(--muted)}
+    .state-choices button.selected {color:#875619;background:#fff5df;border-color:#c19a52;font-weight:650}
+    .exception-note {font-size:10px;color:var(--muted);margin:10px 0 12px;line-height:1.65}
+    .exception-sheet .primary {font-size:13px}
+    .saved-screen {bottom:130px;padding-top:23px}
+    .success-mark {width:44px;height:44px;border-radius:50%;background:#e7f4e5;color:var(--green);font-size:23px;line-height:44px;text-align:center;margin:0 auto 9px}
+    .success-heading {font-size:21px;font-weight:750;line-height:1.3;text-align:center;margin:0 0 5px}
+    .success-sub {font-size:12px;color:var(--muted);text-align:center;margin:0 0 18px}
+    .saved-list {border-top:1px solid var(--line)}
+    .saved-row {display:flex;gap:10px;align-items:center;min-height:75px;padding:9px 0;border-bottom:1px solid var(--line)}
+    .saved-row .saved-thumb {height:57px;width:45px;object-fit:contain;border-radius:5px;background:#f5f7f3;flex:none}
+    .saved-row .crop-thumb {height:57px;width:45px}
+    .saved-row .crop-thumb img {height:107px;width:80px;left:-18px}
+    .saved-row .crop-thumb.shorts img {top:-53px}
+    .saved-row .copy {flex:1}
+    .saved-row b {font-size:12px;font-weight:650;display:block}
+    .saved-row small {font-size:10px;color:var(--muted);display:block;margin-top:2px}
+    .saved-label {font-size:10px;color:var(--green);flex:none}
+    .remaining {margin-top:17px;padding:12px;background:#f0f6fa;border-radius:8px;font-size:12px}
+    .remaining b {font-weight:650;display:block;color:#365869;margin-bottom:5px}
+    .remaining p {font-size:11px;margin:0;line-height:1.7;color:#486170}
+    .success-footer {height:130px;padding-top:12px}
+    .success-footer .secondary {margin-top:8px}
+    .photo-dialog {position:absolute;inset:66px 0 0;display:none;background:rgba(17,26,21,.96);z-index:4;color:white;padding:15px 14px}
+    .photo-dialog.open {display:flex;flex-direction:column}
+    .photo-dialog header {display:flex;align-items:center;justify-content:space-between;font-size:13px}
+    .photo-dialog button {min-height:44px;min-width:44px;font-size:21px;color:white;background:transparent;padding:0}
+    .photo-dialog img {min-height:0;flex:1;width:100%;object-fit:contain;margin:8px 0}
+    .photo-dialog p {font-size:11px;text-align:center;color:#dbe4dd;margin:10px 0 9px}
+    @media(max-width:760px) {.board:last-child {grid-column:auto}}
+  </style>
+</head>
+<body>
+  <main class="review">
+    <header class="review-head"><div><div class="eyebrow">智搭 · B 阶段 / 第 2 组</div><h1>选择拥有的衣物，再一起确认</h1><p class="intro">第一组已确认。本组接着照片队列往下走：多件候选选择、集中核对、只改例外，以及入库成功后继续处理未完成项。</p></div><span class="review-state">第二组 · 待确认</span></header>
+    <div class="flow"><b>选拥有的单品</b><span>→</span><b>集中核对</b><span>→</span><b>只改例外</b><span>→</span><b>确认入库</b><span>→</span><span>剩余项保留</span></div>
+    <nav class="review-nav" aria-label="查看画板"><a href="#candidates">05 多件候选</a><a href="#confirm">06 集中确认</a><a href="#fields">07 核对字段</a><a href="#exceptions">08 修改例外</a><a href="#saved">09 入库成功</a></nav>
+    <div class="boards">
+      <section class="board" id="candidates">
+        <div class="board-head"><h2>多件图：选择拥有的单品</h2><span class="board-num">05 / 默认不选</span></div>
+        <div class="phone"><div class="status"><span>9:41</span><span>●●● ▰</span></div><div class="nav"><button class="back" aria-label="返回，示意">‹</button>选择单品<span class="capsule">···</span></div>
+          <div class="screen form-screen"><div class="step-context"><div>照片 2 · 识别到 3 件</div><span>默认给小豆子</span></div><h3 class="page-heading">这张照片，你拥有哪些？</h3><p class="page-explain">只勾选要放进衣橱的单品。</p><div class="origin"><img src="/files/img017.jpg" alt="照片2原图，蓝外套、米白印花T恤、灰色短裤"><button class="origin-link" onclick="openOriginal('multi-original')">查看原图 ↗</button></div><div class="candidate-title"><b>选择单品</b><small id="candidate-count">已选 0 件</small></div>
+            <label class="candidate"><input type="checkbox" name="owned" value="jacket" onchange="updateCandidateCount()"><span class="number">1</span><span class="copy"><b>浅蓝外套</b><small>外套 · 浅蓝色</small></span></label>
+            <label class="candidate"><input type="checkbox" name="owned" value="shirt" onchange="updateCandidateCount()"><span class="number">2</span><span class="copy"><b>米白印花 T 恤</b><small>上装 · 米白色 · 字母图案</small></span></label>
+            <label class="candidate"><input type="checkbox" name="owned" value="shorts" onchange="updateCandidateCount()"><span class="number">3</span><span class="copy"><b>灰色工装短裤</b><small>下装 · 灰色</small></span></label><p class="no-auto">未选的候选会保留，稍后还可以处理。</p>
+          </div><div class="footer"><p id="candidate-footer">勾选后，和其他照片一起核对</p><button id="candidate-next" class="primary block" disabled onclick="document.querySelector('#confirm').scrollIntoView()">继续核对</button></div>
+          <div class="photo-dialog" id="multi-original" role="dialog" aria-label="照片2原图" aria-modal="true"><header>照片 2 · 原图<button aria-label="关闭原图" onclick="closeOriginal('multi-original')">×</button></header><img src="/files/img017.jpg" alt="照片2完整原图"><p>原图中的候选需要逐件选择，才会入库</p></div>
+        </div><p class="caption"><b>多件图默认不选。</b>实拍或购物图都由家长明确勾选；单件实拍成功可预选，仍需最终确认。原图可打开核对。</p>
+      </section>
+      <section class="board" id="confirm">
+        <div class="board-head"><h2>集中确认</h2><span class="board-num">06 / 已选 3 件示例</span></div>
+        <div class="phone"><div class="status"><span>9:41</span><span>●●● ▰</span></div><div class="nav"><button class="back" aria-label="返回候选选择" onclick="document.querySelector('#candidates').scrollIntoView()">‹</button>确认衣物<span class="capsule">···</span></div>
+          <div class="screen form-screen"><h3 class="page-heading">3 件准备放进衣橱</h3><div class="batch-setting"><div>这批默认给 <b>小豆子</b></div><button>修改归属 ›</button></div><div class="default-notice"><b>默认合身、可穿，只改例外</b><small>请按实物核对；厚薄不确定可留“暂不清楚”。</small></div>
+            <div class="confirm-row"><span class="confirm-check">✓</span><img class="thumb" src="/files/img003.jpg" alt="米白短袖"><div class="copy"><h4>米白短袖</h4><p>上装 · 米白色</p><p>小豆子 · 合身 · 可穿</p><span class="optional">厚薄暂不清楚 · 可补充</span></div><button class="row-edit" onclick="document.querySelector('#fields').scrollIntoView()">核对 ›</button></div>
+            <div class="confirm-row"><span class="confirm-check">✓</span><div class="crop-thumb jacket"><img src="/files/img017.jpg" alt="蓝外套，来自照片2的示意局部"></div><div class="copy"><h4>浅蓝外套</h4><p>外套 · 浅蓝色</p><p>小豆子 · 合身 · 可穿</p></div><button class="row-edit">核对 ›</button></div>
+            <div class="confirm-row"><span class="confirm-check">✓</span><div class="crop-thumb shorts"><img src="/files/img017.jpg" alt="灰色工装短裤，来自照片2的示意局部"></div><div class="copy"><h4>灰色工装短裤</h4><p>下装 · 灰色</p><p>小豆子 · 合身 · 可穿</p></div><button class="row-edit" onclick="document.querySelector('#exceptions').scrollIntoView()">核对 ›</button></div>
+            <div class="batch-shortcuts"><button>批量改归属</button><button onclick="document.querySelector('#exceptions').scrollIntoView()">调整状态 ›</button></div><p class="leftovers">本批另有 1 件候选未选、1 张照片识别中。<br>它们会保留，先保存这 3 件即可。</p>
+          </div><div class="footer"><p>确认后入库，家庭成员都能查看</p><button class="primary block" onclick="document.querySelector('#saved').scrollIntoView()">确认入库 3 件</button></div>
+        </div><p class="caption"><b>一屏确认，逐件只改例外。</b>此状态示意照片 1 的单件短袖，加上照片 2 中明确勾选的外套与短裤。默认值不会因切换首页宝贝而改变。</p>
+      </section>
+      <section class="board" id="fields">
+        <div class="board-head"><h2>核对识别字段</h2><span class="board-num">07 / 厚薄可未知</span></div>
+        <div class="phone"><div class="status"><span>9:41</span><span>●●● ▰</span></div><div class="nav"><button class="back" aria-label="回到集中确认" onclick="document.querySelector('#confirm').scrollIntoView()">‹</button>核对单品<span class="capsule">···</span></div>
+          <div class="screen form-screen"><div class="detail-hero"><img src="/files/img003.jpg" alt="米白短袖原图缩略"><div><h3>米白短袖</h3><p>来自照片 1</p><button onclick="openOriginal('single-original')">查看完整原图 ↗</button></div></div><label class="form-label" for="garment-name">名称</label><input id="garment-name" class="name-field" value="米白短袖" aria-label="衣物名称，设计稿演示"><div class="field-row"><b>类别</b><span>上装 · 短袖 ⌄</span></div><div class="field-row"><b>颜色</b><span>米白色 ⌄</span></div><div class="field-row"><b>图案</b><span>字母 ⌄</span></div><div class="form-label">厚薄 <span style="font-weight:400;color:var(--muted)">· 可选</span></div><div class="thickness-options" aria-label="厚薄选择"><button onclick="selectOne(this,'.thickness-options')">薄</button><button onclick="selectOne(this,'.thickness-options')">适中</button><button onclick="selectOne(this,'.thickness-options')">厚</button><button class="selected" onclick="selectOne(this,'.thickness-options')">暂不清楚</button></div><p class="field-help">拿不准就保留“暂不清楚”，不影响入库。<br>品牌、价格等可以以后补充。</p></div>
+          <div class="footer"><p>本页只修改待确认内容</p><button class="primary block" onclick="document.querySelector('#confirm').scrollIntoView()">保存修改，返回确认</button></div><div class="photo-dialog" id="single-original" role="dialog" aria-label="照片1原图" aria-modal="true"><header>照片 1 · 原图<button aria-label="关闭原图" onclick="closeOriginal('single-original')">×</button></header><img src="/files/img003.jpg" alt="照片1完整原图"><p>可对照原图核对识别字段</p></div>
+        </div><p class="caption"><b>不确定信息保持未知。</b>识别出的类别、颜色和图案可修正；厚薄为可选确认，允许未知。修改返回本批次，尚未创建衣物。</p>
+      </section>
+      <section class="board" id="exceptions">
+        <div class="board-head"><h2>只改一件的例外</h2><span class="board-num">08 / 短裤改为待洗</span></div>
+        <div class="phone"><div class="status"><span>9:41</span><span>●●● ▰</span></div><div class="nav">确认衣物<span class="capsule">···</span></div><div class="screen"><h3 class="page-heading">3 件准备放进衣橱</h3><div class="batch-setting"><div>这批默认给 <b>小豆子</b></div><span>修改归属 ›</span></div><div class="default-notice"><b>默认合身、可穿，只改例外</b><small>请按实物核对。</small></div><div class="confirm-row"><img class="thumb" src="/files/img003.jpg" alt="米白短袖"><div class="copy"><h4>米白短袖</h4><p>小豆子 · 合身 · 可穿</p></div></div><div class="confirm-row"><div class="crop-thumb jacket"><img src="/files/img017.jpg" alt="浅蓝外套"></div><div class="copy"><h4>浅蓝外套</h4><p>小豆子 · 合身 · 可穿</p></div></div></div><div class="scrim"></div>
+          <div class="sheet exception-sheet"><div class="handle"></div><div class="sheet-title">调整这一件<button class="close" aria-label="关闭例外调整，回到确认" onclick="document.querySelector('#confirm').scrollIntoView()">×</button></div><div class="item-context"><div class="crop-thumb shorts"><img src="/files/img017.jpg" alt="灰色工装短裤"></div><div><b>灰色工装短裤</b><small>给小豆子</small></div></div><div class="field-name">对小豆子是否合身</div><div class="segmented"><button class="selected" onclick="selectOne(this,'.segmented')">合身</button><button onclick="selectOne(this,'.segmented')">偏大</button><button onclick="selectOne(this,'.segmented')">偏小</button><button onclick="selectOne(this,'.segmented')">不确定</button></div><div class="field-name">这件衣服现在的状态</div><div class="state-choices"><button onclick="selectOne(this,'.state-choices')">可穿</button><button class="selected" onclick="selectOne(this,'.state-choices')">待洗</button><button onclick="selectOne(this,'.state-choices')">找不到</button></div><p class="exception-note">只修改这件短裤，其他衣物保持原设置。<br>待洗仍会入库；洗好后可在衣橱改回可穿。</p><button class="primary block" onclick="document.querySelector('#confirm').scrollIntoView()">保存这一件的修改</button></div>
+        </div><p class="caption"><b>合身与状态分开。</b>合身对应孩子；待洗对应实物。此例只修改短裤，短袖与外套保持可穿。保存例外后回集中确认，再统一入库。</p>
+      </section>
+      <section class="board" id="saved">
+        <div class="board-head"><h2>本次入库成功</h2><span class="board-num">09 / 保留未完成项</span></div>
+        <div class="phone"><div class="status"><span>9:41</span><span>●●● ▰</span></div><div class="nav">入库结果<span class="capsule">···</span></div><div class="screen saved-screen"><div class="success-mark">✓</div><h3 class="success-heading">3 件已放进衣橱</h3><p class="success-sub">给小豆子 · 家庭成员都能查看</p><div class="saved-list"><div class="saved-row"><img class="saved-thumb" src="/files/img003.jpg" alt="米白短袖"><div class="copy"><b>米白短袖</b><small>合身 · 可穿 · 厚薄暂不清楚</small></div><span class="saved-label">已入库</span></div><div class="saved-row"><div class="crop-thumb jacket"><img src="/files/img017.jpg" alt="浅蓝外套"></div><div class="copy"><b>浅蓝外套</b><small>合身 · 可穿</small></div><span class="saved-label">已入库</span></div><div class="saved-row"><div class="crop-thumb shorts"><img src="/files/img017.jpg" alt="灰色工装短裤"></div><div class="copy"><b>灰色工装短裤</b><small>合身 · 待洗</small></div><span class="saved-label">已入库</span></div></div><div class="remaining"><b>这批还有内容待处理</b><p>1 件候选未选 · 1 张照片识别中<br>进度已保留，稍后可以继续。</p></div></div><div class="footer success-footer"><button class="primary block">查看衣橱</button><button class="secondary block" onclick="document.querySelector('#candidates').scrollIntoView()">继续处理这批衣物</button></div>
+        </div><p class="caption"><b>入库成功不等于整批结束。</b>只按实际成功件数提示，未选和未完成项继续保留；已成功项不会重复创建。本阶段入口回衣橱或继续处理。</p>
+      </section>
+    </div>
+    <section class="decision"><h2>本轮确认的产品规则</h2><p>单件实拍可预选；多件图默认不选。最终保存只包含明确选择的候选，未选候选保持待处理。厚薄不可靠时保持未知，不强制填写。</p><p>默认本批宝贝、合身、可穿；修改某件例外不影响其他件。批量修改归属时应保留单项例外，具体共用与转交在下一组展开。</p><div class="scope-note">这些画板展示不同示例状态：多件图初始未选；集中确认示意已选择外套和短裤，加上照片 1 的单件短袖，共 3 件。局部缩略图仅示意原图对应，不承诺自动抠图。按钮只演示局部选择、原图查看和画板跳转，所有入库结果为设计示例；保存中、局部失败和权限冲突在异常组展示。</div></section>
+  </main>
+  <script>
+    function openOriginal(id) {document.getElementById(id).classList.add('open')}
+    function closeOriginal(id) {document.getElementById(id).classList.remove('open')}
+    function updateCandidateCount() {const n=document.querySelectorAll('input[name="owned"]:checked').length;document.getElementById('candidate-count').textContent='已选 '+n+' 件';document.getElementById('candidate-next').disabled=n===0;document.getElementById('candidate-footer').textContent=n?'已选 '+n+' 件，和其他照片一起核对':'勾选后，和其他照片一起核对'}
+    function selectOne(button,container) {button.closest(container).querySelectorAll('button').forEach(b=>b.classList.remove('selected'));button.classList.add('selected')}
+  </script>
+</body>
+</html>

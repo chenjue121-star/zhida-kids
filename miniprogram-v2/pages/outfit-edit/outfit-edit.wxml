@@ -1,0 +1,167 @@
+<view class="c-page adjust-page">
+  <view class="adjust-header">
+    <button class="quiet-button back-button" bindtap="back">‹ 返回</button>
+    <view class="adjust-heading">调整搭配</view>
+    <view class="header-space"></view>
+  </view>
+  <view wx:if="{{ready}}" class="adjust-child">
+    <view class="adjust-avatar">{{childInitial || '宝'}}</view>
+    <view class="adjust-child-copy">
+      <view class="adjust-child-name">{{childNickname || '当前宝贝'}}</view>
+      <view wx:if="{{childAge}}" class="adjust-child-age">{{childAge}}</view>
+    </view>
+  </view>
+  <view wx:if="{{targetDate}}" class="adjust-context">
+    <text class="context-date">{{targetDateLabel || targetDate}}</text> · {{sceneLabel || '日常'}}
+    <text class="context-source">{{preferenceLabel || '家庭统一偏好'}} · {{draft.target_plan_id ? '修改第' + (draft.source_sequence || 1) + '套，尚未保存' : '这份草稿尚未选定'}}</text>
+  </view>
+  <view wx:if="{{loading || busy}}" class="adjust-notice">正在核对，已有草稿会保留…</view>
+  <view wx:if="{{error}}" class="adjust-error">{{error}}</view>
+  <view wx:if="{{ready && (!writable || draftFrozen || draft.status === 'completed')}}" class="adjust-notice">{{draftFrozen ? '这份草稿的保存结果待确认，暂不能调整。' : draft.status === 'completed' ? '这份草稿已经选定，可回首页修改或新增一套。' : '当前仅可查看。'}}<button class="quiet-button" bindtap="back">返回共享搭配 ›</button></view>
+  <view wx:if="{{unknownResult && !draftFrozen}}" class="adjust-notice warning">原保存结果待确认；这份独立草稿可继续准备，保存前须先查询原操作。</view>
+
+  <block wx:if="{{draft && ready}}">
+    <view class="section-heading"><text>主搭配</text><text class="draft-tag">{{draft.status === 'completed' ? '已选定' : '调整草稿'}}</text></view>
+    <view class="piece-grid">
+      <button wx:for="{{draft.main_items}}" wx:key="id" class="piece-button" data-id="{{item.id}}" data-usage="main" bindtap="openItem">
+        <view class="piece-photo">
+          <image wx:if="{{item.image}}" src="{{item.image}}" mode="aspectFit"/>
+          <view wx:else class="piece-placeholder">{{item.asset_id ? '原图加载中' : '手动录入实物'}}</view>
+          <text wx:if="{{item.fixed}}" class="pin-label">已固定</text>
+        </view>
+        <view class="piece-name">{{item.name || item.categoryLabel}}</view>
+        <view class="piece-meta {{item.currentIssue ? 'item-warning' : ''}}">{{item.currentFitLabel || item.fitLabel}} · {{item.currentStateLabel || item.stateLabel}}</view>
+        <view wx:if="{{item.currentIssue}}" class="piece-detail item-warning">{{item.currentIssue}}</view>
+        <view wx:if="{{item.photoNote}}" class="piece-detail">同原图 · 查看定位</view>
+      </button>
+      <view wx:for="{{emptySlots}}" wx:key="id" class="empty-piece">
+        <view class="slot-empty">{{item.categoryLabel}}待补充</view>
+        <view class="piece-detail">已移出{{item.name}}</view>
+      </view>
+    </view>
+    <view wx:if="{{!draft.main_items.length && !emptySlots.length}}" class="adjust-empty">这套还没有单品，可重新生成建议，或从衣橱指定一件。</view>
+    <view class="draft-note">点单品可查看原图、替换、固定或选择本次不穿。</view>
+    <view wx:if="{{imageMessage}}" class="draft-note">{{imageMessage}}</view>
+    <view wx:if="{{reason}}" class="recommendation-note">{{reason}}</view>
+    <view wx:for="{{lockedItems}}" wx:key="id" class="pin-row">
+      <text>已固定 · {{item.name || item.categoryLabel}}</text>
+      <button class="quiet-button" data-id="{{item.id}}" bindtap="fix" disabled="{{!writable || draftFrozen || draft.status === 'completed' || busy}}">解除固定</button>
+    </view>
+    <view wx:if="{{lockedItems.length}}" class="draft-note">换一套会保留固定件；想替换或不穿这件，请先解除固定。</view>
+    <view wx:for="{{excludedItems}}" wx:key="id" class="exclude-row">
+      <text>本次不穿 · {{item.name}}</text>
+      <button class="quiet-button" data-id="{{item.id}}" bindtap="undoExclude" disabled="{{!writable || draftFrozen || draft.status === 'completed' || busy}}">撤回</button>
+    </view>
+    <view wx:if="{{excludedItems.length || emptySlots.length}}" class="draft-note">仅用于本次草稿，不改变衣橱状态或偏好。撤回恢复候选资格，不自动放回这套。</view>
+    <button wx:if="{{excludedItems.length || emptySlots.length}}" class="refill-button" bindtap="generate" disabled="{{!writable || draftFrozen || draft.status === 'completed' || busy || loading}}">补齐这套，保留固定</button>
+
+    <view class="backup-summary">
+      <button class="backup-trigger" bindtap="openBackup" disabled="{{!writable || draftFrozen || draft.status === 'completed' || busy || loading}}">
+        <view><text class="backup-title">备用</text><text class="backup-value">{{backupLabel}}</text></view>
+        <text class="backup-command">{{draft.backup.items.length ? '调整' : '按需准备'}} ›</text>
+      </button>
+      <view wx:if="{{draft.backup_needs_review}}" class="adjust-notice warning">主搭配已调整，备用需要重新核对；已选方案保持。</view>
+      <view wx:if="{{draft.backup.items.length}}" class="confirmed-backup">
+        <button wx:for="{{draft.backup.items}}" wx:key="id" class="backup-piece" data-id="{{item.id}}" data-usage="backup" bindtap="openItem">
+          <image wx:if="{{item.image}}" class="backup-thumb" src="{{item.image}}" mode="aspectFit"/>
+          <view wx:else class="backup-thumb backup-photo-empty">{{item.categoryLabel}}</view>
+          <view class="backup-piece-copy"><text>{{item.name || item.categoryLabel}}</text><text class="piece-detail {{item.currentIssue ? 'item-warning' : ''}}">{{item.currentIssue || (item.currentFitLabel || item.fitLabel) + ' · ' + (item.currentStateLabel || item.stateLabel)}}</text></view>
+          <text class="backup-command">查看 ›</text>
+        </button>
+        <view class="packing-note">主搭配和备用共需准备 <text>{{packingCount}}</text> 件实物，沿用同一件只计一次。</view>
+      </view>
+      <view wx:else class="draft-note">备用可选；无备用也可以继续核对这套。</view>
+    </view>
+    <view class="draft-links">
+      <button class="quiet-button" bindtap="wardrobe">核对衣橱 ›</button>
+      <button wx:if="{{sourceOrigin}}" class="quiet-button" bindtap="returnOrigin" disabled="{{!writable || draftFrozen || draft.status === 'completed' || busy}}">返回原建议</button>
+      <button class="quiet-button discard-button" bindtap="discard" disabled="{{!writable || draftFrozen || draft.status === 'completed' || busy || loading}}">放弃本次调整</button>
+    </view>
+  </block>
+
+  <view class="c-footer adjust-footer">
+    <button wx:if="{{writable && !draftFrozen && draft.status !== 'completed'}}" class="secondary-button" bindtap="generate" disabled="{{busy || loading || !draft}}">换一套</button>
+    <button wx:else class="secondary-button" bindtap="back">返回</button>
+    <button class="primary" bindtap="review" disabled="{{busy || loading || !draft || (!unknownResult && (!writable || draftFrozen || draft.status === 'completed'))}}">{{unknownResult ? '查看原保存结果' : '核对这套'}}</button>
+  </view>
+
+  <view wx:if="{{operationOpen && operationItem}}" class="c-mask" bindtap="closeItem" catchtouchmove="noop">
+    <view class="c-sheet adjust-sheet operation-sheet" catchtap="noop" aria-role="dialog" aria-label="{{operationUsage === 'backup' ? '备用单品操作' : '单品操作'}}">
+      <view class="sheet-handle"></view>
+      <view class="sheet-heading"><text>{{operationUsage === 'backup' ? '备用单品' : '单品操作'}}</text><button class="sheet-close" bindtap="closeItem" aria-label="关闭单品操作">×</button></view>
+      <view class="operation-item">
+        <image wx:if="{{operationItem.image}}" class="operation-photo" src="{{operationItem.image}}" mode="aspectFit"/>
+        <view wx:else class="operation-photo piece-placeholder">{{operationItem.asset_id ? '原图' : '实物'}}</view>
+        <view class="operation-copy"><text class="operation-name">{{operationItem.name || operationItem.categoryLabel}}</text><text>{{operationItem.currentFitLabel || operationItem.fitLabel}} · {{operationItem.currentStateLabel || operationItem.stateLabel}}</text><text>{{childNickname || '当前宝贝'}} · {{targetDateLabel || targetDate}}</text></view>
+      </view>
+      <view wx:if="{{operationItem.currentIssue}}" class="sheet-warning">{{operationItem.currentIssue}}</view>
+      <view wx:if="{{operationItem.photoNote}}" class="operation-help">{{operationItem.photoNote}}。保留完整原图核对。</view>
+      <view wx:if="{{error}}" class="adjust-error">{{error}}</view>
+      <button class="operation-button" bindtap="previewOperation" disabled="{{!operationItem.asset_id}}"><text>查看完整原图</text><text class="operation-arrow">›</text></button>
+      <button class="operation-button" bindtap="replaceOperation" disabled="{{!writable || draftFrozen || draft.status === 'completed' || busy || (operationUsage === 'main' && operationItem.fixed)}}"><text>换这件</text><text class="operation-arrow">›</text></button>
+      <button wx:if="{{operationUsage === 'main'}}" class="operation-button {{operationItem.fixed ? 'pin-active' : ''}}" bindtap="fixOperation" aria-label="{{operationItem.name + (operationItem.fixed ? '，已固定，解除固定' : '，未固定，固定这件')}}" disabled="{{!writable || draftFrozen || draft.status === 'completed' || busy}}"><text>{{operationItem.fixed ? '解除固定' : '固定这件'}}</text><view class="round-check {{operationItem.fixed ? 'checked' : ''}}">{{operationItem.fixed ? '✓' : ''}}</view></button>
+      <button wx:if="{{operationUsage === 'main'}}" class="operation-button" bindtap="excludeOperation" disabled="{{!writable || draftFrozen || draft.status === 'completed' || busy || operationItem.fixed}}"><text>本次不穿</text><text class="operation-arrow">›</text></button>
+      <view class="operation-help">{{operationUsage === 'backup' ? '替换只调整这份草稿的备用单品，主搭配保持。' : operationItem.fixed ? '这件已固定。请先解除固定，再替换或选择本次不穿。' : '固定与本次不穿只用于这份草稿，不改变衣橱状态或长期偏好。'}}</view>
+    </view>
+  </view>
+
+  <view wx:if="{{candidateOpen}}" class="c-mask" bindtap="cancelCandidates" catchtouchmove="noop">
+    <view class="c-sheet adjust-sheet candidate-sheet" catchtap="noop" aria-role="dialog" aria-label="替换候选选择">
+      <view class="sheet-handle"></view>
+      <view class="sheet-heading"><text>换这件</text><button class="sheet-close" bindtap="cancelCandidates" aria-label="取消替换">×</button></view>
+      <view wx:if="{{replaceItem}}" class="current-item">
+        <image wx:if="{{replaceItem.image}}" class="operation-photo" src="{{replaceItem.image}}" mode="aspectFit"/>
+        <view wx:else class="operation-photo piece-placeholder">当前单品</view>
+        <view class="operation-copy"><text class="piece-detail">当前{{replaceUsage === 'backup' ? '备用' : '单品'}}</text><text class="operation-name">{{replaceItem.name || replaceItem.categoryLabel}}</text><text>{{replaceItem.currentFitLabel || replaceItem.fitLabel}} · {{replaceItem.currentStateLabel || replaceItem.stateLabel}}</text></view>
+      </view>
+      <view class="candidate-heading">可替换候选 · {{candidates.length}} 件</view>
+      <view wx:if="{{loading || busy}}" class="draft-note">正在重新核对候选…</view>
+      <view wx:if="{{error}}" class="adjust-error">{{error}}</view>
+      <scroll-view wx:if="{{candidates.length}}" scroll-y class="adjust-sheet-scroll candidate-scroll" style="height: {{candidates.length > 2 ? '42vh' : candidates.length * 114 + 'px'}};">
+        <button wx:for="{{candidates}}" wx:key="id" class="candidate-row {{stagedCandidate.id === item.id ? 'selected' : ''}}" data-id="{{item.id}}" bindtap="chooseCandidate" aria-label="{{(item.name || item.categoryLabel) + (stagedCandidate.id === item.id ? '，已暂选' : '，未选')}}" disabled="{{!writable || draftFrozen || draft.status === 'completed'}}">
+          <image wx:if="{{item.image}}" class="candidate-photo" src="{{item.image}}" mode="aspectFit"/>
+          <view wx:else class="candidate-photo piece-placeholder">{{item.asset_id ? '原图加载中' : '手动录入实物'}}</view>
+          <view class="candidate-copy"><text class="candidate-name">{{item.name || item.categoryLabel}}</text><text>{{item.fitLabel}} · {{item.stateLabel}}</text><text>{{item.categoryLabel}} · {{item.thicknessLabel}}</text><text wx:if="{{item.photoNote}}">同原图 · 查看定位</text></view>
+          <view class="round-check {{stagedCandidate.id === item.id ? 'checked' : ''}}">{{stagedCandidate.id === item.id ? '✓' : ''}}</view>
+        </button>
+      </scroll-view>
+      <view wx:else class="candidate-empty">没有可替换的合适实物，当前搭配已保留。可以先取消，再去衣橱核对。</view>
+      <button wx:if="{{stagedCandidate.asset_id}}" class="quiet-button candidate-preview" data-id="{{stagedCandidate.id}}" bindtap="previewCandidate">查看所选候选完整原图 ›</button>
+      <view class="operation-help">候选尚未应用。确认只换这件；取消保留原件与其他单品。</view>
+      <view class="sheet-buttons"><button class="secondary-button" bindtap="cancelCandidates">取消</button><button class="primary" bindtap="confirmCandidate" disabled="{{!writable || draftFrozen || draft.status === 'completed' || !stagedCandidate || busy}}">换成这件</button></view>
+    </view>
+  </view>
+
+  <view wx:if="{{backupOpen}}" class="c-mask" bindtap="cancelBackup" catchtouchmove="noop">
+    <view class="c-sheet adjust-sheet backup-sheet" catchtap="noop" aria-role="dialog" aria-label="备用暂存选择">
+      <view class="sheet-handle"></view>
+      <view class="sheet-heading"><text>准备备用</text><button class="sheet-close" bindtap="cancelBackup" aria-label="取消备用选择">×</button></view>
+      <view class="backup-modes">
+        <button data-mode="none" bindtap="backupMode" class="{{backupMode === 'none' ? 'active' : ''}}" disabled="{{!writable || draftFrozen || draft.status === 'completed'}}">无备用</button>
+        <button data-mode="partial" bindtap="backupMode" class="{{backupMode === 'partial' ? 'active' : ''}}" disabled="{{!writable || draftFrozen || draft.status === 'completed'}}">局部</button>
+        <button data-mode="full" bindtap="backupMode" class="{{backupMode === 'full' ? 'active' : ''}}" disabled="{{!writable || draftFrozen || draft.status === 'completed'}}">整套</button>
+      </view>
+      <view wx:if="{{loading}}" class="draft-note">正在查找合适的备用…</view>
+      <view wx:if="{{error}}" class="adjust-error">{{error}}</view>
+      <view wx:if="{{backupMode === 'none'}}" class="backup-empty">这套不准备备用。确认后继续核对主搭配，需要时可以再补充。</view>
+      <view wx:elif="{{backupMode === 'full'}}" class="operation-help">以下实物组成一整套备用，一起暂存、一起确认。需选单件或多件，可切换“局部”。</view>
+      <view wx:else class="operation-help">选择要准备的一件或多件备用；每件说明替换主搭配的位置。</view>
+      <scroll-view wx:if="{{backupChoices.length}}" scroll-y class="adjust-sheet-scroll backup-scroll" style="height: {{backupChoices.length > 4 ? '38vh' : (backupChoices.length > 2 ? '266px' : '132px')}};">
+        <view class="backup-options">
+          <button wx:for="{{backupChoices}}" wx:key="choiceKey" class="backup-option {{item.selected ? 'selected' : ''}} {{backupMode === 'full' ? 'full-option' : ''}}" data-id="{{item.id}}" data-key="{{item.choiceKey}}" bindtap="chooseBackup" aria-label="{{(item.name || item.categoryLabel) + '，' + item.backupUseLabel + (item.selected ? '，已暂选' : '，未选') + (backupMode === 'full' ? '，整套一起确认' : '')}}" disabled="{{!writable || draftFrozen || draft.status === 'completed'}}">
+            <image wx:if="{{item.image}}" class="backup-option-photo" src="{{item.image}}" mode="aspectFit"/>
+            <view wx:else class="backup-option-photo piece-placeholder">{{item.asset_id ? '原图加载中' : '手动录入实物'}}</view>
+            <view class="backup-option-name">{{item.name || item.categoryLabel}}</view>
+            <view class="piece-detail">{{item.fitLabel}} · {{item.stateLabel}}</view>
+            <view class="backup-use">{{item.backupUseLabel}}</view>
+            <view wx:if="{{backupMode === 'partial'}}" class="round-check {{item.selected ? 'checked' : ''}}">{{item.selected ? '✓' : ''}}</view>
+          </button>
+        </view>
+      </scroll-view>
+      <view wx:if="{{backupMode !== 'none' && !backupChoices.length && !loading}}" class="candidate-empty">暂时没有合适的备用，原先确认的备用保持。可取消，或明确选择无备用。</view>
+      <view wx:if="{{stagedBackup.items.length}}" class="packing-note">暂存备用 {{stagedBackup.items.length}} 件，连同主搭配共 {{backupPackingCount}} 件实物，沿用同一件只计一次。</view>
+      <view class="operation-help">切换类型会清除本次暂存选择；已确认备用保持到再次确认。取消保留原备用。</view>
+      <view class="sheet-buttons"><button class="secondary-button" bindtap="cancelBackup">取消</button><button class="primary" bindtap="confirmBackup" disabled="{{!writable || draftFrozen || draft.status === 'completed' || busy || loading || (backupMode !== 'none' && !stagedBackup.items.length)}}">{{backupMode === 'none' ? '确认无备用' : '确认备用'}}</button></view>
+    </view>
+  </view>
+</view>

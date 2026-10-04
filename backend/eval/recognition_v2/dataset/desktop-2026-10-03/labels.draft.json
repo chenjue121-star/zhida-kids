@@ -1,0 +1,432 @@
+{
+  "schema_version": 1,
+  "entries": [
+    {
+      "image": "c001.jpg",
+      "sha256": "27f6dadd59ad042fb7f3cdeb21b01ff869d497cdd83017d0d8c7d2369968569e",
+      "group_id": "desktop-family-20261003",
+      "split": "development",
+      "scene": "product_screenshot",
+      "reviewed": false,
+      "objects": null
+    },
+    {
+      "image": "c002.jpg",
+      "sha256": "3d1eac7e5daf63ceda60353f67c6f20e74c3dd8feaa4bba3d49945c97555a613",
+      "group_id": "desktop-family-20261003",
+      "split": "development",
+      "scene": "product_screenshot",
+      "reviewed": false,
+      "objects": null
+    },
+    {
+      "image": "c003.jpg",
+      "sha256": "a71bbe0f53cb7d40a1bb72516faaaac42434330d95a59e85330815880a6edbd1",
+      "group_id": "desktop-family-20261003",
+      "split": "development",
+      "scene": "product_screenshot",
+      "reviewed": false,
+      "objects": null
+    },
+    {
+      "image": "c004.jpg",
+      "sha256": "a28b00604c773a2902f9c21cb54077eb70c5e49c1349c97ecaf3e263d1f30a47",
+      "group_id": "desktop-family-20261003",
+      "split": "development",
+      "scene": "product_screenshot",
+      "reviewed": false,
+      "objects": null
+    },
+    {
+      "image": "c005.jpg",
+      "sha256": "61cb7f34579b2191f774b19a5f0be3a2f0e5c7ac7da910da56c814100fb449a9",
+      "group_id": "desktop-family-20261003",
+      "split": "development",
+      "scene": "product_screenshot",
+      "reviewed": false,
+      "objects": null
+    },
+    {
+      "image": "c006.jpg",
+      "sha256": "a4df53eb14f0135e66d998d4923ff8e65745d8d586839de3eb46a38869d62c50",
+      "group_id": "desktop-family-20261003",
+      "split": "development",
+      "scene": "product_screenshot",
+      "reviewed": false,
+      "objects": null
+    },
+    {
+      "image": "c007.jpg",
+      "sha256": "04dc778abe4dd588d52717161d95fc7c26622a4a5479c421cb823eec578a13a4",
+      "group_id": "desktop-family-20261003",
+      "split": "development",
+      "scene": "product_screenshot",
+      "reviewed": false,
+      "objects": null
+    },
+    {
+      "image": "c008.jpg",
+      "sha256": "72fee232719f903fa8d7db22affeb8ccabc6215fe730a3af10cc3d5568109ccc",
+      "group_id": "desktop-family-20261003",
+      "split": "development",
+      "scene": "product_screenshot",
+      "reviewed": false,
+      "objects": null
+    },
+    {
+      "image": "c009.jpg",
+      "sha256": "03ce1cb45a1b13b4aa7597587d3dcd5e1f9b433015992136849143034b134473",
+      "group_id": "desktop-family-20261003",
+      "split": "development",
+      "scene": "product_screenshot",
+      "reviewed": false,
+      "objects": null
+    },
+    {
+      "image": "c010.jpg",
+      "sha256": "14566c0929da6d5f1e3b3d613adb1cc983c6b070046d91c8559fc7357cc4a7ca",
+      "group_id": "desktop-family-20261003",
+      "split": "development",
+      "scene": "product_screenshot",
+      "reviewed": false,
+      "objects": null
+    },
+    {
+      "image": "c011.jpg",
+      "sha256": "b6c9eaf5415d9a20c74eea36c52076dc99397c7f719336de7dee609afce84c9a",
+      "group_id": "desktop-family-20261003",
+      "split": "development",
+      "scene": "product_screenshot",
+      "reviewed": false,
+      "objects": null
+    },
+    {
+      "image": "c012.jpg",
+      "sha256": "cb301dc7cd690f27b8bea548c76cdc0ebbfc2f63b61c3a8d06cbdacb9e8784f5",
+      "group_id": "desktop-family-20261003",
+      "split": "development",
+      "scene": "product_screenshot",
+      "reviewed": false,
+      "objects": null
+    },
+    {
+      "image": "c013.jpg",
+      "sha256": "86c3c6f7bf3287f311b964cd82e0ca4480624b54a273591ebed4d466f40f3689",
+      "group_id": "desktop-family-20261003",
+      "split": "development",
+      "scene": "product_screenshot",
+      "reviewed": false,
+      "objects": null
+    },
+    {
+      "image": "c014.jpg",
+      "sha256": "a1e5672c44de425872063305d31a4d2cf8f0f5a2ce6a5a0889ab10c5d7cb1b64",
+      "group_id": "desktop-family-20261003",
+      "split": "development",
+      "scene": "product_screenshot",
+      "reviewed": false,
+      "objects": null
+    },
+    {
+      "image": "c015.jpg",
+      "sha256": "46a2c19422ef155c24f318972b6f63b74c60041f00d268b4d9f0869a7660bcb2",
+      "group_id": "desktop-family-20261003",
+      "split": "development",
+      "scene": "product_screenshot",
+      "reviewed": false,
+      "objects": null
+    },
+    {
+      "image": "c016.jpg",
+      "sha256": "02544a606d4ddc441b08eb7fb9dfe578f3faef74b27ae528a19d194cd5ebdede",
+      "group_id": "desktop-family-20261003",
+      "split": "development",
+      "scene": "product_screenshot",
+      "reviewed": false,
+      "objects": null
+    },
+    {
+      "image": "c017.jpg",
+      "sha256": "ce396546b24e33c6b0b1766a592e550e685d27f22494c0d812c429c0be2a95a5",
+      "group_id": "desktop-family-20261003",
+      "split": "development",
+      "scene": "product_screenshot",
+      "reviewed": false,
+      "objects": null
+    },
+    {
+      "image": "c018.jpg",
+      "sha256": "d6c1579a0a5902c02714c668a434712998dc3605503e00dd79b5e836b2b1d62e",
+      "group_id": "desktop-family-20261003",
+      "split": "development",
+      "scene": "product_screenshot",
+      "reviewed": false,
+      "objects": null
+    },
+    {
+      "image": "c019.jpg",
+      "sha256": "663de486ad96c57ff7d61fa4ba43c65b36a91cb641abff2f53af1b9f105dd838",
+      "group_id": "desktop-family-20261003",
+      "split": "development",
+      "scene": "product_screenshot",
+      "reviewed": false,
+      "objects": null
+    },
+    {
+      "image": "c020.jpg",
+      "sha256": "4f67d0ff34457400c4edf133b5ce825be61ee8a77ef4fc8f06d44fbd2d3cbc34",
+      "group_id": "desktop-family-20261003",
+      "split": "development",
+      "scene": "product_screenshot",
+      "reviewed": false,
+      "objects": null
+    },
+    {
+      "image": "c021.png",
+      "sha256": "0b00e181b8b43881c26fe5e61691ef49f647d38ea95a126cf03fe8fc4faa6cdf",
+      "group_id": "desktop-family-20261003",
+      "split": "development",
+      "scene": "product_screenshot",
+      "reviewed": false,
+      "objects": null
+    },
+    {
+      "image": "c022.png",
+      "sha256": "903db6453f386e4343ec62f3f379bdac0729c2cb13685e65f0c671c7e5a97055",
+      "group_id": "desktop-family-20261003",
+      "split": "development",
+      "scene": "product_screenshot",
+      "reviewed": false,
+      "objects": null
+    },
+    {
+      "image": "c023.png",
+      "sha256": "7f9a81b5a0c98963ab6bc5ee5115f7f80b0f95b9fde7264d7bfcdca688123803",
+      "group_id": "desktop-family-20261003",
+      "split": "development",
+      "scene": "product_screenshot",
+      "reviewed": false,
+      "objects": null
+    },
+    {
+      "image": "c024.png",
+      "sha256": "95bcfdca96de9f535a75ee3e023c2df394a5f1c386ede42d4b732acb6f09954b",
+      "group_id": "desktop-family-20261003",
+      "split": "development",
+      "scene": "product_screenshot",
+      "reviewed": false,
+      "objects": null
+    },
+    {
+      "image": "c025.png",
+      "sha256": "0d3bff71be3bbf2b4887b9b0d8c361676e4b1499ec3a9c9c8d2b2aa49db7a01b",
+      "group_id": "desktop-family-20261003",
+      "split": "development",
+      "scene": "product_screenshot",
+      "reviewed": false,
+      "objects": null
+    },
+    {
+      "image": "c026.png",
+      "sha256": "be7ba5f17fca6a416c4c72d17afa1a5ddfa9186df20d688e094ab91afa43ab97",
+      "group_id": "desktop-family-20261003",
+      "split": "development",
+      "scene": "product_screenshot",
+      "reviewed": false,
+      "objects": null
+    },
+    {
+      "image": "c027.png",
+      "sha256": "c8e3ba7782996e4270ea304e94d1db555cacb81f7a23a320b8d235a8e1ef6664",
+      "group_id": "desktop-family-20261003",
+      "split": "development",
+      "scene": "product_screenshot",
+      "reviewed": false,
+      "objects": null
+    },
+    {
+      "image": "c028.png",
+      "sha256": "b6863d64d8ec2e67c3cdb68d8db0c30182160a6c15233a4befc5d5ec6eaf13c7",
+      "group_id": "desktop-family-20261003",
+      "split": "development",
+      "scene": "product_screenshot",
+      "reviewed": false,
+      "objects": null
+    },
+    {
+      "image": "c029.png",
+      "sha256": "0cf8b103e49b982422916aa9fe46643295feb76da467199416d781242e892356",
+      "group_id": "desktop-family-20261003",
+      "split": "development",
+      "scene": "product_screenshot",
+      "reviewed": false,
+      "objects": null
+    },
+    {
+      "image": "c030.png",
+      "sha256": "0df413fbef99a73c4aad04afceb5c339a00a8f0fd5b395149d88474e263ca2a1",
+      "group_id": "desktop-family-20261003",
+      "split": "development",
+      "scene": "product_screenshot",
+      "reviewed": false,
+      "objects": null
+    },
+    {
+      "image": "c031.png",
+      "sha256": "b0f1c731b7f163069ca094239a3a2c972e44bf93c949672261a77a4c602a3e95",
+      "group_id": "desktop-family-20261003",
+      "split": "development",
+      "scene": "product_screenshot",
+      "reviewed": false,
+      "objects": null
+    },
+    {
+      "image": "c032.png",
+      "sha256": "a97f23dfdf703aff477523adbb3cfe22bda11f5f132cee345642d6c8771fdb73",
+      "group_id": "desktop-family-20261003",
+      "split": "development",
+      "scene": "product_screenshot",
+      "reviewed": false,
+      "objects": null
+    },
+    {
+      "image": "c033.png",
+      "sha256": "2ac317e0c1f9888eea391ec5b890ffe1959180b3c492232e2afdf92241ab5563",
+      "group_id": "desktop-family-20261003",
+      "split": "development",
+      "scene": "product_screenshot",
+      "reviewed": false,
+      "objects": null
+    },
+    {
+      "image": "c034.png",
+      "sha256": "16fad128fa925e0d736445f795e0148cf54334e26771e4af86a52de7cb390a31",
+      "group_id": "desktop-family-20261003",
+      "split": "development",
+      "scene": "product_screenshot",
+      "reviewed": false,
+      "objects": null
+    },
+    {
+      "image": "c035.png",
+      "sha256": "ce2928b9e22d62c9e1c6a5bca52ac412715a33f311a9b235f8959ae3711889a7",
+      "group_id": "desktop-family-20261003",
+      "split": "development",
+      "scene": "product_screenshot",
+      "reviewed": false,
+      "objects": null
+    },
+    {
+      "image": "c036.png",
+      "sha256": "bb00be046d18cdc82a8e423028c20100f1076103b5b69953bc91f2ef33450f12",
+      "group_id": "desktop-family-20261003",
+      "split": "development",
+      "scene": "product_screenshot",
+      "reviewed": false,
+      "objects": null
+    },
+    {
+      "image": "c037.png",
+      "sha256": "f217dcec6d068034a14c6a9676fe37a9f9a4e55c9c13b86a45bcc08644c6b651",
+      "group_id": "desktop-family-20261003",
+      "split": "development",
+      "scene": "product_screenshot",
+      "reviewed": false,
+      "objects": null
+    },
+    {
+      "image": "c038.png",
+      "sha256": "12ba37dfa5967ac38f13ca4bd16b7807930a3a317a99e76410b443ef6c178865",
+      "group_id": "desktop-family-20261003",
+      "split": "development",
+      "scene": "product_screenshot",
+      "reviewed": false,
+      "objects": null
+    },
+    {
+      "image": "c039.png",
+      "sha256": "58369bb30c7b872d7e8208afb9e126549fb1a095674ae77b3bb94264e4e7c590",
+      "group_id": "desktop-family-20261003",
+      "split": "development",
+      "scene": "product_screenshot",
+      "reviewed": false,
+      "objects": null
+    },
+    {
+      "image": "c040.png",
+      "sha256": "dc853b8b38b1cb0cb7902839e2b5d59f065b3a08e3f1eaa6cd738dfb87fb5a0b",
+      "group_id": "desktop-family-20261003",
+      "split": "development",
+      "scene": "product_screenshot",
+      "reviewed": false,
+      "objects": null
+    },
+    {
+      "image": "c041.png",
+      "sha256": "b0935e2a0188bbfe67f5c90b038ee1b8bd2f64830d286aa58f1ccdbbcc7af7de",
+      "group_id": "desktop-family-20261003",
+      "split": "development",
+      "scene": "product_screenshot",
+      "reviewed": false,
+      "objects": null
+    },
+    {
+      "image": "c042.png",
+      "sha256": "3243d139a0835c06981dfcb04193234e1d05ccdac5a6d2f73dcd0dcec9367684",
+      "group_id": "desktop-family-20261003",
+      "split": "development",
+      "scene": "product_screenshot",
+      "reviewed": false,
+      "objects": null
+    },
+    {
+      "image": "c043.png",
+      "sha256": "e842145c23255fc31e0bb0eb5387b81c43d60b1ea6135ea2c8bf12df8d85f636",
+      "group_id": "desktop-family-20261003",
+      "split": "development",
+      "scene": "product_screenshot",
+      "reviewed": false,
+      "objects": null
+    },
+    {
+      "image": "c044.png",
+      "sha256": "2e1effeb9abf62b62fcc19305e28830b81577a60ecc238245a8d7ccf69bcbac3",
+      "group_id": "desktop-family-20261003",
+      "split": "development",
+      "scene": "product_screenshot",
+      "reviewed": false,
+      "objects": null
+    },
+    {
+      "image": "c045.png",
+      "sha256": "9dcae9a3f455d9155fdf43d8308fc703d8f33446a5eba3466d07811c3ac620e6",
+      "group_id": "desktop-family-20261003",
+      "split": "development",
+      "scene": "product_screenshot",
+      "reviewed": false,
+      "objects": null
+    },
+    {
+      "image": "c046.png",
+      "sha256": "c390ada887f1870f53378bc470d0c0c43c62714a72be1a99d749188d315822da",
+      "group_id": "desktop-family-20261003",
+      "split": "development",
+      "scene": "product_screenshot",
+      "reviewed": false,
+      "objects": null
+    },
+    {
+      "image": "c047.png",
+      "sha256": "a506ff387c97b43960bf6331fe1261c9f8a79033367094fd9087254d37f37349",
+      "group_id": "desktop-family-20261003",
+      "split": "development",
+      "scene": "product_screenshot",
+      "reviewed": false,
+      "objects": null
+    }
+  ],
+  "notes": [
+    "User-provided ecommerce product screenshot inputs. All kept in one conservative source group; physical garment relationships and screenshot object scope require human review.",
+    "Development diagnostic inputs, not an independent blind test; reviewed=false and objects=null until human review."
+  ]
+}

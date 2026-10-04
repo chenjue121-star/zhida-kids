@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "entries": [
+    {
+      "image": "img002.jpg",
+      "sha256": "4a0d309f35dfcf5f9c5ba8bf67683fc15db29a452049f8e7ab3dd8d0c3fddc9e",
+      "group_id": null,
+      "split": null,
+      "scene": null,
+      "reviewed": false,
+      "objects": null
+    },
+    {
+      "image": "img003.jpg",
+      "sha256": "0855fa0eaf441467fb0c0cedb68c774bf50deb7b50917a713dfea45ee4995387",
+      "group_id": null,
+      "split": null,
+      "scene": null,
+      "reviewed": false,
+      "objects": null
+    },
+    {
+      "image": "img005.jpg",
+      "sha256": "1aaeb2eddc87c7416d23e62e8dbd9f9343cdddbff4009fa04c4dffcf91ebf1d5",
+      "group_id": null,
+      "split": null,
+      "scene": null,
+      "reviewed": false,
+      "objects": null
+    },
+    {
+      "image": "img008.jpg",
+      "sha256": "c20dd18be0fc1759d362860be5310e595d8e7e5b32ce4b8fb984fb6bc5386ea3",
+      "group_id": null,
+      "split": null,
+      "scene": null,
+      "reviewed": false,
+      "objects": null
+    }
+  ]
+}

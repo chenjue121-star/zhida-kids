@@ -1,0 +1,13 @@
+@import "../../d.wxss";
+.d-filters {display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}
+.d-toggle {display:flex;justify-content:space-between;align-items:center;min-height:52px;font-size:13px;color:#596d82}
+.calendar-week,.calendar-grid {display:grid;grid-template-columns:repeat(7,minmax(44px,1fr));gap:2px}
+.calendar-week {margin:14px 0 5px;text-align:center;font-size:12px;color:#60758a}
+.calendar-day {min-height:54px;padding:5px 0;background:#fff;color:#172438;font-size:15px;border-radius:7px;font-weight:500}
+.calendar-day.active {background:#267a42;color:#fff}.calendar-day.today:not(.active) {background:#edf7ef;color:#206d3b}.calendar-day[disabled] {background:#fff;opacity:0}
+.calendar-count {font-size:10px;min-height:15px;color:#60758a}.calendar-day.active .calendar-count {color:#fff}
+.d-day-heading {margin:24px 0 15px}.d-plan-row {display:block;width:100%;padding:17px 0;text-align:left;background:#fff;color:#172438;border-top:1px solid #e5eaf0;border-radius:0;font-weight:500}
+.d-plan-title {display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:16px;font-weight:650}.d-plan-row.cancelled .badge {background:#f0f2f3;color:#60758a}
+.d-summary {margin:10px 0;font-size:14px}.d-plan-row .meta text {float:right;font-size:19px}
+
+.calendar-board {min-width:320px}.calendar-scroller {width:calc(100% + 30px);margin-left:-15px;margin-right:-15px}

@@ -1,0 +1,118 @@
+<style>
+  .review-head {max-width: 1000px; margin: 0 auto 18px;}
+  .review-head h2 {font-size: 23px; margin-bottom: 5px;}
+  .review-head p {font-size: 13px; color: #60736e; margin: 0;}
+  .flow-grid {display: grid; grid-template-columns: repeat(2, minmax(330px, 1fr)); gap: 16px; max-width: 1000px; margin: auto;}
+  .flow-panel {background: #fff; border: 1px solid #dfe9e2; border-radius: 8px; padding: 13px 8px 16px;}
+  .flow-panel h3 {max-width: 310px; margin: 12px auto 2px; font-size: 16px; color: #24332b;}
+  .flow-panel p {max-width: 310px; margin: 0 auto; font-size: 12px; color: #687872; line-height: 1.5;}
+  .phone {width: 310px; height: 670px; margin: auto; position: relative; overflow: hidden; border: 6px solid #25312d; border-radius: 32px; background: #fff; color: #1a2b24; box-shadow: 0 10px 26px rgba(32,54,42,.13);}
+  .status {height: 24px; display: flex; align-items: center; justify-content: space-between; padding: 5px 16px 0; font-size: 10px; font-weight: 700;}
+  .native-nav {height: 36px; text-align: center; padding-top: 5px; font-size: 14px; font-weight: 750; position: relative; background: #fff;}
+  .native-nav .back {position: absolute; left: 15px; top: 0; font-size: 22px; line-height: 28px; font-weight: 400;}
+  .native-nav .menu {position: absolute; right: 10px; top: 0; width: 55px; height: 26px; border: 1px solid #dde2de; border-radius: 19px; line-height: 24px; font-size: 16px; letter-spacing: 2px; font-weight: 400;}
+  .phone .content {height: 548px; overflow: hidden;}
+  .children-content {background: linear-gradient(180deg,#eff8fc 0%,#fff 37%); padding: 0 16px;}
+  .family-banner {height: 91px; position: relative; padding: 16px 0 0;}
+  .family-banner small {font-size: 10px; color: #60756a;}
+  .family-banner h4 {font-size: 21px; line-height: 1.25; margin-top: 2px; color: #192a22;}
+  .family-banner .sun {position: absolute; right: 15px; top: 19px; width: 39px; height: 39px; border-radius: 50%; background: #ffdd75; box-shadow: 0 0 0 8px rgba(255,221,117,.16);}
+  .family-banner .hill {position: absolute; right: -20px; bottom: 0; width: 120px; height: 23px; border-radius: 50% 50% 0 0; background: #dceecf; opacity: .85;}
+  .list-label {font-size: 10px; color: #77867b; margin: 7px 0 8px;}
+  .child-row {height: 83px; display: flex; align-items: center; gap: 9px; border: 1px solid #dfe8e1; border-radius: 8px; padding: 0 10px; margin-bottom: 9px; background: #fff;}
+  .child-row.active {border-color: #6aaa70; background: #f6faf5;}
+  .avatar {width: 52px; height: 52px; border-radius: 50%; background: #e9f4f9; object-fit: cover; flex: none;}
+  .avatar-placeholder {display: flex; align-items: center; justify-content: center; font-size: 21px; font-weight: 800; color: #b16470; background: #fff0ef;}
+  .child-copy {min-width: 0; flex: 1;}
+  .child-copy b {font-size: 14px; display: block; line-height: 1.3;}
+  .child-copy small {color: #6c7b78; font-size: 10px;}
+  .round-check {width: 19px; height: 19px; border: 2px solid #85958c; border-radius: 50%; flex: none;}
+  .active .round-check {border: 5px solid #34884d; background: #fff;}
+  .row-divider {height: 32px; width: 1px; background: #e4ebe5;}
+  .edit-symbol {font-size: 16px; color: #438355; width: 19px; text-align: center;}
+  .add-row {height: 55px; border: 1px solid #cfe3d0; border-radius: 8px; display: flex; align-items: center; gap: 10px; padding: 0 12px; color: #277b41; background: #f4faf2; font-size: 13px; font-weight: 750;}
+  .add-row .plus {height: 24px; width: 24px; border-radius: 50%; background: #388a50; color: white; line-height: 22px; text-align: center; font-size: 21px; font-weight: 400;}
+  .add-row .arrow {margin-left: auto; font-size: 18px;}
+  .family-link {display: flex; justify-content: space-between; border-top: 1px solid #e6ebe7; margin-top: 26px; padding: 13px 0; color: #405a48; font-size: 12px;}
+  .family-link span {font-size: 18px; line-height: 15px; color: #83968a;}
+  .list-note {font-size: 10px; color: #87958a; text-align: center; margin-top: 14px;}
+  .edit-content {padding: 0 16px; background: #fff;}
+  .profile-hero {height: 87px; display: flex; align-items: center; gap: 12px; background: linear-gradient(90deg,#eefaed,#f0f8fe); margin: 0 -16px 12px; padding: 0 17px;}
+  .profile-hero img {width: 58px; height: 58px; border-radius: 50%; background: #e3f3fa; object-fit: cover;}
+  .profile-hero b {font-size: 17px; display: block;}
+  .profile-hero small {font-size: 10px; color: #65796e;}
+  .field-row {height: 49px; border-bottom: 1px solid #e8eee9; display: flex; align-items: center; gap: 10px; font-size: 12px;}
+  .field-row label {font-weight: 700; width: 58px; flex: none;}
+  .field-row .value {margin-left: auto; color: #344639; font-size: 12px;}
+  .field-row .value.muted {color: #84948b;}
+  .field-row .chev {font-size: 16px; color: #8a9b8f;}
+  .field-hint {color: #87968c; font-size: 9px; margin-top: 5px;}
+  .section-title {font-size: 12px; font-weight: 800; margin: 17px 0 8px;}
+  .measurement {display: flex; align-items: center; justify-content: space-between; background: #f1f8ee; border-radius: 8px; height: 69px; padding: 0 10px;}
+  .measurement small {display: block; font-size: 9px; color: #738479;}
+  .measurement b {font-size: 14px;}
+  .measure-action {font-size: 10px; color: #2e8147; font-weight: 700; white-space: nowrap;}
+  .pref-row {height: 43px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #e8eee9; font-size: 12px; color: #2e4437;}
+  .pref-row small {font-size: 10px; color: #73867b;}
+  .archive {text-align: center; font-size: 10px; color: #a04f4c; margin-top: 17px;}
+  .fixed-action {position: absolute; left: 0; right: 0; bottom: 0; height: 61px; padding: 7px 16px 8px; border-top: 1px solid #e7ede8; background: #fff;}
+  .fixed-action .button {height: 44px; display: flex; align-items: center; justify-content: center; background: #31884c; color: #fff; border-radius: 7px; font-size: 14px; font-weight: 800;}
+  .approval {max-width: 1000px; margin: 20px auto 0;}
+  .approval .subtitle {font-size: 13px; margin-bottom: 10px;}
+  .approval .option {border-color: #dce7de; border-radius: 7px;}
+  .approval .option.selected {border-color: #31884c; background: #f1f8f0;}
+  @media (max-width: 735px) {.flow-grid {grid-template-columns: 1fr;} .review-head h2 {font-size: 20px;}}
+</style>
+
+<div class="review-head">
+  <h2>A 阶段：宝贝切换与编辑</h2>
+  <p>沿用方案 2 的柔和色彩与插画细节，但操作页压缩装饰高度。示例展示双宝家庭；照片仍可选，未上传时用通用头像。</p>
+</div>
+
+<div class="flow-grid">
+  <div class="flow-panel">
+    <div class="phone">
+      <div class="status"><span>9:41</span><span>●●● ▰</span></div>
+      <div class="native-nav"><span class="back">‹</span>切换宝贝 <span class="menu">···</span></div>
+      <div class="content children-content">
+        <div class="family-banner"><small>我的家庭</small><h4>今天看哪位宝贝？</h4><span class="sun"></span><span class="hill"></span></div>
+        <div class="list-label">宝贝档案</div>
+        <div class="child-row active"><img class="avatar" src="/files/child-avatar.png" alt="通用宝贝头像"><div class="child-copy"><b>小豆子</b><small>2岁3个月 · 当前宝贝</small></div><div class="round-check"></div><div class="row-divider"></div><div class="edit-symbol">✎</div></div>
+        <div class="child-row"><div class="avatar avatar-placeholder">花</div><div class="child-copy"><b>小花</b><small>4岁1个月</small></div><div class="round-check"></div><div class="row-divider"></div><div class="edit-symbol">✎</div></div>
+        <div class="add-row"><span class="plus">+</span>添加宝贝 <span class="arrow">›</span></div>
+        <div class="family-link">家庭与成员 <span>›</span></div>
+        <div class="list-note">加入多个家庭时，才显示“切换家庭”</div>
+      </div>
+    </div>
+    <h3>03 · 切换宝贝</h3><p>去掉重复的大标题和多余跳转。点击孩子行切换，铅笔单独进入编辑，选中态不压住操作图标。</p>
+  </div>
+  <div class="flow-panel">
+    <div class="phone">
+      <div class="status"><span>9:41</span><span>●●● ▰</span></div>
+      <div class="native-nav"><span class="back">‹</span>编辑宝贝 <span class="menu">···</span></div>
+      <div class="content edit-content">
+        <div class="profile-hero"><img src="/files/child-avatar.png" alt="通用宝贝头像"><div><b>小豆子</b><small>2岁3个月 · 当前宝贝</small></div></div>
+        <div class="field-row"><label>昵称</label><span class="value">小豆子</span><span class="chev">›</span></div>
+        <div class="field-row"><label>生日</label><span class="value">2024-07-01</span><span class="chev">›</span></div>
+        <div class="field-hint">已填写生日，年龄根据生日自动计算</div>
+        <div class="field-row"><label>肤色</label><span class="value muted">暂未填写</span><span class="chev">›</span></div>
+        <div class="section-title">身体信息</div>
+        <div class="measurement"><div><small>最近测量 · 2026-09-20</small><b>92 cm　·　13 kg</b></div><div class="measure-action">＋ 新增测量</div></div>
+        <div class="section-title">穿搭设置</div>
+        <div class="pref-row">穿搭偏好 <small>查看或修改 ›</small></div>
+        <div class="archive">归档宝贝</div>
+      </div>
+      <div class="fixed-action"><div class="button">保存修改</div></div>
+    </div>
+    <h3>04 · 编辑宝贝</h3><p>头像改成横向小档案，基本资料、最近测量和偏好在一屏内建立清晰层级。新增测量单独进入，不与保存资料混成两套表单。</p>
+  </div>
+</div>
+
+<div class="approval">
+  <h3>宝贝页面的布局可以吗？</h3>
+  <p class="subtitle">可在下方选择，也可以直接说想改哪一页、哪个位置。</p>
+  <div class="options">
+    <div class="option" data-choice="children-approved" onclick="toggleSelect(this)"><div class="letter">✓</div><div class="content"><h3>方向正确，继续画家庭与测量页面</h3><p>宝贝列表紧凑，编辑页以资料为主，测量单独进入。</p></div></div>
+    <div class="option" data-choice="children-revise" onclick="toggleSelect(this)"><div class="letter">✎</div><div class="content"><h3>这组还需要调整</h3><p>告诉我哪里不顺手，或要保留哪些原画板元素。</p></div></div>
+  </div>
+</div>

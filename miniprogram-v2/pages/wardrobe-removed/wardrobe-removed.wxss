@@ -1,0 +1,15 @@
+@import "../../b.wxss";
+.b-removed-intro{font-size:12px;line-height:1.7;color:#64736a;margin:12px 0}
+.b-removed-page .b-info-row{font-size:12px;min-height:51px}
+.b-removed-page .b-info-row picker{max-width:160px}
+.b-removed-page .b-select{font-size:11px;border-radius:6px}
+.b-removed-row{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid #e4ebe3}
+.b-removed-row image,.b-removed-placeholder{width:52px;height:67px;flex:none;border-radius:6px;background:#f4f6f2}
+.b-removed-placeholder{display:flex;align-items:center;justify-content:center;color:#738477;font-size:10px;text-align:center;padding:5px}
+.b-removed-copy{flex:1;min-width:0}
+.b-removed-name{font-size:12px;font-weight:650;overflow-wrap:anywhere}
+.b-removed-history{font-size:10px;line-height:1.7;color:#64736a;margin-top:3px;overflow-wrap:anywhere}
+.b-removed-row button{font-size:11px;font-weight:500;flex:none;min-width:48px;white-space:nowrap;padding:7px 0}
+.b-removed-footer{flex-direction:column;gap:7px}
+.b-footer-note{font-size:10px;color:#64736a;line-height:1.5;text-align:center;width:100%}
+.b-removed-footer button{width:100%}

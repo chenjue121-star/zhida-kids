@@ -1,0 +1,46 @@
+<view class="page child-editor">
+  <view class="child-editor-head">
+    <view class="child-editor-initial" aria-hidden="true">{{childInitial}}</view>
+    <view class="child-editor-identity"><view class="child-editor-name">{{form.nickname || '新宝贝'}}</view><view class="child-editor-age">{{ageLabel}}</view></view>
+  </view>
+  <view wx:if="{{loading}}" class="loading">正在读取资料…</view>
+  <view wx:if="{{error}}" class="notice error">{{error}}<button class="link" bindtap="reloadConfirm" disabled="{{busy || loading}}">重新加载</button></view>
+  <view wx:if="{{ready && role === 'viewer'}}" class="notice">当前权限：仅查看</view>
+  <block wx:if="{{ready && (childId || role !== 'viewer')}}">
+    <view>
+      <view class="section basic-section">
+        <view class="section-title">基本资料</view>
+        <label class="field"><text class="field-label">昵称</text><input value="{{form.nickname}}" bindinput="nicknameInput" maxlength="80" placeholder="孩子昵称" disabled="{{busy || role === 'viewer'}}"/></label>
+        <view wx:if="{{!hasBirthday}}" class="field"><text class="field-label">年龄</text><view class="measurements"><picker range="{{years}}" value="{{ageYearIndex}}" bindchange="ageYear" disabled="{{busy || role === 'viewer'}}"><view class="picker">{{ageYearIndex < 0 ? '选择岁数' : years[ageYearIndex] + ' 岁'}}</view></picker><picker range="{{months}}" value="{{ageMonthIndex}}" bindchange="ageMonth" disabled="{{busy || role === 'viewer'}}"><view class="picker">{{ageMonthIndex < 0 ? '选择月份' : months[ageMonthIndex] + ' 个月'}}</view></picker></view></view>
+        <view class="field"><text class="field-label">生日（选填）</text><picker mode="date" value="{{form.birthday}}" data-field="birthday" bindchange="input" disabled="{{busy || role === 'viewer'}}"><view class="picker">{{form.birthday || '暂不填写'}}</view></picker></view>
+        <view class="field"><text class="field-label">肤色（选填）</text><picker range="{{skinOptions}}" range-key="label" value="{{skinIndex}}" bindchange="skin" disabled="{{busy || role === 'viewer'}}"><view class="picker">{{skinOptions[skinIndex].label}}</view></picker></view>
+      </view>
+      <view wx:if="{{!childId}}" class="section">
+        <view class="section-heading"><view class="section-title">家庭共同风格</view><text class="meta">可跳过</text></view>
+        <checkbox-group class="style-grid illustrated-styles" bindchange="styles"><label wx:for="{{styleOptions}}" wx:key="key" class="choice"><checkbox value="{{item.key}}" checked="{{item.checked}}" color="#267a42" disabled="{{busy}}"/><view class="mini-style-art"><image class="mini-style-sprite sprite-{{index}}" src="/assets/style-sprite.png" mode="scaleToFill" aria-hidden="true"/></view><text>{{item.label}}</text></label></checkbox-group>
+        <label class="choice"><checkbox-group bindchange="noStyles"><checkbox checked="{{!selectedStyles.length}}" color="#267a42" disabled="{{busy}}"/></checkbox-group><text>帮我选，暂无偏好</text></label>
+      </view>
+      <view wx:if="{{!childId}}" class="section">
+        <view class="section-title">身体测量（选填）</view>
+        <view class="measurements"><label class="field"><text class="field-label">身高 / cm</text><input type="digit" value="{{form.height_cm}}" data-field="height_cm" bindinput="input" placeholder="未知" disabled="{{busy}}"/></label><label class="field"><text class="field-label">体重 / kg</text><input type="digit" value="{{form.weight_kg}}" data-field="weight_kg" bindinput="input" placeholder="未知" disabled="{{busy}}"/></label></view>
+        <view class="field"><text class="field-label">测量日期</text><picker mode="date" value="{{form.measured_on}}" data-field="measured_on" bindchange="input" disabled="{{busy}}"><view class="picker">{{form.measured_on || '请选择日期'}}</view></picker></view>
+      </view>
+    </view>
+    <view wx:if="{{childId}}" class="section measurement-section">
+      <view class="section-title">身体信息</view>
+      <view class="measurement-summary"><view class="measurement-value"><text>身高</text><text class="measurement-number">{{latestMeasurement ? latestMeasurement.heightLabel : '未知'}}</text></view><view class="measurement-value"><text>体重</text><text class="measurement-number">{{latestMeasurement ? latestMeasurement.weightLabel : '未知'}}</text></view><button wx:if="{{role !== 'viewer'}}" class="measurement-toggle" bindtap="toggleMeasurement">{{measurementOpen ? '收起' : '更新'}} ›</button></view>
+      <view wx:if="{{latestMeasurement}}" class="measurement-date">最近测量 {{latestMeasurement.measured_on}}</view>
+      <form wx:if="{{measurementOpen && role !== 'viewer'}}" class="measurement-form" bindsubmit="saveMeasurement">
+        <view class="measurements"><label class="field"><text class="field-label">新测身高 / cm</text><input type="digit" value="{{form.height_cm}}" data-field="height_cm" bindinput="input" placeholder="未知" disabled="{{busy}}"/></label><label class="field"><text class="field-label">新测体重 / kg</text><input type="digit" value="{{form.weight_kg}}" data-field="weight_kg" bindinput="input" placeholder="未知" disabled="{{busy}}"/></label></view>
+        <view class="field"><text class="field-label">测量日期</text><picker mode="date" value="{{form.measured_on}}" data-field="measured_on" bindchange="input" disabled="{{busy}}"><view class="picker">{{form.measured_on || '请选择日期'}}</view></picker></view>
+        <button form-type="submit" disabled="{{busy}}" loading="{{busy}}">保存本次测量</button>
+      </form>
+    </view>
+    <view wx:if="{{childId}}" class="section preference-section"><view class="section-title">穿搭偏好</view><button class="preference-entry" bindtap="preferences" disabled="{{busy}}"><text>喜欢的风格</text><text>查看与调整 ›</text></button></view>
+    <view wx:if="{{role !== 'viewer'}}" class="editor-save"><button class="primary" bindtap="save" disabled="{{busy || conflict}}" loading="{{busy}}">{{childId ? '保存修改' : '创建孩子档案'}}</button></view>
+    <view wx:if="{{childId && role !== 'viewer'}}" class="editor-danger"><button class="link" bindtap="archive" disabled="{{busy || conflict}}">归档孩子</button></view>
+  </block>
+  <button class="link" bindtap="goFamilies" disabled="{{busy}}">返回我的家庭</button>
+  <view wx:if="{{conflictSheet}}" class="editor-sheet-mask" bindtap="closeConflict"><view class="editor-sheet" catchtap="noop"><view class="editor-sheet-title">资料已在其他设备更新</view><view class="editor-sheet-copy">你刚填写的内容还在此页。重新加载会丢弃这些修改，请先核对最新资料。</view><button class="primary" bindtap="reloadConfirm">重新加载资料</button><button class="editor-sheet-cancel" bindtap="closeConflict">留在当前页面</button></view></view>
+  <view wx:if="{{archiveSheet}}" class="editor-sheet-mask" bindtap="closeArchive"><view class="editor-sheet" catchtap="noop"><view class="editor-sheet-title">归档{{form.nickname || '宝贝'}}？</view><view class="editor-sheet-copy">归档后，宝贝将不再出现在当前列表，已有资料和历史记录仍会保留。</view><button class="danger" bindtap="confirmArchive" loading="{{busy}}" disabled="{{busy}}">确认归档</button><button class="editor-sheet-cancel" bindtap="closeArchive" disabled="{{busy}}">取消</button></view></view>
+</view>

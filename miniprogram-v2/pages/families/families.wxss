@@ -1,0 +1,16 @@
+.families-page {background:linear-gradient(180deg,#eff9ff 0,#fff 220px)}
+.families-page .header {margin-bottom:16px}
+.families-intro {margin:8px 0 15px;color:#62748a;font-size:14px}
+.family-item {display:flex;align-items:center;gap:14px;min-height:82px;padding:13px 0;border-bottom:1px solid #e4ebee}
+.family-icon {display:flex;align-items:center;justify-content:center;width:48px;height:48px;flex:none;border-radius:50%;background:#e8f5e9;color:#2d8048;font-size:26px}
+.family-item-main {flex:1;min-width:0}
+.family-item-main .name,.family-item-main .meta {overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.family-arrow {color:#78899b;font-size:25px;line-height:1}
+.families-empty {padding:38px 0;color:#60758a;font-size:14px;line-height:1.6}
+.families-add {width:100%;margin-top:23px}
+.families-add text {margin-right:5px;font-size:19px}
+.families-create {padding-top:9px}
+.families-create>.meta {margin-bottom:24px}
+.families-create .primary {width:100%;margin-top:26px}
+.families-create>.link {display:block;margin:15px auto 0}
+.families-exit {display:block;margin:36px auto 0;color:#a9413e}

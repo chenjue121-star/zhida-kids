@@ -1,0 +1,108 @@
+<style>
+  .review-head {max-width: 1120px; margin: 0 auto 18px;}
+  .review-head h2 {font-size: 23px; margin: 0 0 6px;}
+  .review-head p {font-size: 13px; line-height: 1.6; color: #61736c; margin: 0;}
+  .flow-grid {display: grid; grid-template-columns: repeat(3, minmax(330px, 1fr)); gap: 12px; max-width: 1120px; margin: auto;}
+  .flow-panel {background: #fff; border: 1px solid #dce8df; border-radius: 8px; padding: 14px 8px 16px;}
+  .flow-panel .phone {position: relative; width: 330px; height: 715px; margin: auto; overflow: hidden; border: 7px solid #27332f; border-radius: 34px; background: #fff; color: #203029; box-shadow: 0 10px 26px rgba(30,48,36,.13);}
+  .flow-panel .status {height: 27px; padding: 10px 18px 0; display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; line-height: 1;}
+  .flow-panel .nav {height: 39px; position: relative; text-align: center; padding-top: 6px; font-size: 15px; font-weight: 700; background: #fff;}
+  .flow-panel .nav .back {position: absolute; left: 17px; top: -3px; font-size: 27px; font-weight: 400;}
+  .flow-panel .nav .capsule {position: absolute; top: 0; right: 12px; width: 62px; height: 28px; border: 1px solid #d9dfdb; border-radius: 20px; font-size: 16px; font-weight: 400; letter-spacing: 3px; line-height: 25px;}
+  .flow-panel .body {height: 625px; padding: 0 16px 11px; overflow: hidden; background: linear-gradient(180deg,#eef8fc 0%,#fff 150px);}
+  .flow-panel .family-head {height: 88px; display: flex; align-items: center; gap: 12px;}
+  .flow-panel .family-head img {height: 55px; width: 55px; flex: none; object-fit: contain;}
+  .flow-panel .family-name {font-size: 16px; font-weight: 800; line-height: 1.2;}
+  .flow-panel .family-sub {font-size: 11px; color: #728579; margin-top: 6px;}
+  .flow-panel .viewer-badge {display: inline-block; margin-left: 5px; font-size: 10px; padding: 3px 5px; border-radius: 4px; color: #4b7087; background: #eaf2f8; vertical-align: 1px;}
+  .flow-panel .settings-row {height: 50px; border-top: 1px solid #e4ebe5; border-bottom: 1px solid #e4ebe5; display: flex; align-items: center; gap: 10px;}
+  .flow-panel .settings-row b {font-size: 13px;}
+  .flow-panel .settings-row small {margin-left: auto; color: #7d8c81; font-size: 11px;}
+  .flow-panel .chev {color: #96a99b; font-size: 19px; line-height: 1;}
+  .flow-panel .section-head {height: 57px; display: flex; align-items: flex-end; justify-content: space-between; padding-bottom: 10px;}
+  .flow-panel .section-head b {font-size: 13px; color: #32543b;}
+  .flow-panel .section-head small {font-size: 11px; color: #829387;}
+  .flow-panel .member {height: 75px; display: flex; align-items: center; gap: 10px; margin-bottom: 8px; padding: 0 10px; border: 1px solid #e2eae4; border-radius: 8px; background: #fff; box-shadow: 0 2px 7px rgba(41,64,44,.04);}
+  .flow-panel .member:last-child {margin-bottom: 0;}
+  .flow-panel .avatar {height: 44px; width: 44px; flex: none; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 750;}
+  .flow-panel .avatar.mom {background: #e2eef0; color: #5d7671;}
+  .flow-panel .avatar.dad {background: #e6f2e5; color: #4f8059;}
+  .flow-panel .avatar.grandma {background: #f8ebe8; color: #a26b68;}
+  .flow-panel .member-copy {flex: 1; min-width: 0;}
+  .flow-panel .member-name {display: block; font-size: 14px; font-weight: 750; white-space: nowrap;}
+  .flow-panel .member-sub {display: block; font-size: 11px; color: #7f8f83; margin-top: 5px;}
+  .flow-panel .member-meta {margin-left: auto; display: flex; align-items: center; gap: 7px;}
+  .flow-panel .role-pill {padding: 4px 6px; border-radius: 4px; font-size: 11px; font-weight: 650; white-space: nowrap;}
+  .flow-panel .role-pill.admin {background: #fff3d9; color: #876320;}
+  .flow-panel .role-pill.editor {background: #e9f5e7; color: #397447;}
+  .flow-panel .role-pill.viewer {background: #eaf2f8; color: #4b7087;}
+  .flow-panel .invite {height: 44px; display: flex; align-items: center; justify-content: center; margin-top: 16px; border-radius: 7px; background: #31884c; color: white; font-size: 13px; font-weight: 800;}
+  .flow-panel .leave {font-size: 12px; color: #a45a58; text-align: center; margin-top: 18px;}
+  .flow-panel .scrim {position: absolute; inset: 66px 0 0; background: rgba(25,38,31,.35);}
+  .flow-panel .sheet {position: absolute; left: 0; right: 0; bottom: 0; height: 425px; border-radius: 16px 16px 0 0; background: #fff; box-shadow: 0 -8px 24px rgba(30,49,35,.11); padding: 9px 16px 12px;}
+  .flow-panel .handle {height: 4px; width: 31px; margin: 0 auto 11px; border-radius: 4px; background: #d9e2db;}
+  .flow-panel .sheet-title {font-size: 15px; font-weight: 800; line-height: 1.2;}
+  .flow-panel .sheet-member {height: 64px; display: flex; align-items: center; gap: 11px; border-bottom: 1px solid #e8eee9;}
+  .flow-panel .sheet-member .member-name {font-size: 14px;}
+  .flow-panel .sheet-label {margin: 13px 0 6px; color: #426249; font-size: 12px; font-weight: 800;}
+  .flow-panel .role-row {height: 60px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid #e8eee9;}
+  .flow-panel .role-row b {display: block; font-size: 13px; line-height: 1.2;}
+  .flow-panel .role-row small {display: block; color: #7a8b7e; font-size: 11px; margin-top: 4px; line-height: 1.2;}
+  .flow-panel .radio {height: 19px; width: 19px; flex: none; margin-left: auto; border: 1.5px solid #a9bbae; border-radius: 50%;}
+  .flow-panel .role-row.selected .radio {border: 5px solid #398b52; background: #fff;}
+  .flow-panel .sheet .primary {height: 44px; margin-top: 13px; display: flex; align-items: center; justify-content: center; background: #31884c; color: white; border-radius: 7px; font-size: 13px; font-weight: 800;}
+  .flow-panel .sheet .remove {font-size: 12px; color: #aa5754; text-align: center; margin-top: 12px;}
+  .flow-panel .caption {max-width: 330px; margin: 12px auto 0;}
+  .flow-panel .caption h3 {font-size: 15px; color: #27362c; margin: 0 0 4px;}
+  .flow-panel .caption p {font-size: 12px; color: #687a70; line-height: 1.5; margin: 0;}
+  .scope-note {max-width: 1120px; margin: 17px auto 0; background: #edf6ed; border-left: 3px solid #388b50; padding: 12px 15px; font-size: 13px; line-height: 1.55; color: #47634e;}
+  .approval {max-width: 1120px; margin: 20px auto 0;}
+  .approval .subtitle {font-size: 13px; margin-bottom: 10px;}
+  .approval .option {border-color: #dce7de; border-radius: 7px;}
+  .approval .option.selected {border-color: #31884c; background: #f1f8f0;}
+  @media (max-width: 1120px) {.flow-grid {grid-template-columns: 1fr;} .review-head h2 {font-size: 20px;}}
+</style>
+
+<div class="review-head"><h2>家庭成员权限 · B 布局延展</h2><p>按你选的独立成员项重画完整状态。成员头像 44px、姓名 14px、角色标签独立；权限弹层的说明与触点也一起放宽。</p></div>
+
+<div class="flow-grid">
+  <div class="flow-panel">
+    <div class="phone"><div class="status"><span>9:41</span><span>●●● ▰</span></div><div class="nav"><span class="back">‹</span>家庭与成员 <span class="capsule">···</span></div><div class="body">
+      <div class="family-head"><img src="/files/family-house.png" alt=""><div><div class="family-name">我的家庭</div><div class="family-sub">1 位宝贝 · 3 位成员</div></div></div>
+      <div class="settings-row"><b>家庭资料</b><small>名称、备用城市</small><span class="chev">›</span></div>
+      <div class="section-head"><b>家庭成员</b><small>3 位</small></div>
+      <div class="member"><div class="avatar mom">妈</div><div class="member-copy"><span class="member-name">豆豆妈妈（我）</span><span class="member-sub">创建者</span></div><div class="member-meta"><span class="role-pill admin">管理员</span></div></div>
+      <div class="member"><div class="avatar dad">爸</div><div class="member-copy"><span class="member-name">豆豆爸爸</span><span class="member-sub">家庭成员</span></div><div class="member-meta"><span class="role-pill editor">可编辑</span><span class="chev">›</span></div></div>
+      <div class="member"><div class="avatar grandma">外</div><div class="member-copy"><span class="member-name">外婆</span><span class="member-sub">家庭成员</span></div><div class="member-meta"><span class="role-pill viewer">仅查看</span><span class="chev">›</span></div></div>
+      <div class="invite">邀请家人</div><div class="leave">退出家庭</div>
+    </div></div><div class="caption"><h3>01 · 管理员看到的成员</h3><p>只给可管理的其他成员显示箭头；邀请按钮与成员区留出独立间距。</p></div>
+  </div>
+
+  <div class="flow-panel">
+    <div class="phone"><div class="status"><span>9:41</span><span>●●● ▰</span></div><div class="nav"><span class="back">‹</span>家庭与成员 <span class="capsule">···</span></div><div class="body">
+      <div class="family-head"><img src="/files/family-house.png" alt=""><div><div class="family-name">我的家庭</div><div class="family-sub">1 位宝贝 · 3 位成员</div></div></div><div class="settings-row"><b>家庭资料</b><small>名称、备用城市</small><span class="chev">›</span></div><div class="section-head"><b>家庭成员</b><small>3 位</small></div>
+      <div class="member"><div class="avatar mom">妈</div><div class="member-copy"><span class="member-name">豆豆妈妈（我）</span><span class="member-sub">创建者</span></div><div class="member-meta"><span class="role-pill admin">管理员</span></div></div><div class="member"><div class="avatar dad">爸</div><div class="member-copy"><span class="member-name">豆豆爸爸</span><span class="member-sub">家庭成员</span></div><div class="member-meta"><span class="role-pill editor">可编辑</span><span class="chev">›</span></div></div>
+    </div><div class="scrim"></div><div class="sheet"><div class="handle"></div><div class="sheet-title">成员权限</div><div class="sheet-member"><div class="avatar dad">爸</div><div class="member-copy"><span class="member-name">豆豆爸爸</span><span class="member-sub">当前权限：可编辑</span></div></div><div class="sheet-label">设置权限</div>
+      <div class="role-row"><div><b>管理员</b><small>管理邀请与家庭成员</small></div><span class="radio"></span></div>
+      <div class="role-row"><div><b>可编辑</b><small>维护宝贝档案与共同偏好</small></div><span class="radio"></span></div>
+      <div class="role-row selected"><div><b>仅查看</b><small>查看资料，不可修改</small></div><span class="radio"></span></div>
+      <div class="primary">保存权限</div><div class="remove">移除成员</div>
+    </div></div><div class="caption"><h3>02 · 权限弹层</h3><p>三行说明更易读，保存或移除时再二次确认；最后一名管理员不能降级。</p></div>
+  </div>
+
+  <div class="flow-panel">
+    <div class="phone"><div class="status"><span>9:41</span><span>●●● ▰</span></div><div class="nav"><span class="back">‹</span>家庭与成员 <span class="capsule">···</span></div><div class="body">
+      <div class="family-head"><img src="/files/family-house.png" alt=""><div><div class="family-name">我的家庭 <span class="viewer-badge">仅查看</span></div><div class="family-sub">1 位宝贝 · 3 位成员</div></div></div>
+      <div class="settings-row"><b>家庭资料</b><small>名称、备用城市</small></div>
+      <div class="section-head"><b>家庭成员</b><small>3 位</small></div>
+      <div class="member"><div class="avatar mom">妈</div><div class="member-copy"><span class="member-name">豆豆妈妈</span><span class="member-sub">创建者</span></div><div class="member-meta"><span class="role-pill admin">管理员</span></div></div>
+      <div class="member"><div class="avatar dad">爸</div><div class="member-copy"><span class="member-name">豆豆爸爸</span><span class="member-sub">家庭成员</span></div><div class="member-meta"><span class="role-pill editor">可编辑</span></div></div>
+      <div class="member"><div class="avatar grandma">外</div><div class="member-copy"><span class="member-name">外婆（我）</span><span class="member-sub">家庭成员</span></div><div class="member-meta"><span class="role-pill viewer">仅查看</span></div></div>
+      <div class="leave">退出家庭</div>
+    </div></div><div class="caption"><h3>03 · 仅查看成员</h3><p>使用同样的成员项，但没有编辑箭头与邀请动作，仍可主动退出。</p></div>
+  </div>
+</div>
+
+<div class="scope-note">家庭资料可以查看，但仅管理员显示编辑入口。角色变更、成员移除与退出家庭的二次确认和冲突提示，会在后续状态稿单独呈现。</div>
+
+<div class="approval"><h3>B 布局延展到权限页可以吗？</h3><p class="subtitle">这轮确认三处的视觉统一性。</p><div class="options"><div class="option" data-choice="member-b-complete" onclick="toggleSelect(this)"><div class="letter">✓</div><div class="content"><h3>可以，继续下一组页面</h3><p>保留独立成员项、舒展权限弹层和只读界面。</p></div></div><div class="option" data-choice="member-b-revise" onclick="toggleSelect(this)"><div class="letter">✎</div><div class="content"><h3>还需要调整</h3><p>可以指出哪一处仍然拥挤或不协调。</p></div></div></div></div>

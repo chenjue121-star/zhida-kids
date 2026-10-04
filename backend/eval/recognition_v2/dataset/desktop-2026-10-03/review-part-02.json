@@ -1,0 +1,960 @@
+{
+  "schema_version": 1,
+  "kind": "ai_annotation_review_part",
+  "reviewer": "Codex_agent",
+  "provenance": "逐张使用view_image观察原图的AI审核草稿；不是人工独立审核或正式真值；未调用模型API。",
+  "items": [
+    {
+      "image": "c017.jpg",
+      "reviewed": false,
+      "scene": "product_screenshot",
+      "hero_region_hint": [
+        0.0,
+        0.23,
+        1.0,
+        0.67
+      ],
+      "suggestions": [
+        {
+          "draft_id": "c017_upper",
+          "description": "黄色翻领开襟长袖上衣，浅色领子、肘部圆形布片和小胸前装饰",
+          "bbox": [
+            0.172,
+            0.243,
+            0.781,
+            0.43
+          ],
+          "category": "outerwear",
+          "colors": [
+            "yellow",
+            "white"
+          ],
+          "pattern": "solid",
+          "thickness": null,
+          "fields_needing_review": [
+            "bbox",
+            "category",
+            "colors",
+            "pattern"
+          ]
+        },
+        {
+          "draft_id": "c017_lower",
+          "description": "浅米白色松紧腰长裤，有小图形装饰",
+          "bbox": [
+            0.367,
+            0.384,
+            0.77,
+            0.644
+          ],
+          "category": "bottom",
+          "colors": [
+            "beige"
+          ],
+          "pattern": "solid",
+          "thickness": null,
+          "fields_needing_review": [
+            "bbox",
+            "colors",
+            "pattern"
+          ]
+        }
+      ],
+      "secondary_visuals": [
+        "右下悬浮圆形入口有同套上下装缩略图，不作为新增主商品对象。",
+        "轮播页数、购买文字和图标属于页面界面；这里的主对象建议数为2，不代表轮播所有照片内容。"
+      ],
+      "open_questions": [
+        "黄色开襟上衣按outerwear暂提建议，需统一夹克式开襟上衣与top的界限。",
+        "领子及肘部布片偏白或米白；裤子偏暖白，white/beige边界需要人工统一。",
+        "胸前、裤腿微小图形颜色暂未加入色集；先冻结小徽标是否计色、是否使solid变为print的规则。",
+        "上衣遮住裤子部分腰头；裤框仅针对实际可见区域，不还原隐藏轮廓。"
+      ],
+      "possible_related_images": []
+    },
+    {
+      "image": "c018.jpg",
+      "reviewed": false,
+      "scene": "product_screenshot",
+      "hero_region_hint": [
+        0.0,
+        0.235,
+        1.0,
+        0.646
+      ],
+      "suggestions": [
+        {
+          "draft_id": "c018_vest",
+          "description": "浅粉色圆领拉链无袖马甲，有肩部褶边和横向缝线",
+          "bbox": [
+            0.085,
+            0.247,
+            0.919,
+            0.592
+          ],
+          "category": null,
+          "colors": [
+            "pink"
+          ],
+          "pattern": "solid",
+          "thickness": null,
+          "fields_needing_review": [
+            "bbox",
+            "category",
+            "colors",
+            "pattern"
+          ]
+        }
+      ],
+      "secondary_visuals": [
+        "右下悬浮圆形入口重复显示这件马甲的缩略图，不增加主件数。"
+      ],
+      "open_questions": [
+        "无袖马甲在top与outerwear之间的类别规则待裁决；本草稿category=null，不能由商品文字决定。",
+        "横向缝线及肩部褶边是结构/纹理，不应未经规则自动记stripe。",
+        "胸前小图形装饰是否忽略其颜色、是否仍记solid需统一。",
+        "可见结构不证明填充、实际厚薄或保暖能力，thickness保持null。"
+      ],
+      "possible_related_images": []
+    },
+    {
+      "image": "c019.jpg",
+      "reviewed": false,
+      "scene": "product_screenshot",
+      "hero_region_hint": [
+        0.0,
+        0.118,
+        1.0,
+        0.664
+      ],
+      "suggestions": [
+        {
+          "draft_id": "c019_upper",
+          "description": "多色拼块图案无袖上衣，肩部有荷叶边",
+          "bbox": [
+            0.107,
+            0.148,
+            0.891,
+            0.494
+          ],
+          "category": "top",
+          "colors": [
+            "multicolor"
+          ],
+          "pattern": "print",
+          "thickness": null,
+          "fields_needing_review": [
+            "bbox",
+            "colors",
+            "pattern"
+          ]
+        },
+        {
+          "draft_id": "c019_lower",
+          "description": "多色拼块图案短裤，可见两条裤腿与裤口",
+          "bbox": [
+            0.191,
+            0.476,
+            0.818,
+            0.606
+          ],
+          "category": "bottom",
+          "colors": [
+            "multicolor"
+          ],
+          "pattern": "print",
+          "thickness": null,
+          "fields_needing_review": [
+            "bbox",
+            "category",
+            "colors",
+            "pattern"
+          ]
+        }
+      ],
+      "secondary_visuals": [
+        "下方小方块是商品花色选择缩略图，不作为新的衣物。"
+      ],
+      "open_questions": [
+        "上下两件重叠；下装腰头被遮挡，当前下装框只覆盖可见区域，需人工核对并按两件管理。",
+        "拼块内同时有斜条纹、细花纹和不同色块；单枚举pattern暂建议print，不能直接等同plaid，需冻结主导图案规则。",
+        "colors暂用multicolor，正式审核需选择multicolor口径还是逐色集合，不能从页面配色文字回填。"
+      ],
+      "possible_related_images": []
+    },
+    {
+      "image": "c020.jpg",
+      "reviewed": false,
+      "scene": "product_screenshot",
+      "hero_region_hint": [
+        0.0,
+        0.118,
+        1.0,
+        0.664
+      ],
+      "suggestions": [
+        {
+          "draft_id": "c020_jacket",
+          "description": "浅绿色长袖开襟上衣，浅色花纹圆领",
+          "bbox": [
+            0.11,
+            0.15,
+            0.591,
+            0.419
+          ],
+          "category": "outerwear",
+          "colors": [
+            "green",
+            "beige"
+          ],
+          "pattern": "print",
+          "thickness": null,
+          "fields_needing_review": [
+            "bbox",
+            "category",
+            "colors",
+            "pattern"
+          ]
+        },
+        {
+          "draft_id": "c020_shorts",
+          "description": "浅色小花图案短裤，上部被开襟上衣遮挡",
+          "bbox": [
+            0.197,
+            0.407,
+            0.512,
+            0.507
+          ],
+          "category": "bottom",
+          "colors": [
+            "beige"
+          ],
+          "pattern": "print",
+          "thickness": null,
+          "fields_needing_review": [
+            "bbox",
+            "colors",
+            "pattern"
+          ]
+        },
+        {
+          "draft_id": "c020_bodysuit",
+          "description": "浅绿色细肩带包屁衣，边缘有浅色花纹包边",
+          "bbox": [
+            0.614,
+            0.182,
+            0.891,
+            0.51
+          ],
+          "category": "onesie",
+          "colors": [
+            "green",
+            "beige"
+          ],
+          "pattern": "solid",
+          "thickness": null,
+          "fields_needing_review": [
+            "bbox",
+            "category",
+            "colors",
+            "pattern"
+          ]
+        }
+      ],
+      "secondary_visuals": [
+        "页面下方双色小方块是配色/面料缩略图，不作为额外衣物。"
+      ],
+      "open_questions": [
+        "主图可见左侧开襟上衣与其下方短裤、右侧包屁衣，共3个主商品对象；不能将左侧组合合成连体衣。",
+        "左侧开襟上衣按outerwear暂提建议，需与top统一分类边界。",
+        "开襟上衣主体素色但领部花纹清楚，包屁衣边缘也有小花包边；solid/print优先级必须一致，当前两件pattern均需裁决。",
+        "浅色底与小花色如何纳入colors集合待裁决；此草稿未列每种微小花色。",
+        "上衣有纵向表面纹理，不从纹理推断实际材质或厚薄。"
+      ],
+      "possible_related_images": []
+    },
+    {
+      "image": "c021.png",
+      "reviewed": false,
+      "scene": "product_screenshot",
+      "hero_region_hint": [
+        0.0,
+        0.098,
+        1.0,
+        0.62
+      ],
+      "suggestions": [
+        {
+          "draft_id": "c021_sweater",
+          "description": "浅绿色长袖圆领麻花纹理上衣",
+          "bbox": [
+            0.11,
+            0.174,
+            0.889,
+            0.493
+          ],
+          "category": "top",
+          "colors": [
+            "green"
+          ],
+          "pattern": "solid",
+          "thickness": null,
+          "fields_needing_review": [
+            "bbox",
+            "colors",
+            "pattern"
+          ]
+        }
+      ],
+      "secondary_visuals": [
+        "页面下方有五个不同配色/胸前图形的方形缩略图，其中包含当前主商品配色；这些是选择控件，不能悄悄当负例或新增主对象。"
+      ],
+      "open_questions": [
+        "单件主商品上衣；肩扣、翻折袖口、罗纹与麻花纹理不增加对象数。",
+        "麻花编织是否按solid表达待统一；它是表面纹理，不能仅因纵向凸起就标stripe，也不能当看不见而排除评分。",
+        "胸前微小图形及领内细条色暂未加入颜色；是否仍记solid、是否纳入小徽标颜色需冻结。",
+        "c021至c025的外形、肩扣、针织布局高度相似且互为页面配色缩略图，可能同一款不同颜色；关系未经人工确认，建议同组避免款式跨集合泄漏。",
+        "仅有正面商品图，不根据名称或纹理推断材料、厚薄、是否拥有或合身。"
+      ],
+      "possible_related_images": [
+        "c022.png",
+        "c023.png",
+        "c024.png",
+        "c025.png"
+      ]
+    },
+    {
+      "image": "c022.png",
+      "reviewed": false,
+      "scene": "product_screenshot",
+      "hero_region_hint": [
+        0.0,
+        0.111,
+        1.0,
+        0.652
+      ],
+      "suggestions": [
+        {
+          "draft_id": "c022_sweater",
+          "description": "绿色长袖圆领麻花纹理上衣",
+          "bbox": [
+            0.111,
+            0.196,
+            0.889,
+            0.535
+          ],
+          "category": "top",
+          "colors": [
+            "green"
+          ],
+          "pattern": "solid",
+          "thickness": null,
+          "fields_needing_review": [
+            "bbox",
+            "colors",
+            "pattern"
+          ]
+        }
+      ],
+      "secondary_visuals": [
+        "页面下方有五个不同配色/胸前图形的方形缩略图，其中包含当前主商品配色；这些是选择控件，不能悄悄当负例或新增主对象。"
+      ],
+      "open_questions": [
+        "单件主商品上衣；肩扣、翻折袖口、罗纹与麻花纹理不增加对象数。",
+        "麻花编织是否按solid表达待统一；它是表面纹理，不能仅因纵向凸起就标stripe，也不能当看不见而排除评分。",
+        "胸前微小图形及领内细条色暂未加入颜色；是否仍记solid、是否纳入小徽标颜色需冻结。",
+        "c021至c025的外形、肩扣、针织布局高度相似且互为页面配色缩略图，可能同一款不同颜色；关系未经人工确认，建议同组避免款式跨集合泄漏。",
+        "仅有正面商品图，不根据名称或纹理推断材料、厚薄、是否拥有或合身。"
+      ],
+      "possible_related_images": [
+        "c021.png",
+        "c023.png",
+        "c024.png",
+        "c025.png"
+      ]
+    },
+    {
+      "image": "c023.png",
+      "reviewed": false,
+      "scene": "product_screenshot",
+      "hero_region_hint": [
+        0.0,
+        0.111,
+        1.0,
+        0.652
+      ],
+      "suggestions": [
+        {
+          "draft_id": "c023_sweater",
+          "description": "深蓝色长袖圆领麻花纹理上衣",
+          "bbox": [
+            0.111,
+            0.196,
+            0.889,
+            0.535
+          ],
+          "category": "top",
+          "colors": [
+            "blue"
+          ],
+          "pattern": "solid",
+          "thickness": null,
+          "fields_needing_review": [
+            "bbox",
+            "colors",
+            "pattern"
+          ]
+        }
+      ],
+      "secondary_visuals": [
+        "页面下方有五个不同配色/胸前图形的方形缩略图，其中包含当前主商品配色；这些是选择控件，不能悄悄当负例或新增主对象。"
+      ],
+      "open_questions": [
+        "单件主商品上衣；肩扣、翻折袖口、罗纹与麻花纹理不增加对象数。",
+        "麻花编织是否按solid表达待统一；它是表面纹理，不能仅因纵向凸起就标stripe，也不能当看不见而排除评分。",
+        "胸前微小图形及领内细条色暂未加入颜色；是否仍记solid、是否纳入小徽标颜色需冻结。",
+        "c021至c025的外形、肩扣、针织布局高度相似且互为页面配色缩略图，可能同一款不同颜色；关系未经人工确认，建议同组避免款式跨集合泄漏。",
+        "仅有正面商品图，不根据名称或纹理推断材料、厚薄、是否拥有或合身。",
+        "深蓝接近黑，blue/black的粗粒度边界需人工核对，不能照页面颜色文字直接定值。"
+      ],
+      "possible_related_images": [
+        "c021.png",
+        "c022.png",
+        "c024.png",
+        "c025.png"
+      ]
+    },
+    {
+      "image": "c024.png",
+      "reviewed": false,
+      "scene": "product_screenshot",
+      "hero_region_hint": [
+        0.0,
+        0.111,
+        1.0,
+        0.652
+      ],
+      "suggestions": [
+        {
+          "draft_id": "c024_sweater",
+          "description": "浅灰色长袖圆领麻花纹理上衣",
+          "bbox": [
+            0.112,
+            0.191,
+            0.889,
+            0.541
+          ],
+          "category": "top",
+          "colors": [
+            "gray"
+          ],
+          "pattern": "solid",
+          "thickness": null,
+          "fields_needing_review": [
+            "bbox",
+            "colors",
+            "pattern"
+          ]
+        }
+      ],
+      "secondary_visuals": [
+        "页面下方有五个不同配色/胸前图形的方形缩略图，其中包含当前主商品配色；这些是选择控件，不能悄悄当负例或新增主对象。"
+      ],
+      "open_questions": [
+        "单件主商品上衣；肩扣、翻折袖口、罗纹与麻花纹理不增加对象数。",
+        "麻花编织是否按solid表达待统一；它是表面纹理，不能仅因纵向凸起就标stripe，也不能当看不见而排除评分。",
+        "胸前微小图形及领内细条色暂未加入颜色；是否仍记solid、是否纳入小徽标颜色需冻结。",
+        "c021至c025的外形、肩扣、针织布局高度相似且互为页面配色缩略图，可能同一款不同颜色；关系未经人工确认，建议同组避免款式跨集合泄漏。",
+        "仅有正面商品图，不根据名称或纹理推断材料、厚薄、是否拥有或合身。"
+      ],
+      "possible_related_images": [
+        "c021.png",
+        "c022.png",
+        "c023.png",
+        "c025.png"
+      ]
+    },
+    {
+      "image": "c025.png",
+      "reviewed": false,
+      "scene": "product_screenshot",
+      "hero_region_hint": [
+        0.0,
+        0.111,
+        1.0,
+        0.652
+      ],
+      "suggestions": [
+        {
+          "draft_id": "c025_sweater",
+          "description": "黑色长袖圆领麻花纹理上衣",
+          "bbox": [
+            0.111,
+            0.196,
+            0.889,
+            0.535
+          ],
+          "category": "top",
+          "colors": [
+            "black"
+          ],
+          "pattern": "solid",
+          "thickness": null,
+          "fields_needing_review": [
+            "bbox",
+            "colors",
+            "pattern"
+          ]
+        }
+      ],
+      "secondary_visuals": [
+        "页面下方有五个不同配色/胸前图形的方形缩略图，其中包含当前主商品配色；这些是选择控件，不能悄悄当负例或新增主对象。"
+      ],
+      "open_questions": [
+        "单件主商品上衣；肩扣、翻折袖口、罗纹与麻花纹理不增加对象数。",
+        "麻花编织是否按solid表达待统一；它是表面纹理，不能仅因纵向凸起就标stripe，也不能当看不见而排除评分。",
+        "胸前微小图形及领内细条色暂未加入颜色；是否仍记solid、是否纳入小徽标颜色需冻结。",
+        "c021至c025的外形、肩扣、针织布局高度相似且互为页面配色缩略图，可能同一款不同颜色；关系未经人工确认，建议同组避免款式跨集合泄漏。",
+        "仅有正面商品图，不根据名称或纹理推断材料、厚薄、是否拥有或合身。"
+      ],
+      "possible_related_images": [
+        "c021.png",
+        "c022.png",
+        "c023.png",
+        "c024.png"
+      ]
+    },
+    {
+      "image": "c026.png",
+      "reviewed": false,
+      "scene": "product_screenshot",
+      "hero_region_hint": [
+        0.0,
+        0.125,
+        1.0,
+        0.699
+      ],
+      "suggestions": [
+        {
+          "draft_id": "c026_upper",
+          "description": "蓝绿宽横条纹长袖翻领上衣，白色领子",
+          "bbox": [
+            0.116,
+            0.181,
+            0.882,
+            0.498
+          ],
+          "category": "top",
+          "colors": [
+            "blue",
+            "green",
+            "white"
+          ],
+          "pattern": "stripe",
+          "thickness": null,
+          "fields_needing_review": [
+            "bbox",
+            "colors",
+            "pattern"
+          ]
+        },
+        {
+          "draft_id": "c026_lower",
+          "description": "蓝绿宽横条纹短裤，白色腰头和系带",
+          "bbox": [
+            0.239,
+            0.448,
+            0.761,
+            0.646
+          ],
+          "category": "bottom",
+          "colors": [
+            "blue",
+            "green",
+            "white"
+          ],
+          "pattern": "stripe",
+          "thickness": null,
+          "fields_needing_review": [
+            "bbox",
+            "colors",
+            "pattern"
+          ]
+        }
+      ],
+      "secondary_visuals": [
+        "下方的小方块显示局部配色和胸前图形，为商品选择控件；不是另一件衣物。"
+      ],
+      "open_questions": [
+        "两件套分别提出top与bottom；上衣盖住下装部分腰部，框只针对可见区域。",
+        "深蓝映射blue，浅绿映射green；白色领子与腰头面积较大暂纳入色集，微小胸前图形是否计色需统一。",
+        "c029的翻领长袖条纹上衣外形相似但配色、下装不同，可能款式系列相关，尚未确认。"
+      ],
+      "possible_related_images": [
+        "c029.png"
+      ]
+    },
+    {
+      "image": "c027.png",
+      "reviewed": false,
+      "scene": "product_screenshot",
+      "hero_region_hint": [
+        0.0,
+        0.125,
+        1.0,
+        0.699
+      ],
+      "suggestions": [
+        {
+          "draft_id": "c027_upper",
+          "description": "蓝色短袖翻领上衣，有小胸前图形",
+          "bbox": [
+            0.133,
+            0.181,
+            0.868,
+            0.485
+          ],
+          "category": "top",
+          "colors": [
+            "blue"
+          ],
+          "pattern": "solid",
+          "thickness": null,
+          "fields_needing_review": [
+            "bbox",
+            "colors",
+            "pattern"
+          ]
+        },
+        {
+          "draft_id": "c027_lower",
+          "description": "绿色短裤，表面有细竖纹及散布的小彩色图形",
+          "bbox": [
+            0.204,
+            0.43,
+            0.807,
+            0.646
+          ],
+          "category": "bottom",
+          "colors": [
+            "green"
+          ],
+          "pattern": null,
+          "thickness": null,
+          "fields_needing_review": [
+            "bbox",
+            "colors",
+            "pattern"
+          ]
+        }
+      ],
+      "secondary_visuals": [
+        "下方斜分双色小方块是这套商品的颜色缩略图，不拆成额外对象。"
+      ],
+      "open_questions": [
+        "上下装独立，两对象；不能将上衣下摆与裤腰的遮挡误当成连体衣。",
+        "上衣小图形颜色暂未计入，微小徽标是否仍可标solid需统一。",
+        "短裤的细纵向凸纹可能是织物纹理而非stripe；散布的小图形可见，但不能从商品标题判定刺绣或印花。",
+        "短裤pattern=null是待字典/主导图案裁决，不是视觉不可观察；正式审核不可据此自动排除这个字段。",
+        "短裤彩色图形是否加入colors完整集合待审核，当前只列大面积绿色。"
+      ],
+      "possible_related_images": []
+    },
+    {
+      "image": "c028.png",
+      "reviewed": false,
+      "scene": "product_screenshot",
+      "hero_region_hint": [
+        0.0,
+        0.125,
+        1.0,
+        0.699
+      ],
+      "suggestions": [
+        {
+          "draft_id": "c028_upper",
+          "description": "米黄色长袖翻领上衣，胸前有大字母和小文字图案",
+          "bbox": [
+            0.109,
+            0.186,
+            0.891,
+            0.479
+          ],
+          "category": "top",
+          "colors": [
+            "beige"
+          ],
+          "pattern": "print",
+          "thickness": null,
+          "fields_needing_review": [
+            "bbox",
+            "colors",
+            "pattern"
+          ]
+        },
+        {
+          "draft_id": "c028_lower",
+          "description": "米黄色短裤，有两侧翻盖口袋",
+          "bbox": [
+            0.24,
+            0.468,
+            0.759,
+            0.638
+          ],
+          "category": "bottom",
+          "colors": [
+            "beige"
+          ],
+          "pattern": "solid",
+          "thickness": null,
+          "fields_needing_review": [
+            "bbox",
+            "colors",
+            "pattern"
+          ]
+        }
+      ],
+      "secondary_visuals": [
+        "下方单色小方块为色款控件，不是主图中的额外衣物。"
+      ],
+      "open_questions": [
+        "两件上下装分别标注；胸前字母只是可见图案，不依据文字推断品牌或其他隐藏事实。",
+        "米黄需在beige/yellow之间统一映射；大字母内有多种色块或细格纹，是否计入colors完整集合需审核，当前只给主体底色建议。",
+        "字母内部纹样不能把整件衣物直接记plaid，pattern暂建议print待规则裁决。",
+        "材质、厚薄不由页面名称或衣物外观决定。"
+      ],
+      "possible_related_images": []
+    },
+    {
+      "image": "c029.png",
+      "reviewed": false,
+      "scene": "product_screenshot",
+      "hero_region_hint": [
+        0.0,
+        0.09,
+        1.0,
+        0.664
+      ],
+      "suggestions": [
+        {
+          "draft_id": "c029_upper",
+          "description": "红蓝宽横条纹长袖翻领上衣，白色领子",
+          "bbox": [
+            0.12,
+            0.148,
+            0.874,
+            0.458
+          ],
+          "category": "top",
+          "colors": [
+            "red",
+            "blue",
+            "white"
+          ],
+          "pattern": "stripe",
+          "thickness": null,
+          "fields_needing_review": [
+            "bbox",
+            "colors",
+            "pattern"
+          ]
+        },
+        {
+          "draft_id": "c029_lower",
+          "description": "多色格子短裤，腰部部分被上衣遮挡",
+          "bbox": [
+            0.26,
+            0.399,
+            0.746,
+            0.611
+          ],
+          "category": "bottom",
+          "colors": [
+            "multicolor"
+          ],
+          "pattern": "plaid",
+          "thickness": null,
+          "fields_needing_review": [
+            "bbox",
+            "colors",
+            "pattern"
+          ]
+        }
+      ],
+      "secondary_visuals": [
+        "下方色款小方块把上下装配色同时展示；它不增加主商品对象数。"
+      ],
+      "open_questions": [
+        "上下套装拆为2对象，裤腰被遮挡但裤腿清楚可见。",
+        "上衣暖红可能偏粉，red/pink边界需审核；深蓝粗映射blue。白领面积较大暂计色，微小胸前图形不另加色。",
+        "短裤多色格子暂用multicolor；若正式规则用完整逐色集合，应独立按视觉补齐，不能回填商品颜色文字。",
+        "c026翻领长袖横条纹上衣外形相似但颜色与下装不同，可能系列关联未确认。"
+      ],
+      "possible_related_images": [
+        "c026.png"
+      ]
+    },
+    {
+      "image": "c030.png",
+      "reviewed": false,
+      "scene": "product_screenshot",
+      "hero_region_hint": [
+        0.0,
+        0.125,
+        1.0,
+        0.699
+      ],
+      "suggestions": [
+        {
+          "draft_id": "c030_dress",
+          "description": "黄色短袖翻领连衣裙，上部麻花纹理，下部有褶裥",
+          "bbox": [
+            0.158,
+            0.18,
+            0.839,
+            0.646
+          ],
+          "category": "dress",
+          "colors": [
+            "yellow"
+          ],
+          "pattern": "solid",
+          "thickness": null,
+          "fields_needing_review": [
+            "bbox",
+            "category",
+            "colors",
+            "pattern"
+          ]
+        }
+      ],
+      "secondary_visuals": [
+        "下方黄色、粉色两个色款缩略图；粉色款对应的关联可能是c031，但缩略图不是新主对象。"
+      ],
+      "open_questions": [
+        "建议一件连衣裙，不把腰部接缝拆成上衣与独立裙子；正式审核需核对可见连接结构。",
+        "麻花织纹和裙摆褶裥不是自动stripe；pattern暂建议solid，纹理与图案口径待统一。",
+        "c031具有相同领口、扣子、短袖和褶裙结构但为粉色，可能同一款不同颜色，应核实后同组。",
+        "不从名称或表面纹理推断真实材质及厚薄。"
+      ],
+      "possible_related_images": [
+        "c031.png"
+      ]
+    },
+    {
+      "image": "c031.png",
+      "reviewed": false,
+      "scene": "product_screenshot",
+      "hero_region_hint": [
+        0.0,
+        0.125,
+        1.0,
+        0.699
+      ],
+      "suggestions": [
+        {
+          "draft_id": "c031_dress",
+          "description": "浅粉色短袖翻领连衣裙，上部麻花纹理，下部有褶裥",
+          "bbox": [
+            0.146,
+            0.18,
+            0.854,
+            0.646
+          ],
+          "category": "dress",
+          "colors": [
+            "pink"
+          ],
+          "pattern": "solid",
+          "thickness": null,
+          "fields_needing_review": [
+            "bbox",
+            "category",
+            "colors",
+            "pattern"
+          ]
+        }
+      ],
+      "secondary_visuals": [
+        "下方黄色、粉色两个色款缩略图；当前粉色主图之外的黄色款不作额外主对象。"
+      ],
+      "open_questions": [
+        "建议单件连衣裙，腰部接缝不直接证明两件套，需人工核对。",
+        "麻花编织、罗纹和裙摆褶裥是否归solid需统一，不能据此臆造stripe图案。",
+        "浅粉与白色高光需分开；领内标签和小纽扣颜色暂不另加入色集。",
+        "c030具有相同结构但为黄色，可能同款不同色；分组关系待确认。",
+        "不从网页文字推断材质、保暖或厚薄。"
+      ],
+      "possible_related_images": [
+        "c030.png"
+      ]
+    },
+    {
+      "image": "c032.png",
+      "reviewed": false,
+      "scene": "product_screenshot",
+      "hero_region_hint": [
+        0.0,
+        0.125,
+        1.0,
+        0.699
+      ],
+      "suggestions": [
+        {
+          "draft_id": "c032_upper",
+          "description": "粉色短袖翻领上衣，有小胸前图形",
+          "bbox": [
+            0.13,
+            0.18,
+            0.868,
+            0.463
+          ],
+          "category": "top",
+          "colors": [
+            "pink"
+          ],
+          "pattern": "solid",
+          "thickness": null,
+          "fields_needing_review": [
+            "bbox",
+            "colors",
+            "pattern"
+          ]
+        },
+        {
+          "draft_id": "c032_lower",
+          "description": "粉色褶裥裙状下装，下方可见同色裤状或包覆结构",
+          "bbox": [
+            0.174,
+            0.451,
+            0.83,
+            0.646
+          ],
+          "category": null,
+          "colors": [
+            "pink"
+          ],
+          "pattern": "solid",
+          "thickness": null,
+          "fields_needing_review": [
+            "bbox",
+            "category",
+            "colors",
+            "pattern"
+          ]
+        }
+      ],
+      "secondary_visuals": [
+        "下方小方块是粉色面料与小图形的局部缩略图，不新增衣物。"
+      ],
+      "open_questions": [
+        "主图建议上衣与下装2对象；上衣下摆与裙状下装有层叠关系，不能仅凭下方结构把整套判为一件连体衣。",
+        "下装看起来有裙与裤状内层，可能一件裙裤，也可能独立衣物组合；物理连接和正式管理单位须人工裁决，不凭商品标题决定。",
+        "下装在bottom与dress之间的类别规则未定义，category=null待裁决；不能用null自动删除可见对象。",
+        "胸前与裙角微小图形暂未纳入colors，是否保持solid需统一。",
+        "褶裥是结构，不等于stripe图案；不猜隐藏材质、厚薄、合身或是否拥有。"
+      ],
+      "possible_related_images": []
+    }
+  ]
+}

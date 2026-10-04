@@ -1,0 +1,42 @@
+{
+  "pages": [
+    "pages/onboarding/onboarding",
+    "pages/home/home",
+    "pages/calendar/calendar",
+    "pages/plan-detail/plan-detail",
+    "pages/location/location",
+    "pages/my/my",
+    "pages/login/login",
+    "pages/families/families",
+    "pages/family-detail/family-detail",
+    "pages/invitation/invitation",
+    "pages/children/children",
+    "pages/child-edit/child-edit",
+    "pages/preferences/preferences",
+    "pages/wardrobe/wardrobe",
+    "pages/intake/intake",
+    "pages/intake-confirm/intake-confirm",
+    "pages/garment-detail/garment-detail",
+    "pages/garment-edit/garment-edit",
+    "pages/garment-owners/garment-owners",
+    "pages/wardrobe-removed/wardrobe-removed",
+    "pages/outfit-edit/outfit-edit",
+    "pages/outfit-review/outfit-review"
+  ],
+  "window": {
+    "navigationBarTitleText": "智搭",
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#f5f7f6"
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "获取当前位置天气，为孩子选择合适衣物"
+    }
+  },
+  "requiredPrivateInfos": [
+    "getLocation"
+  ],
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

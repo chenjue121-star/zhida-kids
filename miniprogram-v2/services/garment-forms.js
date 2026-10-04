@@ -1,0 +1,12 @@
+const categories=[['top','上衣'],['bottom','下装'],['outerwear','外套'],['dress','裙子'],['onesie','连体衣'],['shoes','鞋子'],['accessory','配件']].map(([key,label])=>({key,label}));
+const patterns=[['unknown','暂不清楚'],['solid','纯色'],['stripe','条纹'],['plaid','格纹'],['print','印花'],['dots','波点']].map(([key,label])=>({key,label}));
+const thicknesses=[['unknown','暂不清楚'],['thin','薄'],['medium','适中'],['thick','厚']].map(([key,label])=>({key,label}));
+const states=[['ready','可穿'],['washing','待洗'],['missing','找不到']].map(([key,label])=>({key,label}));
+const fits=[['small','偏小'],['fit','合身'],['large','偏大'],['unknown','暂不清楚']].map(([key,label])=>({key,label}));
+const colors=[['unknown','暂不清楚'],['black','黑'],['white','白'],['gray','灰'],['red','红'],['orange','橙'],['yellow','黄'],['green','绿'],['blue','蓝'],['purple','紫'],['pink','粉'],['brown','棕'],['beige','米色'],['multicolor','多色']].map(([key,label])=>({key,label}));
+function label(options,key){return (options.find(o=>o.key===key)||{label:'暂不清楚'}).label;}
+function display(g){return {...g,categoryLabel:label(categories,g.category),colorLabel:(g.colors||['unknown']).map(k=>label(colors,k)).join(' / '),patternLabel:label(patterns,g.pattern),thicknessLabel:label(thicknesses,g.thickness),stateLabel:label(states,g.state),ownerLabel:(g.owners||[]).filter(o=>!o.archived).map(o=>o.nickname || '宝贝').join('、'),owners:(g.owners||[]).map(o=>({...o,fitLabel:label(fits,o.fit)})),history_owners:(g.history_owners||[]).map(o=>({...o,fitLabel:label(fits,o.fit)})),...(g.last_owners?{last_owners:g.last_owners.map(o=>({...o,fitLabel:label(fits,o.fit)}))}:{})};}
+function selectedCandidates(c){return c.filter(x=>x.selected && !x.discarded && !x.confirmed_garment_id);}
+function bulkOwners(candidates,childId,fit){if(!fits.some(f=>f.key===fit))throw new Error('请明确新宝贝的合身情况');return candidates.map(c=>c.selected && !c.confirmed_garment_id && !c.discarded && !c.ownership_exception ? {...c,owners:[{child_id:childId,fit}]} : c);}
+function fields(form){if(!categories.some(c=>c.key===form.category))throw new Error('请选择类别');return {name:(form.name||'').trim() || label(categories,form.category),category:form.category,colors:form.colors && form.colors.length?form.colors:['unknown'],pattern:form.pattern||'unknown',thickness:form.thickness||'unknown',state:form.state||'ready'};}
+module.exports={categories,patterns,thicknesses,states,fits,colors,label,display,selectedCandidates,bulkOwners,fields};

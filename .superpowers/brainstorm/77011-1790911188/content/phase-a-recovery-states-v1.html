@@ -1,0 +1,96 @@
+<style>
+  .review-head {max-width: 1060px; margin: 0 auto 18px;}
+  .review-head h2 {font-size: 23px; margin: 0 0 6px;}
+  .review-head p {font-size: 13px; line-height: 1.6; color: #61736c; margin: 0;}
+  .state-grid {display: grid; grid-template-columns: repeat(2,minmax(330px,1fr)); gap: 16px; max-width: 1060px; margin: auto;}
+  .state-panel {background: #fff; border: 1px solid #dce8df; border-radius: 8px; padding: 14px 8px 16px;}
+  .state-panel .phone {position: relative; width: 330px; height: 715px; margin: auto; overflow: hidden; border: 7px solid #27332f; border-radius: 34px; background: #fff; color: #203029; box-shadow: 0 10px 26px rgba(30,48,36,.13);}
+  .state-panel .status {height: 27px; padding: 10px 18px 0; display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; line-height: 1;}
+  .state-panel .nav {height: 39px; position: relative; text-align: center; padding-top: 6px; font-size: 15px; font-weight: 700; background: #fff;}
+  .state-panel .nav .back {position: absolute; left: 17px; top: -3px; font-size: 27px; font-weight: 400;}
+  .state-panel .nav .capsule {position: absolute; top: 0; right: 12px; width: 62px; height: 28px; border: 1px solid #d9dfdb; border-radius: 20px; font-size: 16px; font-weight: 400; letter-spacing: 3px; line-height: 25px;}
+  .state-panel .body {height: 570px; padding: 0 16px 12px; overflow: hidden; background: linear-gradient(180deg,#eef8fc 0%,#fff 130px);}
+  .state-panel .section-label {font-size: 12px; font-weight: 800; color: #3d6149; margin: 21px 0 8px;}
+  .state-panel .field {height: 48px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid #e5ece6; font-size: 13px;}
+  .state-panel .field b {font-weight: 650;}
+  .state-panel .field span {margin-left: auto; color: #5d7162;}
+  .state-panel .field .arrow {margin-left: 0; font-size: 18px; color: #9dae9e;}
+  .state-panel .identity {height: 67px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #e5ece6;}
+  .state-panel .initial {height: 41px; width: 41px; border-radius: 50%; background: #e9f3e7; color: #4b8657; font-size: 16px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex: none;}
+  .state-panel .identity b {font-size: 14px; display: block; line-height: 1.2;}
+  .state-panel .identity small {font-size: 11px; color: #7d8c80; display: block; margin-top: 4px;}
+  .state-panel .plain-note {font-size: 11px; line-height: 1.5; color: #718575; margin-top: 14px;}
+  .state-panel .button-bar {position: absolute; left: 0; right: 0; bottom: 0; height: 61px; padding: 7px 16px 8px; border-top: 1px solid #e7ede8; background: #fff;}
+  .state-panel .primary {height: 44px; border-radius: 7px; background: #31884c; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800;}
+  .state-panel .scrim {position: absolute; inset: 66px 0 0; background: rgba(24,39,30,.28);}
+  .state-panel .sheet {position: absolute; left: 0; right: 0; bottom: 0; background: #fff; border-radius: 16px 16px 0 0; padding: 9px 18px 19px; box-shadow: 0 -7px 20px rgba(30,45,35,.08);}
+  .state-panel .handle {height: 4px; width: 31px; border-radius: 4px; background: #d9e2db; margin: 0 auto 14px;}
+  .state-panel .state-icon {height: 44px; width: 44px; margin: 0 auto 12px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 800;}
+  .state-panel .state-icon.amber {background: #fff4d8; color: #ac7c2b;}
+  .state-panel .state-icon.blue {background: #eaf3f7; color: #4f8294;}
+  .state-panel .state-icon.green {background: #eaf4e8; color: #40834d;}
+  .state-panel .sheet h4 {font-size: 17px; text-align: center; margin: 0 0 9px; line-height: 1.25; color: #203029;}
+  .state-panel .sheet p {font-size: 12px; line-height: 1.6; color: #6b7e70; text-align: center; margin: 0 8px 18px;}
+  .state-panel .sheet .primary {margin-top: 8px;}
+  .state-panel .secondary {height: 42px; border-radius: 7px; border: 1px solid #c6ddc8; background: #fff; color: #33834d; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 750;}
+  .state-panel .text-action {height: 42px; display: flex; align-items: center; justify-content: center; color: #67836f; font-size: 12px; font-weight: 700;}
+  .state-panel .sheet .reassurance {margin: 15px 0 1px; padding: 9px 10px; border-radius: 6px; background: #f2f8f1; color: #568060; font-size: 11px; line-height: 1.4; text-align: center;}
+  .state-panel .invite-art {width: 107px; height: 91px; display: block; object-fit: contain; margin: 19px auto 13px; opacity: .65;}
+  .state-panel .empty-title {font-size: 18px; font-weight: 800; text-align: center; margin: 0 0 8px;}
+  .state-panel .empty-copy {font-size: 12px; color: #728579; line-height: 1.6; text-align: center; margin: 0 25px;}
+  .state-panel .muted-chip {display: table; margin: 0 auto 15px; padding: 5px 8px; border-radius: 4px; color: #9b6935; background: #fff3e1; font-size: 11px; font-weight: 750;}
+  .state-panel .member-row {height: 68px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #e5ece6;}
+  .state-panel .member-row .initial {height: 38px; width: 38px; font-size: 14px; background: #e9f1f5; color: #57798b;}
+  .state-panel .member-row b {font-size: 13px; display: block;}
+  .state-panel .member-row small {font-size: 11px; color: #8b9b8f; display: block; margin-top: 3px;}
+  .state-panel .role {margin-left: auto; padding: 4px 6px; border-radius: 4px; font-size: 10px; font-weight: 750; color: #3e7d4e; background: #e8f4e8;}
+  .state-panel .role.viewer {color: #5a7488; background: #eaf2f7;}
+  .state-panel .caption {max-width: 330px; margin: 12px auto 0;}
+  .state-panel .caption h3 {font-size: 15px; color: #27362c; margin: 0 0 4px;}
+  .state-panel .caption p {font-size: 12px; color: #687a70; line-height: 1.5; margin: 0;}
+  .scope-note {max-width: 1060px; margin: 16px auto 0; background: #edf6ed; border-left: 3px solid #388b50; padding: 12px 15px; font-size: 13px; line-height: 1.55; color: #47634e;}
+  .approval {max-width: 1060px; margin: 20px auto 0;}
+  .approval .subtitle {font-size: 13px; margin-bottom: 10px;}
+  .approval .option {border-color: #dce7de; border-radius: 7px;}
+  .approval .option.selected {border-color: #31884c; background: #f1f8f0;}
+  @media (max-width: 755px) {.state-grid {grid-template-columns: 1fr;} .review-head h2 {font-size: 20px;}}
+</style>
+
+<div class="review-head"><h2>异常与保留内容</h2><p>操作没成功时，不让家长猜资料还在不在。提示紧贴当前流程，清楚区分“可重试”“需确认舍弃填写”和“当前没有权限”。</p></div>
+
+<div class="state-grid">
+  <div class="state-panel">
+    <div class="phone"><div class="status"><span>9:41</span><span>●●● ▰</span></div><div class="nav"><span class="back">‹</span>添加宝贝 <span class="capsule">···</span></div><div class="body">
+      <div class="section-label">先认识一下宝贝</div><div class="field"><b>昵称</b><span>小豆子</span><span class="arrow">›</span></div><div class="field"><b>年龄</b><span>2岁3个月</span><span class="arrow">›</span></div><div class="field"><b>喜欢的风格</b><span>自然舒适</span><span class="arrow">›</span></div>
+    </div><div class="button-bar"><div class="primary">开始搭配</div></div><div class="scrim"></div>
+    <div class="sheet" style="height:310px"><div class="handle"></div><div class="state-icon amber">!</div><h4>暂时无法登录</h4><p>刚才填写的宝贝资料已保留在此页。请重试登录，再完成保存。</p><div class="primary">重试登录</div><div class="text-action">稍后再试</div><div class="reassurance">未登录前，资料还没有保存到云端</div></div>
+    </div><div class="caption"><h3>01 · 登录失败</h3><p>不清空简建草稿；“稍后再试”回到原表单，不能误说已经保存。</p></div>
+  </div>
+
+  <div class="state-panel">
+    <div class="phone"><div class="status"><span>9:41</span><span>●●● ▰</span></div><div class="nav"><span class="back">‹</span>编辑宝贝 <span class="capsule">···</span></div><div class="body">
+      <div class="identity"><div class="initial">豆</div><div><b>小豆子</b><small>2岁3个月</small></div></div><div class="section-label">基本资料</div><div class="field"><b>昵称</b><span>小豆子</span><span class="arrow">›</span></div><div class="field"><b>生日</b><span>2024-07-01</span><span class="arrow">›</span></div><div class="section-label">穿搭偏好</div><div class="field"><b>喜欢的风格</b><span>自然舒适、运动活力</span><span class="arrow">›</span></div>
+    </div><div class="button-bar"><div class="primary">保存修改</div></div><div class="scrim"></div>
+    <div class="sheet" style="height:304px"><div class="handle"></div><div class="state-icon blue">≡</div><h4>资料已被家人更新</h4><p>你的填写仍在本页，但暂时不能直接保存。重新加载最新资料前会再次确认。</p><div class="primary">留在本页</div><div class="text-action">重新加载最新资料…</div><div class="reassurance">重新加载可能舍弃这次未保存的填写</div></div>
+    </div><div class="caption"><h3>02 · 保存冲突</h3><p>先说明草稿还在、保存受阻；选择重载时再确认一次，不静默覆盖他人的修改。</p></div>
+  </div>
+
+  <div class="state-panel">
+    <div class="phone"><div class="status"><span>9:41</span><span>●●● ▰</span></div><div class="nav"><span class="back">‹</span>家庭邀请 <span class="capsule">···</span></div><div class="body">
+      <img class="invite-art" src="/files/family-house.png" alt=""><div class="muted-chip">邀请已过期</div><div class="empty-title">这张邀请已失效</div><p class="empty-copy">请家人重新发送邀请。当前账号不会退出，已有家庭也不受影响。</p><div class="plain-note" style="text-align:center;margin-top:27px">如果已经加入，可从“切换家庭”查看。</div>
+    </div><div class="button-bar"><div class="primary">返回</div></div>
+    </div><div class="caption"><h3>03 · 邀请不可用</h3><p>过期、撤销、已被他人使用均不给“接受”按钮；已加入则改为查看家庭入口。</p></div>
+  </div>
+
+  <div class="state-panel">
+    <div class="phone"><div class="status"><span>9:41</span><span>●●● ▰</span></div><div class="nav"><span class="back">‹</span>家庭成员 <span class="capsule">···</span></div><div class="body">
+      <div class="section-label">我的家庭 · 3 位成员</div><div class="member-row"><div class="initial">我</div><div><b>我</b><small>当前账号</small></div><span class="role">管理员</span></div><div class="member-row"><div class="initial">爸</div><div><b>爸爸</b><small>可维护家庭资料</small></div><span class="role">可编辑</span></div><div class="member-row"><div class="initial">外</div><div><b>外婆</b><small>只能查看</small></div><span class="role viewer">仅查看</span></div>
+    </div><div class="scrim"></div>
+    <div class="sheet" style="height:289px"><div class="handle"></div><div class="state-icon green">i</div><h4>暂时无法退出家庭</h4><p>你是唯一的管理员。先将另一位成员设为管理员，再退出家庭。</p><div class="primary">管理成员</div><div class="text-action">留在家庭</div></div>
+    </div><div class="caption"><h3>04 · 唯一管理员保护</h3><p>阻止退出和降级，不出现会留下无管理员家庭的危险确认按钮。</p></div>
+  </div>
+</div>
+
+<div class="scope-note">下一组会单独展示真正会改变访问权的确认：移除成员、退出家庭、退出登录，以及权限变化后的无权访问状态。这里的失败页都不删除已保存的云端资料。</div>
+
+<div class="approval"><h3>这组异常提示的层级和措辞可以吗？</h3><p class="subtitle">重点看“保留填写”和下一步操作是否足够明确。</p><div class="options"><div class="option" data-choice="recovery-states-approved" onclick="toggleSelect(this)"><div class="letter">✓</div><div class="content"><h3>可以，继续退出与权限确认</h3><p>沿用当前页提示或底部弹层，不额外跳到空白错误页。</p></div></div><div class="option" data-choice="recovery-states-revise" onclick="toggleSelect(this)"><div class="letter">✎</div><div class="content"><h3>还需要调整</h3><p>指出某一屏的内容、按钮或排版即可。</p></div></div></div></div>

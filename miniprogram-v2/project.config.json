@@ -1,0 +1,22 @@
+{
+  "miniprogramRoot": "./",
+  "appid": "wx33ab8a66217dc933",
+  "projectname": "zhida-phase-a",
+  "compileType": "miniprogram",
+  "setting": {
+    "es6": true,
+    "enhance": true,
+    "postcss": true,
+    "minified": true,
+    "urlCheck": true,
+    "minifyWXML": true
+  },
+  "packOptions": {
+    "ignore": [
+      {
+        "type": "folder",
+        "value": "tests"
+      }
+    ]
+  }
+}

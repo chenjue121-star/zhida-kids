@@ -1,0 +1,55 @@
+<view class="b-page">
+ <view wx:if="{{loading && !ready}}" class="loading">正在读取候选…</view>
+ <view wx:if="{{error}}" class="notice error">{{error}}<button wx:if="{{accessRevoked}}" bindtap="goFamilies">选择其他家庭</button></view>
+ <block wx:if="{{ready && writable}}">
+  <block wx:if="{{resultMode}}">
+   <view wx:if="{{!result.counts.failed}}" class="b-result-mark">✓</view>
+   <view class="b-flow-heading">{{result.counts.new + result.counts.existing}} 件已确认入衣橱</view>
+   <view class="b-muted">新入库 {{result.counts.new || 0}} 件 · 使用已有 {{result.counts.existing || 0}} 件 · 未完成 {{result.counts.failed || 0}} 件</view>
+   <view class="b-results">
+    <view wx:for="{{resultRows}}" wx:key="candidate_id" class="b-result-row">
+     <view class="b-result-title">{{item.name}} · {{item.status === 'success' ? item.kindLabel : '未完成'}}</view>
+     <block wx:if="{{item.status === 'success'}}"><view wx:for="{{item.owners}}" wx:for-item="owner" wx:key="child_id" class="b-muted">{{owner.nickname || '宝贝'}} · {{owner.fitLabel}}</view><view class="b-muted">{{item.stateLabel}}</view></block>
+     <view wx:else class="b-muted">{{item.errorMessage}}</view>
+    </view>
+    <button wx:if="{{result.counts.failed}}" bindtap="retryFailed" disabled="{{busy}}">仅重试明确失败项</button>
+   </view>
+   <view wx:if="{{hasRemaining}}" class="b-note"><view>这批还有内容待处理</view><view>{{remainingCandidates}} 件候选未选 · {{processingPhotos}} 张照片识别中</view><view wx:if="{{attentionPhotos}}">另有 {{attentionPhotos}} 张照片需要重试或手填</view><view wx:if="{{unfinishedManualCount}}">另有 {{unfinishedManualCount}} 件手动补充尚未填写</view><view>进度已保留，稍后可以继续。已确认的实物不会重复新建。</view></view>
+   <view wx:else class="b-note">本批已处理完成，家庭成员都能查看已入库的衣物。</view>
+   <view class="b-fixed"><button class="primary" bindtap="wardrobe">查看衣橱</button><button wx:if="{{hasRemaining}}" bindtap="continueProcessing">继续处理这批衣物</button></view>
+  </block>
+  <block wx:else>
+   <view class="b-flow-heading">{{selectedCount}} 件准备放进衣橱</view>
+   <view class="b-summary"><text>这批默认给 {{defaultChildLabel}}</text><button bindtap="openBulk" disabled="{{!selectedCount}}">批量改归属</button></view>
+   <view class="b-note">勾选你实际拥有的实物。多件图默认不选；未选候选会保留。默认合身、可穿，例外可以逐件修改。</view>
+   <button wx:if="{{undoCount}}" class="link" bindtap="undoBulk" disabled="{{busy}}">撤回上次已保存的批量归属 · {{undoCount}} 件</button>
+   <checkbox-group bindchange="select">
+    <block wx:for="{{candidates}}" wx:key="id">
+     <block wx:if="{{!item.confirmed_garment_id}}">
+      <view class="b-candidate-row">
+       <label class="b-check b-candidate-check {{item.selected ? 'selected' : ''}}"><checkbox value="{{item.id}}" checked="{{item.selected}}" disabled="{{busy}}" aria-label="{{item.name || '选择候选'}}"/><view class="b-circle"></view></label>
+       <image wx:if="{{item.image}}" class="b-candidate-image" src="{{item.image}}" mode="aspectFit" data-asset="{{item.asset_id}}" bindtap="preview"/><view wx:else class="b-candidate-placeholder"></view>
+       <view class="b-candidate-copy">
+        <view class="b-candidate-name">{{item.name || '请核对类别'}}</view>
+        <view class="b-candidate-source">{{item.sourceLabel}}</view>
+        <view class="b-candidate-meta">{{item.categoryLabel}} · {{item.colorLabel}}</view>
+        <view wx:for="{{item.owners}}" wx:for-item="owner" wx:key="child_id" class="b-candidate-meta">{{owner.nickname || '宝贝'}} · {{owner.fitLabel}}{{owner.archived ? ' · 已归档，需调整' : ''}}</view>
+        <view class="b-candidate-meta">{{item.stateLabel}} · 厚薄{{item.thicknessLabel}}</view>
+        <view wx:if="{{item.ownership_exception}}" class="b-candidate-meta">逐件例外已保留</view>
+        <button wx:if="{{item.asset_id}}" class="link b-candidate-original" data-asset="{{item.asset_id}}" bindtap="preview">查看完整原图 ›</button>
+       </view>
+       <button class="b-candidate-review" data-id="{{item.id}}" bindtap="review" disabled="{{busy}}" aria-label="{{'核对'+(item.name || '候选')}}">核对 ›</button>
+      </view>
+      <view wx:if="{{item.duplicates.length}}" class="b-note">同图已有衣物，请明确核对。<button class="b-choice {{item.decision.action === 'new' ? 'active' : ''}}" data-id="{{item.id}}" data-action="new" bindtap="decision">另一件同款实物</button><view wx:for="{{item.duplicates}}" wx:for-item="old" wx:key="id"><button class="b-choice {{item.decision.existing_garment_id === old.id ? 'active' : ''}}" data-id="{{item.id}}" data-action="existing" data-garment="{{old.id}}" bindtap="decision">使用已有 · {{old.name}}</button><button class="link" data-garment="{{old.id}}" data-archived="{{!!old.archived_at}}" bindtap="reviewExisting">{{old.archived_at ? '先恢复核对' : '查看 / 增加使用者'}}</button></view></view>
+     </block>
+    </block>
+   </checkbox-group>
+   <view wx:if="{{!hasRemaining}}" class="b-empty"><view class="b-empty-title">本批候选已处理完成</view><view class="b-empty-copy">可以返回照片页，继续添加衣物。</view></view>
+   <view wx:elif="{{!selectedCount && !remainingCandidates}}" class="b-empty"><view class="b-empty-title">暂时没有候选</view><view class="b-empty-copy">照片可能仍在识别，也可以返回为照片手填单品。</view></view>
+   <view wx:if="{{remainingCandidates || processingPhotos || attentionPhotos || unfinishedManualCount}}" class="b-note">本批另有 {{remainingCandidates}} 件候选未选、{{processingPhotos}} 张照片识别中。<view wx:if="{{attentionPhotos}}">{{attentionPhotos}} 张照片需要返回重试或手填。</view><view wx:if="{{unfinishedManualCount}}">{{unfinishedManualCount}} 件手动补充尚未填写，可以返回继续。</view>它们会保留，可以先保存已选部分。</view>
+   <view wx:if="{{unknownResult}}" class="b-note">原操作结果尚待核实。<button bindtap="query" disabled="{{busy}}">继续查询原操作</button><button bindtap="resolve" disabled="{{busy}}">核实未执行</button></view>
+   <view class="b-fixed"><button bindtap="wardrobe">回衣橱</button><button class="primary" bindtap="save" loading="{{busy}}" disabled="{{busy || (!selectedCount && !unknownResult)}}">{{unknownResult ? '查询原操作' : '确认入衣橱 · '+selectedCount}}</button></view>
+  </block>
+ </block>
+ <view wx:if="{{bulkSheet}}" class="b-mask" bindtap="closeBulk"><view class="b-sheet" catchtap="noop"><view class="b-sheet-title">调整已选候选的归属</view><view class="b-note">仅修改本次选中候选。逐件归属或合身例外保留，实物状态保留。</view><picker range="{{children}}" range-key="nickname" value="{{bulkChildIndex}}" bindchange="bulkChild"><view class="b-select">{{bulkChildIndex >= 0 ? children[bulkChildIndex].nickname : '选择新使用宝贝'}}</view></picker><picker range="{{fitOptions}}" range-key="label" value="{{bulkFitIndex}}" bindchange="bulkFit"><view class="b-select">{{bulkFitIndex >= 0 ? fitOptions[bulkFitIndex].label : '明确新宝贝的合身'}}</view></picker><view class="actions"><button bindtap="closeBulk">取消</button><button class="primary" bindtap="bulkOwners" disabled="{{busy || bulkChildIndex < 0 || bulkFitIndex < 0}}">更新草稿</button></view></view></view>
+</view>

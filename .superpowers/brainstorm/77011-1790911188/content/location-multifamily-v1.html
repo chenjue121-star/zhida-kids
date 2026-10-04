@@ -1,0 +1,95 @@
+<style>
+  .review-head {max-width: 1120px; margin: 0 auto 18px;}
+  .review-head h2 {font-size: 23px; margin: 0 0 6px;}
+  .review-head p {font-size: 13px; line-height: 1.6; color: #61736c; margin: 0;}
+  .flow-grid {display: grid; grid-template-columns: repeat(3, minmax(330px, 1fr)); gap: 12px; max-width: 1120px; margin: auto;}
+  .flow-panel {background: #fff; border: 1px solid #dce8df; border-radius: 8px; padding: 14px 8px 16px;}
+  .flow-panel .phone {position: relative; width: 330px; height: 715px; margin: auto; overflow: hidden; border: 7px solid #27332f; border-radius: 34px; background: #fff; color: #203029; box-shadow: 0 10px 26px rgba(30,48,36,.13);}
+  .flow-panel .status {height: 27px; padding: 10px 18px 0; display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; line-height: 1;}
+  .flow-panel .nav {height: 39px; position: relative; text-align: center; padding-top: 6px; font-size: 15px; font-weight: 700; background: #fff;}
+  .flow-panel .nav .back {position: absolute; left: 17px; top: -3px; font-size: 27px; font-weight: 400;}
+  .flow-panel .nav .capsule {position: absolute; top: 0; right: 12px; width: 62px; height: 28px; border: 1px solid #d9dfdb; border-radius: 20px; font-size: 16px; font-weight: 400; letter-spacing: 3px; line-height: 25px;}
+  .flow-panel .body {height: 570px; padding: 0 16px 12px; overflow: hidden; background: linear-gradient(180deg,#eef8fc 0%,#fff 130px);}
+  .flow-panel .section-label {font-size: 12px; font-weight: 800; color: #3d6149; margin: 19px 0 9px;}
+  .flow-panel .location-status {height: 80px; display: flex; align-items: center; gap: 11px; border-bottom: 1px solid #e4ece7;}
+  .flow-panel .pin {height: 39px; width: 39px; flex: none; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: #e8f2f7; color: #4e7789; font-size: 21px;}
+  .flow-panel .location-status b {display: block; font-size: 14px; line-height: 1.2;}
+  .flow-panel .location-status small {display: block; font-size: 11px; color: #7b8a7e; margin-top: 5px; line-height: 1.2;}
+  .flow-panel .retry {margin-left: auto; color: #2b8248; font-size: 12px; font-weight: 750; white-space: nowrap;}
+  .flow-panel .search {height: 44px; display: flex; align-items: center; gap: 8px; padding: 0 11px; border: 1px solid #dce6de; border-radius: 7px; background: #fff;}
+  .flow-panel .search .glass {color: #80998a; font-size: 19px; line-height: 1;}
+  .flow-panel .search .query {font-size: 13px; flex: 1;}
+  .flow-panel .search .clear {font-size: 16px; color: #9aaba0;}
+  .flow-panel .result-title {font-size: 11px; color: #829285; margin: 17px 0 4px;}
+  .flow-panel .city-result {height: 60px; display: flex; align-items: center; border-bottom: 1px solid #e7eee8;}
+  .flow-panel .city-result b {display: block; font-size: 14px;}
+  .flow-panel .city-result small {display: block; font-size: 11px; color: #829285; margin-top: 4px;}
+  .flow-panel .city-result .check {margin-left: auto; height: 20px; width: 20px; line-height: 18px; border-radius: 50%; background: #368a50; color: white; text-align: center; font-size: 13px;}
+  .flow-panel .selected-city {font-size: 11px; color: #578368; margin-top: 13px;}
+  .flow-panel .fixed-action {position: absolute; left: 0; right: 0; bottom: 0; height: 61px; padding: 7px 16px 8px; border-top: 1px solid #e7ede8; background: #fff;}
+  .flow-panel .primary {height: 44px; display: flex; align-items: center; justify-content: center; border-radius: 7px; background: #31884c; color: white; font-size: 14px; font-weight: 800;}
+  .flow-panel .family-item {height: 78px; display: flex; align-items: center; gap: 10px; padding: 0 10px; margin-bottom: 8px; border: 1px solid #e1eae3; border-radius: 8px; background: white;}
+  .flow-panel .family-item.active {border-color: #8fbd91; background: #f5faf3;}
+  .flow-panel .family-item img {height: 45px; width: 45px; flex: none; object-fit: contain;}
+  .flow-panel .family-item b {display: block; font-size: 14px; line-height: 1.2;}
+  .flow-panel .family-item small {display: block; font-size: 11px; color: #718378; margin-top: 5px; line-height: 1.2;}
+  .flow-panel .family-item .family-right {margin-left: auto; white-space: nowrap; display: flex; align-items: center; gap: 6px;}
+  .flow-panel .family-item .role {font-size: 10px; border-radius: 4px; padding: 4px 5px; background: #e8f4e9; color: #347846;}
+  .flow-panel .family-item .role.viewer {background: #eaf2f8; color: #4b7087;}
+  .flow-panel .family-item .tick {font-size: 17px; color: #2d8548;}
+  .flow-panel .family-item .chev {font-size: 19px; color: #9aaca0;}
+  .flow-panel .new-family {height: 51px; display: flex; align-items: center; gap: 10px; border-top: 1px solid #e9eee9; border-bottom: 1px solid #e9eee9; color: #2e834a; font-size: 13px; font-weight: 750; margin-top: 18px;}
+  .flow-panel .new-family .plus {height: 24px; width: 24px; line-height: 21px; text-align: center; border-radius: 50%; border: 1.5px solid #3d9154; font-size: 19px; font-weight: 400;}
+  .flow-panel .new-family .chev {margin-left: auto; font-size: 19px; color: #9aaca0;}
+  .flow-panel .create-art {width: 112px; height: 91px; display: block; object-fit: contain; margin: 18px auto 11px;}
+  .flow-panel .create-caption {font-size: 12px; color: #768979; text-align: center; margin-bottom: 28px;}
+  .flow-panel .field-label {font-size: 12px; font-weight: 750; color: #3f5f48; margin: 17px 0 7px;}
+  .flow-panel .text-field {height: 45px; border: 1px solid #dce6de; border-radius: 7px; display: flex; align-items: center; padding: 0 11px; font-size: 13px; background: #fff;}
+  .flow-panel .text-field.empty {color: #9aaba0;}
+  .flow-panel .create-note {margin-top: 25px; padding: 11px 12px; background: #f2f7ed; border-left: 3px solid #8eb481; font-size: 11px; line-height: 1.5; color: #617a65;}
+  .flow-panel .caption {max-width: 330px; margin: 12px auto 0;}
+  .flow-panel .caption h3 {font-size: 15px; color: #27362c; margin: 0 0 4px;}
+  .flow-panel .caption p {font-size: 12px; color: #687a70; line-height: 1.5; margin: 0;}
+  .scope-note {max-width: 1120px; margin: 17px auto 0; background: #edf6ed; border-left: 3px solid #388b50; padding: 12px 15px; font-size: 13px; line-height: 1.55; color: #47634e;}
+  .approval {max-width: 1120px; margin: 20px auto 0;}
+  .approval .subtitle {font-size: 13px; margin-bottom: 10px;}
+  .approval .option {border-color: #dce7de; border-radius: 7px;}
+  .approval .option.selected {border-color: #31884c; background: #f1f8f0;}
+  @media (max-width: 1120px) {.flow-grid {grid-template-columns: 1fr;} .review-head h2 {font-size: 20px;}}
+</style>
+
+<div class="review-head"><h2>所在地与多家庭</h2><p>首页需要天气时才尝试定位；失败后仍可手动选城市。家庭协作保持按需进入，已有家庭可切换，也可以单独新建。</p></div>
+
+<div class="flow-grid">
+  <div class="flow-panel">
+    <div class="phone"><div class="status"><span>9:41</span><span>●●● ▰</span></div><div class="nav"><span class="back">‹</span>所在地 <span class="capsule">···</span></div><div class="body">
+      <div class="location-status"><div class="pin">⌖</div><div><b>暂未获取当前位置</b><small>可重试或手动选择城市</small></div><span class="retry">重试</span></div>
+      <div class="section-label">手动选择城市</div><div class="search"><span class="glass">⌕</span><span class="query">杭州</span><span class="clear">×</span></div>
+      <div class="result-title">搜索结果</div><div class="city-result"><div><b>杭州市</b><small>浙江省</small></div><span class="check">✓</span></div><div class="selected-city">已选择：杭州市</div>
+    </div><div class="fixed-action"><div class="primary">使用杭州市</div></div></div>
+    <div class="caption"><h3>01 · 定位失败的回退</h3><p>授权弹窗仍用微信原生界面；定位成功直接返回首页，失败或拒绝时使用城市搜索，不展示虚构温度。</p></div>
+  </div>
+
+  <div class="flow-panel">
+    <div class="phone"><div class="status"><span>9:41</span><span>●●● ▰</span></div><div class="nav"><span class="back">‹</span>切换家庭 <span class="capsule">···</span></div><div class="body">
+      <div class="section-label">当前家庭</div><div class="family-item active"><img src="/files/family-house.png" alt=""><div><b>我的家庭</b><small>1 位宝贝 · 3 位成员</small></div><div class="family-right"><span class="role">管理员</span><span class="tick">✓</span></div></div>
+      <div class="section-label">其他家庭</div><div class="family-item"><img src="/files/family-house.png" alt=""><div><b>外婆的小院</b><small>2 位宝贝 · 4 位成员</small></div><div class="family-right"><span class="role viewer">仅查看</span><span class="chev">›</span></div></div>
+      <div class="new-family"><span class="plus">+</span>新建家庭 <span class="chev">›</span></div>
+    </div></div>
+    <div class="caption"><h3>02 · 多家庭切换</h3><p>只有加入多个家庭时才出现这层列表。切换的是访问上下文，不合并孩子或自动转移资料。</p></div>
+  </div>
+
+  <div class="flow-panel">
+    <div class="phone"><div class="status"><span>9:41</span><span>●●● ▰</span></div><div class="nav"><span class="back">‹</span>新建家庭 <span class="capsule">···</span></div><div class="body">
+      <img class="create-art" src="/files/family-house.png" alt=""><div class="create-caption">建立一个新的家庭空间</div>
+      <div class="field-label">家庭名称 <span style="color:#c9524d">*</span></div><div class="text-field">外婆的小院</div>
+      <div class="field-label">家庭备用城市（选填）</div><div class="text-field empty">例如：杭州市</div>
+      <div class="create-note">现有家庭的宝贝和成员不会移入新家庭。</div>
+    </div><div class="fixed-action"><div class="primary">创建家庭</div></div></div>
+    <div class="caption"><h3>03 · 新建家庭</h3><p>仅名称必填，备用城市可留空；创建后独立管理，不影响当前家庭的数据。</p></div>
+  </div>
+</div>
+
+<div class="scope-note">“所在地”属于当前使用者的天气选择；“家庭备用城市”是共享资料，不覆盖每个人的定位。城市搜索无结果时可保留原输入再确认，但不把未知城市伪装成已查询到的天气。</div>
+
+<div class="approval"><h3>这组三个入口安排可以吗？</h3><p class="subtitle">本轮确认定位回退、多家庭切换与新建表单。</p><div class="options"><div class="option" data-choice="location-families-approved" onclick="toggleSelect(this)"><div class="letter">✓</div><div class="content"><h3>可以，继续异常与确认状态</h3><p>保留当前位置和家庭备用城市的明确区分。</p></div></div><div class="option" data-choice="location-families-revise" onclick="toggleSelect(this)"><div class="letter">✎</div><div class="content"><h3>还需要调整</h3><p>可以指出城市选择、多家庭或新建家庭哪里不合适。</p></div></div></div></div>

@@ -1,0 +1,83 @@
+<style>
+  .review-head {max-width: 1080px; margin: 0 auto 18px;}
+  .review-head h2 {font-size: 23px; margin: 0 0 6px;}
+  .review-head p {font-size: 13px; line-height: 1.6; color: #61736c; margin: 0;}
+  .layout-grid {display: grid; grid-template-columns: repeat(2, minmax(330px, 1fr)); gap: 18px; max-width: 1080px; margin: auto;}
+  .layout-choice {background: #fff; border: 1px solid #dce8df; border-radius: 8px; padding: 14px 10px 16px; cursor: pointer;}
+  .layout-choice.selected {border: 2px solid #32884c; padding: 13px 9px 15px; background: #f8fbf8;}
+  .layout-choice .phone {position: relative; width: 330px; height: 715px; margin: auto; overflow: hidden; border: 7px solid #27332f; border-radius: 34px; background: #fff; color: #203029; box-shadow: 0 10px 26px rgba(30,48,36,.13);}
+  .layout-choice .status {height: 27px; padding: 10px 18px 0; display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; line-height: 1;}
+  .layout-choice .nav {height: 39px; position: relative; text-align: center; padding-top: 6px; font-size: 15px; font-weight: 700; background: #fff;}
+  .layout-choice .nav .back {position: absolute; left: 17px; top: -3px; font-size: 27px; font-weight: 400;}
+  .layout-choice .nav .capsule {position: absolute; top: 0; right: 12px; width: 62px; height: 28px; border: 1px solid #d9dfdb; border-radius: 20px; font-size: 16px; font-weight: 400; letter-spacing: 3px; line-height: 25px;}
+  .layout-choice .body {height: 625px; padding: 0 16px 10px; overflow: hidden; background: linear-gradient(180deg,#eef8fc 0%,#fff 150px);}
+  .layout-choice .family-head {height: 88px; display: flex; align-items: center; gap: 12px;}
+  .layout-choice .family-head img {height: 55px; width: 55px; flex: none; object-fit: contain;}
+  .layout-choice .family-name {font-size: 16px; font-weight: 800; line-height: 1.2;}
+  .layout-choice .family-sub {font-size: 11px; color: #728579; margin-top: 6px;}
+  .layout-choice .settings-row {height: 50px; border-top: 1px solid #e4ebe5; border-bottom: 1px solid #e4ebe5; display: flex; align-items: center; gap: 10px;}
+  .layout-choice .settings-row b {font-size: 13px;}
+  .layout-choice .settings-row small {margin-left: auto; color: #7d8c81; font-size: 11px;}
+  .layout-choice .chev {color: #96a99b; font-size: 19px; line-height: 1;}
+  .layout-choice .section-head {height: 57px; display: flex; align-items: flex-end; justify-content: space-between; padding-bottom: 10px;}
+  .layout-choice .section-head b {font-size: 13px; color: #32543b;}
+  .layout-choice .section-head small {font-size: 11px; color: #829387;}
+  .layout-choice .member {height: 74px; display: flex; align-items: center; gap: 11px;}
+  .layout-choice .avatar {height: 44px; width: 44px; flex: none; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 750;}
+  .layout-choice .avatar.mom {background: #e2eef0; color: #5d7671;}
+  .layout-choice .avatar.dad {background: #e6f2e5; color: #4f8059;}
+  .layout-choice .avatar.grandma {background: #f8ebe8; color: #a26b68;}
+  .layout-choice .member-name {font-size: 14px; font-weight: 750; white-space: nowrap;}
+  .layout-choice .member-sub {font-size: 11px; color: #7f8f83; margin-top: 5px;}
+  .layout-choice .member-meta {margin-left: auto; display: flex; align-items: center; gap: 7px;}
+  .layout-choice .role-pill {padding: 4px 6px; border-radius: 4px; font-size: 11px; font-weight: 650; white-space: nowrap;}
+  .layout-choice .role-pill.admin {background: #fff3d9; color: #876320;}
+  .layout-choice .role-pill.editor {background: #e9f5e7; color: #397447;}
+  .layout-choice .role-pill.viewer {background: #eaf2f8; color: #4b7087;}
+  .layout-choice .list-layout .member {border-bottom: 1px solid #e5ece6;}
+  .layout-choice .list-layout .member:first-child {border-top: 1px solid #e5ece6;}
+  .layout-choice .card-layout .member {height: 75px; margin-bottom: 8px; padding: 0 10px; border: 1px solid #e2eae4; border-radius: 8px; background: #fff; box-shadow: 0 2px 7px rgba(41,64,44,.04);}
+  .layout-choice .card-layout .member:last-child {margin-bottom: 0;}
+  .layout-choice .invite {height: 44px; display: flex; align-items: center; justify-content: center; margin-top: 16px; border-radius: 7px; background: #31884c; color: white; font-size: 13px; font-weight: 800;}
+  .layout-choice .leave {font-size: 12px; color: #a45a58; text-align: center; margin-top: 18px;}
+  .layout-choice .caption {max-width: 330px; margin: 12px auto 0;}
+  .layout-choice .caption h3 {font-size: 16px; color: #27362c; margin: 0 0 4px;}
+  .layout-choice .caption p {font-size: 12px; color: #687a70; line-height: 1.5; margin: 0;}
+  .scope-note {max-width: 1080px; margin: 17px auto 0; background: #edf6ed; border-left: 3px solid #388b50; padding: 12px 15px; font-size: 13px; line-height: 1.55; color: #47634e;}
+  @media (max-width: 755px) {.layout-grid {grid-template-columns: 1fr;} .review-head h2 {font-size: 20px;}}
+</style>
+
+<div class="review-head"><h2>家庭成员区 · 两种舒展布局</h2><p>成员姓名回到 14px，头像放大到 44px，每行约 74px。家庭资料收成一行入口，不再挤占成员区；下方内容可以滚动，不强求塞满首屏。</p></div>
+
+<div class="layout-grid">
+  <div class="layout-choice" data-choice="member-airy-list" onclick="toggleSelect(this)">
+    <div class="phone"><div class="status"><span>9:41</span><span>●●● ▰</span></div><div class="nav"><span class="back">‹</span>家庭与成员 <span class="capsule">···</span></div><div class="body">
+      <div class="family-head"><img src="/files/family-house.png" alt=""><div><div class="family-name">我的家庭</div><div class="family-sub">1 位宝贝 · 3 位成员</div></div></div>
+      <div class="settings-row"><b>家庭资料</b><small>名称、备用城市</small><span class="chev">›</span></div>
+      <div class="section-head"><b>家庭成员</b><small>3 位</small></div>
+      <div class="list-layout">
+        <div class="member"><div class="avatar mom">妈</div><div><div class="member-name">豆豆妈妈（我）</div><div class="member-sub">创建者</div></div><div class="member-meta"><span class="role-pill admin">管理员</span></div></div>
+        <div class="member"><div class="avatar dad">爸</div><div><div class="member-name">豆豆爸爸</div><div class="member-sub">家庭成员</div></div><div class="member-meta"><span class="role-pill editor">可编辑</span><span class="chev">›</span></div></div>
+        <div class="member"><div class="avatar grandma">外</div><div><div class="member-name">外婆</div><div class="member-sub">家庭成员</div></div><div class="member-meta"><span class="role-pill viewer">仅查看</span><span class="chev">›</span></div></div>
+      </div>
+      <div class="invite">邀请家人</div><div class="leave">退出家庭</div>
+    </div></div>
+    <div class="caption"><h3>A · 舒展列表</h3><p>分隔线建立顺序，身份和权限更容易扫描；成员多时可以自然向下滚动。</p></div>
+  </div>
+  <div class="layout-choice" data-choice="member-soft-cards" onclick="toggleSelect(this)">
+    <div class="phone"><div class="status"><span>9:41</span><span>●●● ▰</span></div><div class="nav"><span class="back">‹</span>家庭与成员 <span class="capsule">···</span></div><div class="body">
+      <div class="family-head"><img src="/files/family-house.png" alt=""><div><div class="family-name">我的家庭</div><div class="family-sub">1 位宝贝 · 3 位成员</div></div></div>
+      <div class="settings-row"><b>家庭资料</b><small>名称、备用城市</small><span class="chev">›</span></div>
+      <div class="section-head"><b>家庭成员</b><small>3 位</small></div>
+      <div class="card-layout">
+        <div class="member"><div class="avatar mom">妈</div><div><div class="member-name">豆豆妈妈（我）</div><div class="member-sub">创建者</div></div><div class="member-meta"><span class="role-pill admin">管理员</span></div></div>
+        <div class="member"><div class="avatar dad">爸</div><div><div class="member-name">豆豆爸爸</div><div class="member-sub">家庭成员</div></div><div class="member-meta"><span class="role-pill editor">可编辑</span><span class="chev">›</span></div></div>
+        <div class="member"><div class="avatar grandma">外</div><div><div class="member-name">外婆</div><div class="member-sub">家庭成员</div></div><div class="member-meta"><span class="role-pill viewer">仅查看</span><span class="chev">›</span></div></div>
+      </div>
+      <div class="invite">邀请家人</div><div class="leave">退出家庭</div>
+    </div></div>
+    <div class="caption"><h3>B · 独立成员项</h3><p>每位家人占一个柔和边框项，分组感更强；视觉更温暖，但纵向空间略多。</p></div>
+  </div>
+</div>
+
+<div class="scope-note">两版只比较成员列表的排版；权限规则不变。选定后，权限弹层和仅查看页面会按同一字号、头像与间距同步调整。</div>

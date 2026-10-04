@@ -1,0 +1,24 @@
+@import "../../d.wxss";
+.preference-page .header {margin-bottom:8px}
+.preference-child {display:flex;align-items:center;gap:13px;min-height:88px}
+.preference-initial {display:flex;align-items:center;justify-content:center;width:48px;height:48px;flex:none;border-radius:50%;background:#e7f5e9;color:#267647;font-size:20px;font-weight:750}
+.preference-child .name {font-size:17px}
+.preference-page .section:first-of-type {border-top:0}
+.preference-page .section {margin-top:16px}
+.preference-page .tabs {background:#f0f2f5;border:0;border-radius:9px;padding:3px;gap:2px}
+.preference-page .tabs button {min-height:44px;font-size:13px;border:0;border-radius:7px}
+.preference-page .tabs button.active {color:#fff;background:#267a42;box-shadow:0 2px 7px rgba(40,117,66,.15)}
+.preference-page .section-heading {display:flex;justify-content:space-between;align-items:center;margin:10px 0}
+.preference-page .section-heading .section-title {margin:0}
+.preference-styles .choice {position:relative;display:flex;align-items:center;justify-content:center;flex-direction:column;min-height:158px;padding:7px 4px;overflow:hidden}
+.preference-styles checkbox {position:absolute;top:7px;left:7px;z-index:2}
+.preference-styles .choice > text {flex:none;font-weight:700;font-size:13px;text-align:center}
+.preference-style-art {position:relative;width:110px;height:110px;overflow:hidden}
+.preference-style-sprite {position:absolute;width:220px;height:220px}
+.preference-style-sprite.sprite-0 {left:0;top:0}
+.preference-style-sprite.sprite-1 {left:-110px;top:0}
+.preference-style-sprite.sprite-2 {left:0;top:-110px}
+.preference-style-sprite.sprite-3 {left:-110px;top:-110px}
+.preference-page .section .actions button,.preference-page .section > button.primary {width:100%}
+.preference-page > button.link {display:block;margin:24px auto 0;text-align:center}
+.inferred-section {margin-top:24px;padding-top:20px;border-top:1px solid #e5eaf0}.inferred-row {padding:16px 0;border-bottom:1px solid #e5eaf0}.inferred-row .name {font-size:15px}.inferred-row .actions {gap:6px}.inferred-row .actions button {font-size:12px;min-height:44px;padding:9px 8px}.inferred-row > button.link {min-height:44px}.inferred-section .meta {line-height:1.8}

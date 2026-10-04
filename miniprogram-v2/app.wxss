@@ -1,0 +1,47 @@
+page { background: #fff; color: #172438; font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif; font-size: 15px; line-height: 1.5; letter-spacing: 0; }
+view, text, button, input, picker, label, image { box-sizing: border-box; }
+.page { max-width: 640px; min-height: 100vh; margin: 0 auto; padding: 22px 20px calc(38px + env(safe-area-inset-bottom)); background: #fff; }
+.header { display: flex; align-items: center; justify-content: center; min-height: 42px; margin-bottom: 24px; text-align: center; }
+.title { font-size: 21px; line-height: 1.3; font-weight: 750; word-break: break-all; }
+.subtitle { color: #596d82; font-size: 14px; margin-top: 7px; }
+.section { margin: 26px 0 0; padding: 24px 0 0; border-top: 1px solid #e5eaf0; }
+.section-title { font-size: 17px; font-weight: 700; margin-bottom: 15px; word-break: break-all; }
+.field { display: block; margin-bottom: 17px; min-width: 0; }
+.field-label { display: block; font-size: 14px; font-weight: 650; margin-bottom: 7px; }
+input, .picker { width: 100%; min-height: 46px; padding: 11px 12px; background: #fff; border: 1px solid #d8e1ea; border-radius: 8px; font-size: 15px; color: #172438; }
+input { height: 46px; }
+.input-placeholder { color: #5d7186; }
+.picker { white-space: normal; overflow-wrap: anywhere; padding-right: 30px; position: relative; }
+.picker::after { content: ""; position: absolute; right: 13px; top: 17px; width: 7px; height: 7px; border-right: 1.5px solid #536780; border-bottom: 1.5px solid #536780; transform: rotate(45deg); }
+button { margin: 0; border-radius: 8px; font-size: 15px; font-weight: 650; min-height: 47px; padding: 10px 16px; line-height: 1.5; white-space: normal; word-break: break-all; letter-spacing: 0; background: #eef7eb; color: #206d3b; }
+button::after { border: 0; }
+button.primary { background: #267a42; color: #fff; box-shadow: 0 4px 10px rgba(34, 119, 59, .12); }
+button.danger { background: #fff; color: #c53c38; border: 1px solid #edc6c4; }
+button.link { background: transparent; color: #277d42; padding-left: 0; padding-right: 0; text-align: left; box-shadow: none; }
+button[disabled] { background: #e9eeeb; color: #53645b; box-shadow: none; }
+button.button-hover { opacity: .82; }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 16px; }
+.actions > button { flex: 1 1 110px; }
+.row { display: flex; gap: 12px; align-items: center; justify-content: space-between; }
+.row > .grow { flex: 1; min-width: 0; }
+.name { font-size: 17px; font-weight: 700; word-break: break-all; }
+.meta { color: #60758a; font-size: 13px; overflow-wrap: anywhere; }
+.badge { color: #257641; background: #e7f5e9; padding: 4px 9px; font-size: 12px; border-radius: 20px; display: inline-block; flex-shrink: 0; }
+.item { background: #fff; padding: 17px; border: 1px solid #dfe7ec; border-radius: 10px; margin-bottom: 12px; min-width: 0; }
+.item.selected { border-color: #2e8a4b; background: #f2f9f0; }
+.empty { padding: 24px 0; color: #60758a; }
+.notice { background: #ecf6fc; color: #35536c; padding: 13px 14px; border-radius: 9px; margin: 12px 0; font-size: 13px; overflow-wrap: anywhere; }
+.error { background: #fff0ef; color: #9b2929; }
+.loading { min-height: 46px; display: flex; align-items: center; color: #60758a; }
+.choice { display: flex; align-items: center; gap: 10px; padding: 12px 0; min-height: 46px; border-bottom: 1px solid #e5eaf0; }
+.choice > text { flex: 1; min-width: 0; }
+.style-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.style-grid .choice { border: 1px solid #dfe7ec; border-radius: 9px; padding: 12px 8px; font-size: 14px; flex-wrap: wrap; }
+.tabs { display: flex; border-bottom: 1px solid #dce5e9; margin-bottom: 18px; }
+.tabs button { flex: 1; background: transparent; border-radius: 0; color: #536980; border-bottom: 3px solid transparent; }
+.tabs button.active { color: #247941; border-bottom-color: #2e8a4b; }
+.measurements { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
+.member { padding: 15px 0; border-bottom: 1px solid #e5eaf0; }
+.login-brand { font-size: 29px; font-weight: 750; margin: 24px 0 6px; }
+.login-mark { width: 45px; height: 5px; background: #2e8a4b; margin-top: 30px; }
+@media (max-width: 340px) { .page { padding-left: 16px; padding-right: 16px; } .style-grid { gap: 8px; } }

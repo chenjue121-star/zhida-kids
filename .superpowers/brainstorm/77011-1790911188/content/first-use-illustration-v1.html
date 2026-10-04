@@ -1,0 +1,96 @@
+<style>
+  .review-head {max-width: 1000px; margin: 0 auto 18px;}
+  .review-head h2 {font-size: 23px; margin-bottom: 5px;}
+  .review-head p {font-size: 13px; color: #60736e; margin: 0;}
+  .flow-grid {display: grid; grid-template-columns: repeat(2, minmax(330px, 1fr)); gap: 16px; max-width: 1000px; margin: auto;}
+  .flow-panel {background: #fff; border: 1px solid #dfe9e2; border-radius: 8px; padding: 13px 8px 16px;}
+  .flow-panel h3 {max-width: 310px; margin: 12px auto 2px; font-size: 16px; color: #24332b;}
+  .flow-panel p {max-width: 310px; margin: 0 auto; font-size: 12px; color: #687872; line-height: 1.5;}
+  .phone {width: 310px; height: 670px; margin: auto; position: relative; overflow: hidden; border: 6px solid #25312d; border-radius: 32px; background: #fff; color: #1a2b24; box-shadow: 0 10px 26px rgba(32,54,42,.13);}
+  .status {height: 24px; display: flex; align-items: center; justify-content: space-between; padding: 5px 16px 0; font-size: 10px; font-weight: 700;}
+  .native-nav {height: 36px; text-align: center; padding-top: 5px; font-size: 14px; font-weight: 750; position: relative;}
+  .native-nav .menu {position: absolute; right: 10px; top: 0; width: 55px; height: 26px; border: 1px solid #dde2de; border-radius: 19px; line-height: 24px; font-size: 16px; letter-spacing: 2px; font-weight: 400;}
+  .onboarding {height: 548px; overflow: hidden; background: #fff;}
+  .hero {height: 205px; position: relative; overflow: hidden; background: linear-gradient(180deg,#edf8ff 0%,#f8fcf9 72%,#fff 100%); text-align: center;}
+  .hero .brand {position: absolute; top: 10px; left: 16px; font-size: 13px; font-weight: 800; color: #2e8549;}
+  .hero .brand span {font-size: 15px; margin-right: 4px;}
+  .hero h4 {position: relative; z-index: 2; padding-top: 38px; font-size: 21px; line-height: 1.2;}
+  .hero .intro {position: relative; z-index: 2; color: #607d72; font-size: 10px; padding-top: 3px;}
+  .hero img {position: absolute; z-index: 1; bottom: -12px; left: 30px; width: 244px; height: 141px; object-fit: contain;}
+  .hero .ground {position: absolute; bottom: 0; left: -7%; width: 114%; height: 27px; border-radius: 50% 50% 0 0; background: #e9f5df;}
+  .hero .sun {position: absolute; top: 56px; right: 18px; color: #f3c543; font-size: 25px;}
+  .form-area {padding: 10px 17px 0;}
+  .form-title {font-size: 11px; color: #6a7b72; margin-bottom: 6px;}
+  .age-group {display: flex; gap: 7px; margin-bottom: 11px;}
+  .age-box {height: 38px; flex: 1; display: flex; align-items: center; justify-content: space-between; border: 1px solid #dbe5df; border-radius: 6px; padding: 0 10px; font-size: 13px;}
+  .age-box .chev {font-size: 16px; color: #7a8e82;}
+  .name-box {height: 38px; display: flex; align-items: center; justify-content: space-between; border: 1px solid #dbe5df; border-radius: 6px; padding: 0 10px; font-size: 13px;}
+  .name-box small {color: #90a09a; font-size: 10px;}
+  .preference {border-top: 1px solid #e6ede7; margin-top: 16px; padding-top: 13px;}
+  .preference-title {font-size: 12px; font-weight: 750; display: flex; justify-content: space-between;}
+  .preference-title small {font-size: 10px; color: #82938b; font-weight: 400;}
+  .default-style {height: 48px; margin-top: 9px; display: flex; align-items: center; gap: 8px; padding: 0 10px; background: #eef7ec; border: 1px solid #bcdcbc; border-radius: 6px; font-size: 12px; font-weight: 750;}
+  .radio {width: 18px; height: 18px; border: 5px solid #398d52; border-radius: 50%; background: #fff;}
+  .default-style small {margin-left: auto; font-size: 10px; font-weight: 400; color: #55745e;}
+  .style-more {height: 31px; padding-top: 11px; color: #33884c; font-size: 11px; text-align: center;}
+  .fixed-action {position: absolute; left: 0; right: 0; bottom: 0; height: 61px; padding: 7px 16px 8px; border-top: 1px solid #e7ede8; background: #fff;}
+  .fixed-action .button {height: 44px; display: flex; align-items: center; justify-content: center; background: #31884c; color: #fff; border-radius: 7px; font-size: 14px; font-weight: 800;}
+  .login-background {position: absolute; inset: 60px 0 0; background: rgba(18,31,27,.44); z-index: 3;}
+  .sheet {position: absolute; left: 0; right: 0; bottom: 0; height: 303px; background: #fff; z-index: 4; border-radius: 16px 16px 0 0; text-align: center; padding: 11px 17px 0;}
+  .sheet .handle {width: 31px; height: 4px; background: #dce5dd; border-radius: 9px; margin: 0 auto 14px;}
+  .cloud-badge {width: 51px; height: 51px; margin: auto; background: #e7f4e9; border-radius: 50%; color: #31864c; line-height: 51px; font-size: 27px;}
+  .sheet h4 {font-size: 18px; margin: 10px 0 7px;}
+  .sheet p {font-size: 11px; line-height: 1.5; color: #687c72; margin: 0 9px 14px;}
+  .sheet .button {height: 43px; line-height: 43px; border-radius: 7px; color: #fff; background: #31884c; font-size: 13px; font-weight: 800;}
+  .sheet .cancel {font-size: 11px; color: #6d7e75; padding-top: 11px;}
+  .sheet .small-note {font-size: 10px; color: #8a988e; padding-top: 8px;}
+  .approval {max-width: 1000px; margin: 20px auto 0;}
+  .approval .subtitle {font-size: 13px; margin-bottom: 10px;}
+  .approval .option {border-color: #dce7de; border-radius: 7px;}
+  .approval .option.selected {border-color: #31884c; background: #f1f8f0;}
+  @media (max-width: 735px) {.flow-grid {grid-template-columns: 1fr;} .review-head h2 {font-size: 20px;}}
+</style>
+
+<div class="review-head">
+  <h2>方案 2 延展：首次使用与登录保存</h2>
+  <p>插画只负责让第一次打开更有亲和力；年龄与保存动作保持清楚。示例中的年龄为已选择状态，实际首次进入不预填。</p>
+</div>
+
+<div class="flow-grid">
+  <div class="flow-panel">
+    <div class="phone">
+      <div class="status"><span>9:41</span><span>●●● ▰</span></div>
+      <div class="native-nav">智搭 <span class="menu">···</span></div>
+      <div class="onboarding">
+        <div class="hero"><div class="brand"><span>⌂</span> 智搭</div><h4>先认识一下宝贝</h4><div class="intro">一个孩子，就可以开始</div><div class="sun">✦</div><div class="ground"></div><img src="/files/welcome-clothes.png" alt="儿童衣物插画"></div>
+        <div class="form-area">
+          <div class="form-title">年龄 <span style="color:#ce554b">*</span></div>
+          <div class="age-group"><div class="age-box">2 岁 <span class="chev">⌄</span></div><div class="age-box">3 个月 <span class="chev">⌄</span></div></div>
+          <div class="form-title">昵称</div><div class="name-box">宝贝 <small>可修改</small></div>
+          <div class="preference"><div class="preference-title">喜欢的风格 <small>可跳过</small></div><div class="default-style"><span class="radio"></span> 帮我选 <small>暂时没有偏好</small></div><div class="style-more">自己挑风格 ›</div></div>
+        </div>
+      </div>
+      <div class="fixed-action"><div class="button">开始搭配 ›</div></div>
+    </div>
+    <h3>01 · 第一次建档</h3><p>主视觉保留，但表单不再被四张大风格卡推远。风格默认“帮我选”，点“自己挑风格”再展开选项。</p>
+  </div>
+  <div class="flow-panel">
+    <div class="phone">
+      <div class="status"><span>9:41</span><span>●●● ▰</span></div>
+      <div class="native-nav">智搭 <span class="menu">···</span></div>
+      <div class="onboarding"><div class="hero"><div class="brand"><span>⌂</span> 智搭</div><h4>先认识一下宝贝</h4><div class="intro">一个孩子，就可以开始</div><div class="sun">✦</div><div class="ground"></div><img src="/files/welcome-clothes.png" alt="儿童衣物插画"></div><div class="form-area"><div class="form-title">年龄 *</div><div class="age-group"><div class="age-box">2 岁</div><div class="age-box">3 个月</div></div><div class="form-title">昵称</div><div class="name-box">宝贝</div></div></div>
+      <div class="login-background"></div>
+      <div class="sheet"><div class="handle"></div><div class="cloud-badge">☁</div><h4>登录后保存宝贝档案</h4><p>刚填写的信息已保留。登录后可以在不同设备继续查看。</p><div class="button">微信登录并保存</div><div class="cancel">暂不登录</div><div class="small-note">关闭后仍停留在当前建档页面</div></div>
+    </div>
+    <h3>02 · 首次云端保存</h3><p>只有点“开始搭配”时才唤起登录。弹层明确说明草稿已保留，取消不会丢失填写内容。</p>
+  </div>
+</div>
+
+<div class="approval">
+  <h3>这组页面的节奏对吗？</h3>
+  <p class="subtitle">请按视觉和使用感受选择；细节不合适也可以直接回复指出。</p>
+  <div class="options">
+    <div class="option" data-choice="first-use-approved" onclick="toggleSelect(this)"><div class="letter">✓</div><div class="content"><h3>方向正确，继续画宝贝与家庭页面</h3><p>保留插画首屏，风格选择默认收起，登录只在保存时出现。</p></div></div>
+    <div class="option" data-choice="first-use-revise" onclick="toggleSelect(this)"><div class="letter">✎</div><div class="content"><h3>这两页还需要调整</h3><p>告诉我哪里拥挤、哪里太空，或哪些内容应提到前面。</p></div></div>
+  </div>
+</div>

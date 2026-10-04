@@ -1,0 +1,119 @@
+<style>
+  .review-head {max-width: 1060px; margin: 0 auto 18px;}
+  .review-head h2 {font-size: 23px; margin-bottom: 5px;}
+  .review-head p {font-size: 14px; color: #5d7168; margin: 0; line-height: 1.5;}
+  .flow-grid {display: grid; grid-template-columns: repeat(2, minmax(370px, 1fr)); gap: 16px; max-width: 1060px; margin: auto;}
+  .flow-panel {background: #fff; border: 1px solid #dfe8e2; border-radius: 8px; padding: 12px 8px 16px;}
+  .flow-panel h3 {max-width: 360px; margin: 12px auto 2px; font-size: 17px; color: #24332b;}
+  .flow-panel p {max-width: 360px; margin: 0 auto; font-size: 13px; color: #687872; line-height: 1.5;}
+  .phone {width: 360px; height: 760px; margin: auto; position: relative; overflow: hidden; border: 6px solid #26332e; border-radius: 34px; background: #fff; color: #1a2b24; box-shadow: 0 10px 26px rgba(32,54,42,.13);}
+  .status {height: 27px; display: flex; align-items: center; justify-content: space-between; padding: 6px 17px 0; font-size: 12px; font-weight: 700;}
+  .native-nav {height: 44px; text-align: center; padding-top: 8px; font-size: 16px; font-weight: 750; position: relative; background: #fff;}
+  .native-nav .back {position: absolute; left: 17px; top: 0; font-size: 29px; line-height: 35px; font-weight: 350;}
+  .native-nav .menu {position: absolute; right: 12px; top: 3px; width: 65px; height: 29px; border: 1px solid #dce3de; border-radius: 19px; line-height: 25px; font-size: 18px; letter-spacing: 3px; font-weight: 400;}
+  .phone-body {height: 677px; overflow: hidden;}
+  .children-body {background: linear-gradient(180deg,#f0f9fd 0%,#fff 31%); padding: 0 18px;}
+  .family-meta {height: 73px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #e4ece7;}
+  .family-meta .eyebrow {font-size: 13px; font-weight: 700; color: #548069;}
+  .family-meta .count {font-size: 14px; color: #4e6358; margin-top: 2px;}
+  .sun-mark {width: 30px; height: 30px; border-radius: 50%; background: #ffda65; box-shadow: 0 0 0 7px rgba(255,218,101,.18); margin-right: 10px;}
+  .child-list {padding-top: 16px;}
+  .child-row {height: 104px; display: flex; align-items: center; gap: 12px; background: #fff; border: 1px solid #dce6df; border-radius: 8px; margin-bottom: 11px; padding: 0 12px;}
+  .child-row.selected {background: #f3faf1; border-color: #75aa7a;}
+  .avatar {width: 58px; height: 58px; flex: none; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 24px; font-weight: 750;}
+  .avatar.blue {background: #dff1fa; color: #3e6982;}
+  .avatar.coral {background: #fce9e6; color: #a55d65;}
+  .person-text {flex: 1; min-width: 0;}
+  .person-text .name {display: block; font-size: 18px; font-weight: 750; line-height: 1.25; color: #24322a;}
+  .person-text .age {display: block; margin-top: 5px; font-size: 14px; color: #687b72; line-height: 1.2;}
+  .select-status {width: 26px; height: 26px; flex: none; border: 2px solid #a0b0a4; border-radius: 50%;}
+  .selected .select-status {background: #358a4c; border-color: #358a4c; color: #fff; text-align: center; line-height: 21px; font-size: 16px; font-weight: 800;}
+  .edit-button {width: 38px; height: 38px; flex: none; margin-left: 2px; display: flex; align-items: center; justify-content: center; border-left: 1px solid #e0e9e2; color: #2f7544; font-size: 21px; padding-left: 10px;}
+  .add-row {height: 62px; border: 1px solid #cbe2ce; border-radius: 8px; display: flex; align-items: center; gap: 12px; padding: 0 15px; color: #287742; background: #f3faf2; font-size: 16px; font-weight: 750;}
+  .add-row .plus {height: 29px; width: 29px; border-radius: 50%; background: #388a50; color: white; line-height: 27px; text-align: center; font-size: 24px; font-weight: 400;}
+  .add-row .arrow {margin-left: auto; font-size: 22px;}
+  .family-link {display: flex; justify-content: space-between; border-top: 1px solid #e6ebe7; margin-top: 29px; padding: 15px 0; color: #385840; font-size: 15px;}
+  .family-link span {font-size: 20px; line-height: 18px; color: #83968a;}
+  .edit-body {background: #fff; padding: 0 18px;}
+  .profile-summary {height: 97px; display: flex; align-items: center; gap: 14px; border-top: 1px solid #e2ebe4; border-bottom: 1px solid #e2ebe4; margin: 10px 0 0;}
+  .profile-summary .person-text .name {font-size: 18px;}
+  .profile-summary .person-text .age {font-size: 14px;}
+  .section-heading {font-size: 16px; font-weight: 750; margin: 20px 0 7px;}
+  .field-row {height: 54px; border-bottom: 1px solid #e7ede8; display: flex; align-items: center; font-size: 15px;}
+  .field-row .label {font-size: 15px; font-weight: 650; color: #34473b; width: 65px; flex: none; margin: 0; letter-spacing: 0; text-transform: none;}
+  .field-row .value {margin-left: auto; color: #283b2e; font-size: 15px;}
+  .field-row .value.muted {color: #819087;}
+  .field-row .chev {font-size: 19px; color: #859a8b; padding-left: 13px;}
+  .field-hint {color: #7e8e84; font-size: 12px; margin-top: 7px;}
+  .measurement {display: flex; align-items: center; justify-content: space-between; background: #eef6ed; border-radius: 8px; height: 80px; padding: 0 13px;}
+  .measurement small {display: block; font-size: 12px; color: #6e8075;}
+  .measurement b {display: block; font-size: 17px; margin-top: 2px;}
+  .measure-action {font-size: 13px; color: #2b7942; font-weight: 750; white-space: nowrap;}
+  .pref-row {height: 54px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #e7ede8; font-size: 15px; color: #2e4437;}
+  .pref-row small {font-size: 13px; color: #658073;}
+  .archive {text-align: center; font-size: 13px; color: #a04f4c; margin-top: 18px;}
+  .fixed-action {position: absolute; left: 0; right: 0; bottom: 0; height: 69px; padding: 9px 18px 9px; border-top: 1px solid #e7ede8; background: #fff;}
+  .fixed-action .button {height: 50px; display: flex; align-items: center; justify-content: center; background: #31884c; color: #fff; border-radius: 8px; font-size: 17px; font-weight: 800;}
+  .scale-note {max-width: 1060px; margin: 17px auto 0; padding: 12px 15px; border-left: 3px solid #3e8851; background: #eef6ed; color: #4b6453; font-size: 13px;}
+  .approval {max-width: 1060px; margin: 20px auto 0;}
+  .approval .subtitle {font-size: 13px; margin-bottom: 10px;}
+  .approval .option {border-color: #dce7de; border-radius: 7px;}
+  .approval .option.selected {border-color: #31884c; background: #f1f8f0;}
+  @media (max-width: 810px) {.flow-grid {grid-template-columns: 1fr;} .review-head h2 {font-size: 20px;}}
+</style>
+
+<div class="review-head">
+  <h2>宝贝页面修订稿 · V2</h2>
+  <p>去掉重复的大标题；两页用同一套 58px 圆形头像、姓名与年龄排版。未上传照片时统一用名字字样作默认头像，有照片时仍放进同一圆形容器。</p>
+</div>
+
+<div class="flow-grid">
+  <div class="flow-panel">
+    <div class="phone">
+      <div class="status"><span>9:41</span><span>●●● ▰</span></div>
+      <div class="native-nav"><span class="back">‹</span>切换宝贝 <span class="menu">···</span></div>
+      <div class="phone-body children-body">
+        <div class="family-meta"><div><div class="eyebrow">我的家庭</div><div class="count">2 位宝贝</div></div><div class="sun-mark"></div></div>
+        <div class="child-list">
+          <div class="child-row selected"><div class="avatar blue">豆</div><div class="person-text"><span class="name">小豆子</span><span class="age">2岁3个月</span></div><div class="select-status">✓</div><div class="edit-button">✎</div></div>
+          <div class="child-row"><div class="avatar coral">花</div><div class="person-text"><span class="name">小花</span><span class="age">4岁1个月</span></div><div class="select-status"></div><div class="edit-button">✎</div></div>
+          <div class="add-row"><span class="plus">+</span>添加宝贝 <span class="arrow">›</span></div>
+        </div>
+        <div class="family-link">家庭与成员 <span>›</span></div>
+      </div>
+    </div>
+    <h3>切换宝贝</h3><p>正文与控制放大，操作区分离；当前孩子只保留一个绿色勾选标记，不再叠加状态标签。</p>
+  </div>
+  <div class="flow-panel">
+    <div class="phone">
+      <div class="status"><span>9:41</span><span>●●● ▰</span></div>
+      <div class="native-nav"><span class="back">‹</span>编辑宝贝 <span class="menu">···</span></div>
+      <div class="phone-body edit-body">
+        <div class="profile-summary"><div class="avatar blue">豆</div><div class="person-text"><span class="name">小豆子</span><span class="age">2岁3个月</span></div></div>
+        <div class="section-heading">基本资料</div>
+        <div class="field-row"><span class="label">昵称</span><span class="value">小豆子</span><span class="chev">›</span></div>
+        <div class="field-row"><span class="label">生日</span><span class="value">2024-07-01</span><span class="chev">›</span></div>
+        <div class="field-hint">填写生日后，年龄自动计算</div>
+        <div class="field-row"><span class="label">肤色</span><span class="value muted">暂未填写</span><span class="chev">›</span></div>
+        <div class="section-heading">身体信息</div>
+        <div class="measurement"><div><small>最近测量 · 2026-09-20</small><b>92 cm　·　13 kg</b></div><div class="measure-action">＋ 新增测量</div></div>
+        <div class="section-heading">穿搭设置</div>
+        <div class="pref-row">穿搭偏好 <small>查看或修改 ›</small></div>
+        <div class="archive">归档宝贝</div>
+      </div>
+      <div class="fixed-action"><div class="button">保存修改</div></div>
+    </div>
+    <h3>编辑宝贝</h3><p>顶部不再另起一条不同风格的头像横幅。姓名、年龄和头像与切换列表完全一致，表单行统一 54px。</p>
+  </div>
+</div>
+
+<div class="scale-note">字号基准：页面标题 16px、孩子姓名 18px、字段 15px、年龄与补充信息至少 13px；头像 58px，列表行 104px，操作触点约 44px。</div>
+
+<div class="approval">
+  <h3>V2 是否更顺眼？</h3>
+  <p class="subtitle">本轮聚焦布局、字号和头像信息的一致性。</p>
+  <div class="options">
+    <div class="option" data-choice="children-v2-approved" onclick="toggleSelect(this)"><div class="letter">✓</div><div class="content"><h3>这版可以，继续其他 A 阶段页面</h3><p>使用统一头像框、统一字号与更清楚的操作区。</p></div></div>
+    <div class="option" data-choice="children-v2-revise" onclick="toggleSelect(this)"><div class="letter">✎</div><div class="content"><h3>还需要调整</h3><p>可以直接指出列表、头像、间距或字号哪里仍不舒服。</p></div></div>
+  </div>
+</div>

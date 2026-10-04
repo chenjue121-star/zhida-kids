@@ -1,0 +1,14 @@
+<view class="b-page b-removed-page">
+ <view wx:if="{{error}}" class="notice error">{{error}}<button wx:if="{{accessRevoked}}" bindtap="goFamilies">选择家庭</button><button wx:else bindtap="reload">重新读取</button></view><view wx:if="{{loading}}" class="loading">正在读取移除记录…</view>
+ <block wx:if="{{ready}}">
+  <view class="b-summary"><text>我的家庭</text><text>{{filterIndex ? '筛选 ' + total + ' 件 / 家庭共 ' + familyTotal + ' 件' : '家庭共 ' + familyTotal + ' 件已移除'}}</text></view>
+  <view class="b-removed-intro">这里保留原图、资料和上次使用记录，可以逐件核对后恢复。</view>
+  <view class="b-info-row"><text>上次给谁使用</text><picker range="{{historyChildren}}" range-key="nickname" value="{{filterIndex}}" bindchange="filter"><view class="b-select">{{historyChildren[filterIndex].nickname}}</view></picker></view>
+  <view wx:if="{{!writable}}" class="b-note">仅查看：可以核对衣物和原图，恢复由可编辑的家人操作。</view>
+  <view wx:if="{{!items.length}}" class="b-empty"><view class="b-empty-title">没有匹配的移除记录</view><view class="b-empty-copy">可切换查看全部宝贝。</view></view>
+  <view class="b-removed-list"><view wx:for="{{items}}" wx:key="id" class="b-removed-row" data-id="{{item.id}}" bindtap="open"><image wx:if="{{item.image}}" src="{{item.image}}" mode="aspectFit"/><view wx:else class="b-removed-placeholder">{{item.asset_id ? item.imageError ? '原图不可用' : '原图加载中' : '手填'}}</view><view class="b-removed-copy"><view class="b-removed-name">{{item.name}}</view><view class="b-removed-history">上次记录：<text wx:for="{{item.last_owners}}" wx:for-item="owner" wx:key="child_id">{{index ? '、' : ''}}{{owner.nickname}}{{owner.archived ? '（已归档）' : ''}} · {{owner.fitLabel}}</text></view><view class="b-removed-history">移出前：{{item.stateLabel}}</view></view><button wx:if="{{writable}}" class="link" data-id="{{item.id}}" catchtap="restore">核对恢复</button><button wx:else class="link" data-id="{{item.id}}" catchtap="open">查看</button></view></view>
+  <button wx:if="{{nextCursor}}" class="link" bindtap="more" disabled="{{loading}}">继续加载</button>
+  <view class="b-removed-intro">“上次记录”供核对，不代表当前仍在使用。恢复衣物不会恢复已归档宝贝。</view>
+  <view class="b-fixed b-removed-footer"><view class="b-footer-note">原图、衣物资料和历史记录继续保留</view><button class="primary" bindtap="back">返回衣橱</button></view>
+ </block>
+</view>

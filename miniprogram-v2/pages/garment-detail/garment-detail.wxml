@@ -1,0 +1,22 @@
+<view class="b-page b-detail-page">
+ <view wx:if="{{loading}}" class="loading">正在读取衣物…</view>
+ <view wx:if="{{error}}" class="notice error">{{error}}<button wx:if="{{accessRevoked}}" bindtap="goFamilies">选择家庭</button><button wx:else bindtap="reload">读取最新</button></view>
+ <view wx:if="{{pendingArchive && writable}}" class="b-note">上次移出结果尚待核实。<button bindtap="queryArchive" disabled="{{busy}}">查询原操作</button><button bindtap="resolveArchive" disabled="{{busy}}">核实未执行</button></view>
+ <block wx:if="{{ready && garment}}">
+  <view class="b-detail-hero"><image wx:if="{{image}}" src="{{image}}" class="b-original" mode="aspectFit" bindtap="preview"/><view wx:else class="b-no-image">{{garment.asset_id ? imageError || '原图加载中，可重试' : '这件衣物为手动录入'}}</view><button wx:if="{{garment.asset_id}}" class="b-origin-button" bindtap="preview">查看原图 ↗</button></view>
+  <view class="b-title-row"><view class="b-detail-name">{{garment.name}}</view><picker wx:if="{{writable && !garment.archived_at}}" range="{{stateOptions}}" range-key="label" value="{{stateIndex}}" bindchange="state" disabled="{{busy || conflict}}"><view class="b-select b-status-select {{garment.state}}">{{garment.stateLabel}}</view></picker><view wx:else class="b-state {{garment.state}}">{{garment.stateLabel}}</view></view>
+  <view class="b-detail-meta">{{garment.categoryLabel}} · {{garment.colorLabel}} · {{garment.patternLabel}}</view>
+  <view wx:if="{{garment.archived_at}}" class="b-note">已从家庭衣橱移出，原图与上次使用关系保留。</view>
+  <view class="b-info-row"><text>厚薄</text><text>{{garment.thicknessLabel}}</text></view>
+  <view class="b-section-title b-owner-heading">{{garment.archived_at ? '上次使用记录' : '给哪些宝贝使用'}}<text>合身按宝贝分别记录</text></view>
+  <view wx:for="{{garment.archived_at ? garment.last_owners : garment.owners}}" wx:key="child_id" class="b-detail-owner"><view class="b-initial">{{item.nickname[0]}}</view><view class="b-owner-copy"><view>{{item.nickname}}{{item.archived ? '（已归档）' : ''}}</view><view wx:if="{{item.ageLabel}}" class="b-owner-age">{{item.ageLabel}}</view></view><text>{{item.fitLabel}}</text></view>
+  <view wx:if="{{latest}}" class="b-conflict"><view>家人修改后的最新状态：{{latest.stateLabel}}</view><view wx:for="{{latest.owners}}" wx:key="child_id">{{item.nickname}}：{{item.fitLabel}}</view><view>本次修改尚未保存，请读取最新内容后重新核对。</view><button bindtap="reload">读取最新</button></view>
+  <view class="b-note">待洗、找不到属于同一件实物，所有使用者同步；合身按每位宝贝分别设置。</view>
+  <block wx:if="{{writable}}">
+   <view wx:if="{{!garment.archived_at}}" class="b-ownership-links"><button wx:if="{{garment.owners.length === 1}}" class="link" bindtap="transfer">转交衣物 ›</button><button class="b-danger-link" bindtap="archive" disabled="{{busy}}">移出衣橱 ›</button></view>
+   <button wx:if="{{!garment.archived_at}}" class="primary" bindtap="outfit">用这件搭配</button>
+   <view class="b-fixed b-detail-footer"><view class="b-footer-note">衣物状态由家庭共享维护</view><view wx:if="{{!garment.archived_at}}" class="b-footer-actions"><button class="primary" bindtap="edit">编辑资料</button><button class="b-secondary" bindtap="owners">调整归属</button></view><button wx:else class="primary" bindtap="restore">核对后恢复</button></view>
+  </block>
+  <view wx:else class="b-muted">仅查看成员可以浏览原图、资料和历史。</view>
+ </block>
+</view>

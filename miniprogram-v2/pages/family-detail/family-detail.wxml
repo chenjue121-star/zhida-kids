@@ -1,0 +1,42 @@
+<view class="page family-detail-page">
+  <view wx:if="{{ready}}" class="family-detail-head"><image class="family-detail-icon" src="/assets/family-house.png" mode="aspectFit" aria-hidden="true"/><view><view class="name">{{family.name || '我的家庭'}}</view><view class="meta">{{family.city || '未设置备用城市'}} · {{members.length}} 位成员</view></view></view>
+  <view wx:if="{{loading}}" class="loading">正在读取家庭…</view>
+  <view wx:if="{{error}}" class="notice error">{{error}}<button class="link" bindtap="reloadConfirm" disabled="{{busy || loading}}">重新加载</button></view>
+  <view wx:if="{{actionError}}" class="notice error">{{actionError}}</view>
+  <block wx:if="{{ready}}">
+    <view class="family-profile-entry" bindtap="toggleProfile" aria-role="button"><text>家庭资料</text><view><text>名称、备用城市</text><text class="family-chevron">{{profileOpen ? '⌃' : '›'}}</text></view></view>
+    <view wx:if="{{profileOpen}}" class="family-profile-form">
+      <form bindsubmit="save">
+        <label class="field"><text class="field-label">家庭名称</text><input value="{{form.name}}" data-field="name" bindinput="input" maxlength="80" disabled="{{role !== 'admin' || busy}}"/></label>
+        <label class="field"><text class="field-label">所在城市</text><input value="{{form.city}}" data-field="city" bindinput="input" maxlength="120" disabled="{{role !== 'admin' || busy}}"/></label>
+        <label class="field"><text class="field-label">家庭时区</text><input value="{{form.timezone}}" data-field="timezone" bindinput="input" disabled="{{role !== 'admin' || busy}}"/></label>
+        <button wx:if="{{role === 'admin'}}" class="primary" form-type="submit" loading="{{busy}}" disabled="{{busy || conflict}}">保存家庭资料</button>
+      </form>
+    </view>
+    <view class="family-members-section">
+      <view class="family-members-heading"><text>家庭成员</text><text>{{members.length}} 位</text></view>
+      <view wx:for="{{members}}" wx:key="id" class="member-record">
+        <view class="member-main" data-id="{{item.id}}" bindtap="toggleMember" aria-role="button"><view class="member-avatar" aria-hidden="true">{{item.initial}}</view><view class="member-identity"><view class="name">{{item.nickname || (item.isSelf ? '我' : '家庭成员')}}{{item.isSelf && item.nickname ? '（我）' : ''}}</view><view class="meta">{{item.isSelf ? '当前使用者' : '家庭成员'}}</view></view><view class="member-role {{item.role}}">{{item.roleLabel}}</view><text wx:if="{{role === 'admin' && (!item.isSelf || adminCount > 1)}}" class="member-chevron">{{memberOpenId === item.id ? '⌃' : '›'}}</text></view>
+        <view wx:if="{{role === 'admin' && memberOpenId === item.id}}" class="member-actions">
+          <picker range="{{roleOptions}}" value="{{item.roleIndex}}" data-id="{{item.id}}" bindchange="changeRole" disabled="{{busy || conflict}}"><view class="member-action">更改权限</view></picker>
+          <button wx:if="{{!item.isSelf}}" class="member-action danger-text" data-id="{{item.id}}" bindtap="remove" disabled="{{busy || conflict}}">移除成员</button>
+        </view>
+      </view>
+    </view>
+    <view wx:if="{{role === 'admin'}}" class="section">
+      <view class="invite-entry" bindtap="showInvite" aria-role="button"><text>邀请家人</text><text>{{inviteOpen ? '⌃' : '›'}}</text></view>
+      <view wx:if="{{inviteOpen}}" class="invite-content">
+        <view class="meta invite-help">家人确认加入后，才能查看宝贝档案。</view>
+        <picker range="{{inviteRoles}}" value="{{inviteRole}}" bindchange="inviteRole" disabled="{{busy}}"><view class="picker">{{inviteRoles[inviteRole]}}</view></picker>
+        <view class="actions"><button bindtap="createInvitation" disabled="{{busy || invitation}}" loading="{{busy}}">生成邀请</button></view>
+        <view wx:if="{{invitation}}">
+          <view class="notice">{{invitationRole}} · 有效期至 {{invitation.expires_at}}</view>
+          <view class="actions"><button class="primary" open-type="share" disabled="{{busy}}">分享给家人</button><button class="danger" bindtap="revoke" disabled="{{busy}}">撤销邀请</button></view>
+        </view>
+      </view>
+    </view>
+    <view class="section leave-section"><button class="danger" bindtap="leave" disabled="{{busy || conflict}}">退出家庭</button></view>
+  </block>
+  <button class="link" bindtap="goFamilies">返回我的家庭</button>
+  <view wx:if="{{pendingAction}}" class="family-action-mask" bindtap="closeAction"><view class="family-action-sheet" catchtap="noop"><view class="family-action-title">{{pendingAction.title}}</view><view class="family-action-copy">{{pendingAction.copy}}</view><button class="{{pendingAction.type === 'role' ? 'primary' : 'danger'}}" bindtap="confirmAction" loading="{{busy}}" disabled="{{busy}}">{{pendingAction.confirmLabel}}</button><button class="family-action-cancel" bindtap="closeAction" disabled="{{busy}}">取消</button></view></view>
+</view>

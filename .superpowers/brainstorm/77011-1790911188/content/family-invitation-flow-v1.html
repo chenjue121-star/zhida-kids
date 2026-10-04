@@ -1,0 +1,93 @@
+<style>
+  .review-head {max-width: 1120px; margin: 0 auto 18px;}
+  .review-head h2 {font-size: 23px; margin: 0 0 6px;}
+  .review-head p {font-size: 13px; line-height: 1.6; color: #61736c; margin: 0;}
+  .flow-grid {display: grid; grid-template-columns: repeat(3, minmax(330px, 1fr)); gap: 12px; max-width: 1120px; margin: auto;}
+  .flow-panel {background: #fff; border: 1px solid #dce8df; border-radius: 8px; padding: 14px 8px 16px;}
+  .flow-panel .phone {position: relative; width: 330px; height: 715px; margin: auto; overflow: hidden; border: 7px solid #27332f; border-radius: 34px; background: #fff; color: #203029; box-shadow: 0 10px 26px rgba(30,48,36,.13);}
+  .flow-panel .status {height: 27px; padding: 10px 18px 0; display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; line-height: 1;}
+  .flow-panel .nav {height: 39px; position: relative; text-align: center; padding-top: 6px; font-size: 15px; font-weight: 700; background: #fff;}
+  .flow-panel .nav .back {position: absolute; left: 17px; top: -3px; font-size: 27px; font-weight: 400;}
+  .flow-panel .nav .capsule {position: absolute; top: 0; right: 12px; width: 62px; height: 28px; border: 1px solid #d9dfdb; border-radius: 20px; font-size: 16px; font-weight: 400; letter-spacing: 3px; line-height: 25px;}
+  .flow-panel .page-body {height: 577px; padding: 0 16px; overflow: hidden; background: linear-gradient(180deg,#eff8fd 0%,#fff 130px);}
+  .flow-panel .family-row {height: 78px; display: flex; align-items: center; gap: 11px; border-bottom: 1px solid #e5ede8;}
+  .flow-panel .family-row img {height: 46px; width: 46px; flex: none; object-fit: contain;}
+  .flow-panel .family-row b {display: block; font-size: 14px; line-height: 1.2;}
+  .flow-panel .family-row small {display: block; margin-top: 5px; font-size: 11px; color: #74887b;}
+  .flow-panel .section-label {font-size: 12px; font-weight: 800; color: #426249; margin: 18px 0 8px;}
+  .flow-panel .role-choice {min-height: 73px; display: flex; align-items: center; gap: 10px; border: 1px solid #e0e9e1; border-radius: 7px; padding: 0 12px; margin-bottom: 8px; background: #fff;}
+  .flow-panel .role-choice.selected {border-color: #83b28a; background: #f2f8f1;}
+  .flow-panel .role-choice b {display: block; font-size: 14px; line-height: 1.2;}
+  .flow-panel .role-choice small {display: block; margin-top: 5px; font-size: 11px; color: #728479; line-height: 1.25;}
+  .flow-panel .radio {height: 20px; width: 20px; flex: none; margin-left: auto; border: 1.5px solid #9cb1a1; border-radius: 50%;}
+  .flow-panel .selected .radio {border: 6px solid #388b52; background: #fff;}
+  .flow-panel .validity {font-size: 11px; color: #7d8f81; margin-top: 15px; line-height: 1.5;}
+  .flow-panel .fixed-action {position: absolute; left: 0; right: 0; bottom: 0; height: 61px; padding: 7px 16px 8px; border-top: 1px solid #e7ede8; background: #fff;}
+  .flow-panel .primary {height: 44px; display: flex; align-items: center; justify-content: center; background: #31884c; color: #fff; border-radius: 7px; font-size: 14px; font-weight: 800;}
+  .flow-panel .share-status {display: inline-flex; align-items: center; gap: 7px; margin: 18px 0 12px; font-size: 12px; color: #2e7a48; font-weight: 750;}
+  .flow-panel .share-status .dot {height: 8px; width: 8px; border-radius: 50%; background: #58a16a;}
+  .flow-panel .detail-row {height: 49px; border-bottom: 1px solid #e7eee9; display: flex; align-items: center; justify-content: space-between; font-size: 13px;}
+  .flow-panel .detail-row span {color: #6d8073;}
+  .flow-panel .detail-row b {font-size: 13px; font-weight: 700;}
+  .flow-panel .share-note {margin-top: 19px; background: #f2f7ed; border-left: 3px solid #86ad78; padding: 11px 12px; font-size: 12px; color: #55705a; line-height: 1.4;}
+  .flow-panel .share-actions {position: absolute; left: 0; right: 0; bottom: 0; height: 94px; padding: 8px 16px 9px; border-top: 1px solid #e7ede8; background: #fff;}
+  .flow-panel .share-actions .revoke {font-size: 12px; color: #a85b58; text-align: center; margin-top: 11px;}
+  .flow-panel .recipient-hero {text-align: center; padding: 20px 0 0;}
+  .flow-panel .recipient-hero img {display: block; width: 176px; height: 112px; object-fit: contain; margin: 0 auto 8px;}
+  .flow-panel .recipient-hero .inviter {font-size: 12px; color: #687f71;}
+  .flow-panel .recipient-hero h4 {font-size: 21px; line-height: 1.2; margin: 6px 0 19px; color: #244a31;}
+  .flow-panel .readonly-role {min-height: 60px; border: 1px solid #dce7dc; border-radius: 7px; background: #f7faf6; padding: 10px 12px; display: flex; align-items: center;}
+  .flow-panel .readonly-role span {font-size: 12px; color: #6c8171;}
+  .flow-panel .readonly-role b {margin-left: auto; font-size: 14px; color: #2e7845;}
+  .flow-panel .expiry {font-size: 11px; color: #819186; margin-top: 11px;}
+  .flow-panel .recipient-actions {position: absolute; left: 0; right: 0; bottom: 0; height: 100px; padding: 8px 16px 10px; border-top: 1px solid #e7ede8; background: #fff;}
+  .flow-panel .recipient-actions .skip {font-size: 12px; color: #748579; text-align: center; margin-top: 13px;}
+  .flow-panel .caption {max-width: 330px; margin: 12px auto 0;}
+  .flow-panel .caption h3 {font-size: 15px; color: #27362c; margin: 0 0 4px;}
+  .flow-panel .caption p {font-size: 12px; color: #687a70; line-height: 1.5; margin: 0;}
+  .scope-note {max-width: 1120px; margin: 17px auto 0; background: #edf6ed; border-left: 3px solid #388b50; padding: 12px 15px; font-size: 13px; line-height: 1.55; color: #47634e;}
+  .approval {max-width: 1120px; margin: 20px auto 0;}
+  .approval .subtitle {font-size: 13px; margin-bottom: 10px;}
+  .approval .option {border-color: #dce7de; border-radius: 7px;}
+  .approval .option.selected {border-color: #31884c; background: #f1f8f0;}
+  @media (max-width: 1120px) {.flow-grid {grid-template-columns: 1fr;} .review-head h2 {font-size: 20px;}}
+</style>
+
+<div class="review-head"><h2>家庭邀请 · 三个不同状态</h2><p>按已确认的家庭详情继续。管理员先选权限，再生成一次性邀请；家人打开链接后，仍需亲自确认加入。</p></div>
+
+<div class="flow-grid">
+  <div class="flow-panel">
+    <div class="phone"><div class="status"><span>9:41</span><span>●●● ▰</span></div><div class="nav"><span class="back">‹</span>邀请家人 <span class="capsule">···</span></div><div class="page-body">
+      <div class="family-row"><img src="/files/family-house.png" alt=""><div><b>我的家庭</b><small>1 位宝贝 · 1 位成员</small></div></div>
+      <div class="section-label">加入后的权限</div>
+      <div class="role-choice selected"><div><b>可编辑</b><small>维护宝贝档案和共同偏好</small></div><span class="radio"></span></div>
+      <div class="role-choice"><div><b>仅查看</b><small>可以查看资料，不可修改</small></div><span class="radio"></span></div>
+      <div class="validity">邀请 7 天内有效，仅供一位家人加入。</div>
+    </div><div class="fixed-action"><div class="primary">生成邀请</div></div></div>
+    <div class="caption"><h3>01 · 选择权限</h3><p>只有家庭管理员可进入；生成时固定权限，受邀者不可更改。</p></div>
+  </div>
+
+  <div class="flow-panel">
+    <div class="phone"><div class="status"><span>9:41</span><span>●●● ▰</span></div><div class="nav"><span class="back">‹</span>分享邀请 <span class="capsule">···</span></div><div class="page-body">
+      <div class="family-row"><img src="/files/family-house.png" alt=""><div><b>我的家庭</b><small>邀请一位家人加入</small></div></div>
+      <div class="share-status"><span class="dot"></span>邀请已生成 · 等待家人确认</div>
+      <div class="detail-row"><span>加入后的权限</span><b>可编辑</b></div>
+      <div class="detail-row"><span>有效期至</span><b>10 月 9 日 21:00</b></div>
+      <div class="share-note">分享后，家人确认加入才会出现在成员列表。</div>
+    </div><div class="share-actions"><div class="primary">分享给家人</div><div class="revoke">撤销此邀请</div></div></div>
+    <div class="caption"><h3>02 · 等待分享／加入</h3><p>生成不等于分享，分享也不等于加入；撤销后原邀请失效。</p></div>
+  </div>
+
+  <div class="flow-panel">
+    <div class="phone"><div class="status"><span>9:41</span><span>●●● ▰</span></div><div class="nav"><span class="back">‹</span>家庭邀请 <span class="capsule">···</span></div><div class="page-body">
+      <div class="recipient-hero"><img src="/files/family-house.png" alt=""><div class="inviter">豆豆妈妈邀请你加入</div><h4>我的家庭</h4></div>
+      <div class="readonly-role"><span>加入后的权限</span><b>可编辑</b></div>
+      <div class="expiry">邀请有效期至 10 月 9 日 21:00</div>
+    </div><div class="recipient-actions"><div class="primary">确认加入家庭</div><div class="skip">暂不加入</div></div></div>
+    <div class="caption"><h3>03 · 受邀者确认</h3><p>未登录先完成登录并返回此页；确认后进入该家庭的宝贝档案。</p></div>
+  </div>
+</div>
+
+<div class="scope-note">受邀者看到的权限是只读结果，不显示选择控件。邀请过期、被撤销或已被他人使用时，不出现“确认加入”；这些异常状态会在后续状态页单独画。</div>
+
+<div class="approval"><h3>邀请这三个状态可以吗？</h3><p class="subtitle">本轮只确认权限选择、分享与加入的分界。</p><div class="options"><div class="option" data-choice="invitation-flow-approved" onclick="toggleSelect(this)"><div class="letter">✓</div><div class="content"><h3>可以，继续成员权限设计</h3><p>保留生成、分享、确认加入三个不同状态。</p></div></div><div class="option" data-choice="invitation-flow-revise" onclick="toggleSelect(this)"><div class="letter">✎</div><div class="content"><h3>还需要调整</h3><p>可以指出步骤、文案或页面密度哪里不合适。</p></div></div></div></div>

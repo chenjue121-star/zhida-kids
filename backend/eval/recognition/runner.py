@@ -7,10 +7,12 @@ import mimetypes
 from pathlib import Path
 from typing import Awaitable, Callable, Optional
 
-from app.services.recognition.recognize import recognize_image
-
 # recognizer 签名：async (image_data_url: str, prompt_text: str) -> ClothingRecognizeOut
 Recognizer = Callable[[str, str], Awaitable[object]]
+
+
+class OfflineCacheMiss(RuntimeError):
+    """Offline evaluation has no usable cached response for an input."""
 
 
 def cache_key(image_name: str, prompt_text: str, run_index: int) -> str:
@@ -37,16 +39,29 @@ async def run_recognition(
     cache_dir: Path,
     recognizer: Optional[Recognizer] = None,
     use_cache: bool = True,
+    offline: bool = False,
 ) -> dict:
     """返回归一化后的识别 dict（ClothingRecognizeOut.model_dump 的子集）。"""
-    cache_dir.mkdir(parents=True, exist_ok=True)
     cache_file = cache_dir / f"{cache_key(image_name, prompt_text, run_index)}.json"
     if use_cache and cache_file.exists():
-        return json.loads(cache_file.read_text(encoding="utf-8"))
+        try:
+            cached = json.loads(cache_file.read_text(encoding="utf-8"))
+            if not isinstance(cached, dict):
+                raise ValueError('cached response must be an object')
+            return cached
+        except (OSError, UnicodeError, ValueError):
+            if offline:
+                raise OfflineCacheMiss(f"Offline cache unusable: {image_name!r}, run={run_index}") from None
+    if offline:
+        raise OfflineCacheMiss(f"Offline cache miss: {image_name!r}, run={run_index}, cache={cache_file}")
 
-    fn = recognizer or recognize_image
     data_url = _image_to_data_url(image_path)
+    fn = recognizer
+    if fn is None:
+        from app.services.recognition.recognize import recognize_image
+        fn = recognize_image
     result = await fn(data_url, prompt_text)
     payload = result.model_dump() if hasattr(result, "model_dump") else dict(result)
+    cache_dir.mkdir(parents=True, exist_ok=True)
     cache_file.write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
     return payload

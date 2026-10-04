@@ -1,0 +1,130 @@
+<style>
+  .review-head {max-width: 1120px; margin: 0 auto 18px;}
+  .review-head h2 {font-size: 23px; margin: 0 0 6px;}
+  .review-head p {font-size: 13px; line-height: 1.6; color: #61736c; margin: 0;}
+  .flow-grid {display: grid; grid-template-columns: repeat(3, minmax(330px, 1fr)); gap: 12px; max-width: 1120px; margin: auto;}
+  .flow-panel {background: #fff; border: 1px solid #dce8df; border-radius: 8px; padding: 14px 8px 16px;}
+  .flow-panel .phone {position: relative; width: 330px; height: 715px; margin: auto; overflow: hidden; border: 7px solid #27332f; border-radius: 34px; background: #fff; color: #203029; box-shadow: 0 10px 26px rgba(30,48,36,.13);}
+  .flow-panel .status {height: 27px; padding: 10px 18px 0; display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; line-height: 1;}
+  .flow-panel .nav {height: 39px; position: relative; text-align: center; padding-top: 6px; font-size: 15px; font-weight: 700; background: #fff;}
+  .flow-panel .nav .back {position: absolute; left: 17px; top: -3px; font-size: 27px; font-weight: 400;}
+  .flow-panel .nav .capsule {position: absolute; top: 0; right: 12px; width: 62px; height: 28px; border: 1px solid #d9dfdb; border-radius: 20px; font-size: 16px; font-weight: 400; letter-spacing: 3px; line-height: 25px;}
+  .flow-panel .body {height: 570px; padding: 0 16px 12px; overflow: hidden; background: linear-gradient(180deg,#eef8fc 0%,#fff 125px);}
+  .flow-panel .child {height: 72px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #e5ede8;}
+  .flow-panel .child-avatar {height: 40px; width: 40px; flex: none; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: #e1f0f7; color: #4d7585; font-size: 15px; font-weight: 750;}
+  .flow-panel .child b {display: block; font-size: 14px; line-height: 1.2;}
+  .flow-panel .child small {display: block; font-size: 11px; color: #7c8c82; margin-top: 4px; line-height: 1.2;}
+  .flow-panel .section-label {font-size: 12px; font-weight: 800; color: #3d6149; margin: 18px 0 8px;}
+  .flow-panel .section-label.with-side {display: flex; align-items: center; justify-content: space-between;}
+  .flow-panel .section-label.with-side span {font-size: 11px; font-weight: 400; color: #859487;}
+  .flow-panel .recent {height: 65px; display: flex; align-items: center; justify-content: space-between; padding: 0 12px; border-radius: 7px; background: #eff7ee;}
+  .flow-panel .recent span {display: block; color: #6e8172; font-size: 11px;}
+  .flow-panel .recent b {display: block; font-size: 14px; margin-top: 3px; color: #294a32;}
+  .flow-panel .recent small {color: #718875; font-size: 11px;}
+  .flow-panel .field-label {font-size: 12px; color: #465f4c; margin: 13px 0 6px; font-weight: 700;}
+  .flow-panel .input-row {height: 44px; border: 1px solid #dce6dc; border-radius: 7px; background: #fff; display: flex; align-items: center; justify-content: space-between; padding: 0 12px; font-size: 13px;}
+  .flow-panel .input-row .chev {font-size: 18px; color: #859a88;}
+  .flow-panel .measure-pair {display: flex; gap: 9px;}
+  .flow-panel .measure-box {flex: 1; height: 78px; border: 1px solid #dce6dc; border-radius: 7px; background: #fff; padding: 10px 11px;}
+  .flow-panel .measure-box small {font-size: 11px; color: #6e8072;}
+  .flow-panel .measure-box .entry {display: flex; align-items: baseline; justify-content: space-between; margin-top: 11px;}
+  .flow-panel .measure-box .empty-value {font-size: 14px; color: #a1b0a3;}
+  .flow-panel .measure-box .unit {font-size: 12px; color: #8b9c8e;}
+  .flow-panel .help {font-size: 11px; line-height: 1.45; color: #839487; margin-top: 10px;}
+  .flow-panel .fixed-action {position: absolute; left: 0; right: 0; bottom: 0; height: 61px; padding: 7px 16px 8px; border-top: 1px solid #e7ede8; background: #fff;}
+  .flow-panel .primary {height: 44px; display: flex; align-items: center; justify-content: center; background: #31884c; color: #fff; border-radius: 7px; font-size: 14px; font-weight: 800;}
+  .flow-panel .segments {height: 38px; margin-top: 13px; display: flex; background: #eef3ee; border-radius: 7px; padding: 3px;}
+  .flow-panel .segments span {flex: 1; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #748778;}
+  .flow-panel .segments .active {color: #2d7e46; background: #fff; border-radius: 5px; font-weight: 800; box-shadow: 0 1px 4px rgba(54,86,62,.1);}
+  .flow-panel .style-grid {display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;}
+  .flow-panel .style-choice {height: 119px; position: relative; background: #fff; border: 1px solid #dfe8df; border-radius: 7px; text-align: center; padding-top: 5px;}
+  .flow-panel .style-choice.selected {border-color: #66a574; background: #f7fbf6;}
+  .flow-panel .style-choice .check {position: absolute; left: 7px; top: 7px; height: 17px; width: 17px; border: 1px solid #aebfae; border-radius: 4px; background: #fff; font-size: 12px; line-height: 15px; color: #fff;}
+  .flow-panel .style-choice.selected .check {border-color: #37894f; background: #37894f;}
+  .flow-panel .style-choice .sprite {height: 81px; width: 81px; margin: 0 auto; background-image: url('/files/style-sprite.png'); background-size: 200% 200%; background-repeat: no-repeat;}
+  .flow-panel .style-choice .sprite.s1 {background-position: 0 0;}
+  .flow-panel .style-choice .sprite.s2 {background-position: 100% 0;}
+  .flow-panel .style-choice .sprite.s3 {background-position: 0 100%;}
+  .flow-panel .style-choice .sprite.s4 {background-position: 100% 100%;}
+  .flow-panel .style-choice b {display: block; font-size: 12px; line-height: 1.25;}
+  .flow-panel .no-style {height: 40px; display: flex; align-items: center; gap: 8px; font-size: 12px; color: #4f6455;}
+  .flow-panel .no-style .box {width: 16px; height: 16px; border: 1px solid #abbdae; border-radius: 4px;}
+  .flow-panel .next-link {height: 42px; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #e9eee9; font-size: 12px; color: #357f48; font-weight: 700;}
+  .flow-panel .basis-row {height: 53px; display: flex; align-items: center; border-bottom: 1px solid #e8eee9;}
+  .flow-panel .basis-row b {display: block; font-size: 13px; line-height: 1.2;}
+  .flow-panel .basis-row small {display: block; font-size: 10px; margin-top: 4px; color: #829286; line-height: 1.2;}
+  .flow-panel .basis-row .radio {height: 18px; width: 18px; flex: none; margin-left: auto; border: 1.5px solid #aebfae; border-radius: 50%;}
+  .flow-panel .basis-row.selected .radio {border: 5px solid #398b52; background: #fff;}
+  .flow-panel .member-picker {height: 43px; display: flex; align-items: center; border-bottom: 1px solid #e9eee9; gap: 8px; font-size: 12px;}
+  .flow-panel .member-picker b {margin-left: auto; font-size: 12px; font-weight: 700;}
+  .flow-panel .member-picker .chev {font-size: 18px; color: #9aad9c;}
+  .flow-panel .preview {height: 39px; display: flex; align-items: center; gap: 7px; margin-top: 6px; padding: 0 10px; background: #f0f7ee; border-radius: 6px; color: #456b4a; font-size: 11px;}
+  .flow-panel .preview .readonly {margin-left: auto; color: #798c7b; font-size: 10px;}
+  .flow-panel .comfort-row {height: 42px; display: flex; align-items: center; border-bottom: 1px solid #e9eee9; font-size: 12px;}
+  .flow-panel .comfort-row b {margin-left: auto; font-size: 12px; font-weight: 650; color: #345a3f;}
+  .flow-panel .comfort-row .chev {font-size: 18px; color: #9aad9c; margin-left: 5px;}
+  .flow-panel .caption {max-width: 330px; margin: 12px auto 0;}
+  .flow-panel .caption h3 {font-size: 15px; color: #27362c; margin: 0 0 4px;}
+  .flow-panel .caption p {font-size: 12px; color: #687a70; line-height: 1.5; margin: 0;}
+  .scope-note {max-width: 1120px; margin: 17px auto 0; background: #edf6ed; border-left: 3px solid #388b50; padding: 12px 15px; font-size: 13px; line-height: 1.55; color: #47634e;}
+  .approval {max-width: 1120px; margin: 20px auto 0;}
+  .approval .subtitle {font-size: 13px; margin-bottom: 10px;}
+  .approval .option {border-color: #dce7de; border-radius: 7px;}
+  .approval .option.selected {border-color: #31884c; background: #f1f8f0;}
+  @media (max-width: 1120px) {.flow-grid {grid-template-columns: 1fr;} .review-head h2 {font-size: 20px;}}
+</style>
+
+<div class="review-head"><h2>测量与穿搭偏好</h2><p>三个页面都从宝贝资料按需进入。首次建档不要求填写身体数据；后续可分别补录测量、共同／个人风格，以及孩子的舒适要求。</p></div>
+
+<div class="flow-grid">
+  <div class="flow-panel">
+    <div class="phone"><div class="status"><span>9:41</span><span>●●● ▰</span></div><div class="nav"><span class="back">‹</span>新增测量 <span class="capsule">···</span></div><div class="body">
+      <div class="child"><div class="child-avatar">豆</div><div><b>小豆子</b><small>2岁3个月</small></div></div>
+      <div class="section-label">最近一次</div><div class="recent"><div><span>2026 年 9 月 20 日</span><b>92 cm · 13 kg</b></div><small>已保存</small></div>
+      <div class="section-label">记录本次测量</div>
+      <div class="field-label">测量日期</div><div class="input-row">2026 年 10 月 2 日 <span class="chev">⌄</span></div>
+      <div class="field-label">身高或体重，至少填写一项</div>
+      <div class="measure-pair"><div class="measure-box"><small>身高</small><div class="entry"><span class="empty-value">请输入</span><span class="unit">cm</span></div></div><div class="measure-box"><small>体重</small><div class="entry"><span class="empty-value">请输入</span><span class="unit">kg</span></div></div></div>
+      <div class="help">未填写的项目保持未知；较早日期的记录不会覆盖最近一次。</div>
+    </div><div class="fixed-action"><div class="primary">保存本次测量</div></div></div>
+    <div class="caption"><h3>01 · 补录测量</h3><p>日期默认今天，可修改但不能选未来；身高、体重只需填一项，最近记录以日期判断。</p></div>
+  </div>
+
+  <div class="flow-panel">
+    <div class="phone"><div class="status"><span>9:41</span><span>●●● ▰</span></div><div class="nav"><span class="back">‹</span>穿衣偏好 <span class="capsule">···</span></div><div class="body">
+      <div class="child"><div class="child-avatar">豆</div><div><b>小豆子</b><small>2岁3个月</small></div></div>
+      <div class="segments"><span class="active">家庭共同偏好</span><span>我的个人偏好</span></div>
+      <div class="section-label with-side">喜欢的风格 <span>可多选</span></div>
+      <div class="style-grid">
+        <div class="style-choice selected"><span class="check">✓</span><div class="sprite s1"></div><b>简洁日常</b></div>
+        <div class="style-choice selected"><span class="check">✓</span><div class="sprite s2"></div><b>运动活力</b></div>
+        <div class="style-choice"><span class="check"></span><div class="sprite s3"></div><b>自然柔和</b></div>
+        <div class="style-choice"><span class="check"></span><div class="sprite s4"></div><b>童趣印花</b></div>
+      </div>
+      <div class="no-style"><span class="box"></span>暂无偏好，帮我选</div>
+      <div class="next-link">推荐依据与舒适要求 <span>›</span></div>
+    </div><div class="fixed-action"><div class="primary">保存共同风格</div></div></div>
+    <div class="caption"><h3>02 · 风格选择</h3><p>共同偏好与个人偏好分开维护。当前展示共同偏好；切到个人偏好只编辑自己的风格。</p></div>
+  </div>
+
+  <div class="flow-panel">
+    <div class="phone"><div class="status"><span>9:41</span><span>●●● ▰</span></div><div class="nav"><span class="back">‹</span>推荐依据与舒适 <span class="capsule">···</span></div><div class="body">
+      <div class="child"><div class="child-avatar">豆</div><div><b>小豆子</b><small>2岁3个月</small></div></div>
+      <div class="section-label">推荐依据</div>
+      <div class="basis-row"><div><b>家庭共同偏好</b><small>默认使用共同维护的风格</small></div><span class="radio"></span></div>
+      <div class="basis-row selected"><div><b>指定成员偏好</b><small>选择一位家人的个人偏好</small></div><span class="radio"></span></div>
+      <div class="basis-row"><div><b>当前使用者偏好</b><small>按正在使用小程序的人选择</small></div><span class="radio"></span></div>
+      <div class="member-picker">指定家人 <b>豆豆爸爸</b><span class="chev">›</span></div>
+      <div class="preview">简洁日常 · 运动活力 <span class="readonly">仅查看</span></div>
+      <div class="section-label">孩子的舒适要求</div>
+      <div class="comfort-row">冷暖感受 <b>容易怕冷</b><span class="chev">›</span></div>
+      <div class="comfort-row">松紧偏好 <b>宽松</b><span class="chev">›</span></div>
+      <div class="comfort-row">高领衣物 <b>避免高领</b><span class="chev">›</span></div>
+    </div><div class="fixed-action"><div class="primary">保存设置</div></div></div>
+    <div class="caption"><h3>03 · 依据与舒适</h3><p>默认家庭共同偏好。图中展示指定成员时的展开状态；他人个人偏好只读，孩子舒适要求始终共享。</p></div>
+  </div>
+</div>
+
+<div class="scope-note">未填写的测量和舒适信息保持“未知”，不假装已有数据；仅查看成员不显示保存按钮。偏好设置为后续推荐提供输入，不在 A 阶段展示尚未实现的 AI 穿搭结果。</div>
+
+<div class="approval"><h3>这组三页的内容与密度可以吗？</h3><p class="subtitle">本轮确认测量补录、风格选择和推荐依据的页面组织。</p><div class="options"><div class="option" data-choice="measurement-preferences-approved" onclick="toggleSelect(this)"><div class="letter">✓</div><div class="content"><h3>可以，继续剩余状态页</h3><p>保留分开的补录与偏好设置，不加重首次建档。</p></div></div><div class="option" data-choice="measurement-preferences-revise" onclick="toggleSelect(this)"><div class="letter">✎</div><div class="content"><h3>还需要调整</h3><p>可以指出哪一屏过满、过空或字段顺序不合适。</p></div></div></div></div>

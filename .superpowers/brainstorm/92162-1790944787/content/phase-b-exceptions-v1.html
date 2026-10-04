@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>智搭 · B 阶段第四组：去重、恢复与权限异常</title>
+  <link rel="stylesheet" href="/files/phase-b-review-v2.css">
+  <style>
+    [hidden] {display:none!important}
+    .board:last-child {grid-column:1/-1}
+    .variant-nav {display:flex;align-items:center;gap:5px;max-width:330px;min-height:34px;margin:0 auto 9px;color:var(--muted);font-size:10px}
+    .variant-nav button {min-height:30px;padding:5px 8px;font-size:10px;background:white;border:1px solid #d2ddd4;font-weight:500;color:var(--muted);border-radius:5px}
+    .variant-nav button.active {color:var(--green);border-color:#83aa8b;background:var(--soft);font-weight:650}
+    .screen.exception-screen {bottom:89px}
+    .footer {position:absolute;left:0;right:0;bottom:0;height:89px;padding:11px 16px 22px;border-top:1px solid var(--line);background:white}
+    .footer p {text-align:center;font-size:10px;color:var(--muted);margin:0 0 7px}
+    .footer button {font-size:13px}
+    button:disabled {background:#e9eeeb;color:#53645b;cursor:default;filter:none}
+    .page-heading {font-size:18px;line-height:1.4;margin:15px 0 5px;font-weight:750}
+    .page-explain {font-size:12px;line-height:1.7;color:var(--muted);margin:0 0 13px}
+    .context-line {display:flex;align-items:center;justify-content:space-between;min-height:46px;border-bottom:1px solid var(--line);font-size:11px;color:var(--muted)}
+    .context-line b {font-weight:650;color:var(--green)}
+    .compare {display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:15px 0 11px}
+    .compare label {display:block;font-size:10px;color:var(--muted);margin-bottom:5px}
+    .compare img {width:100%;height:126px;object-fit:contain;border-radius:7px;background:#f4f6f2}
+    .match-info {border-top:1px solid var(--line);padding:10px 0;font-size:11px;color:var(--muted)}
+    .match-info b {font-size:13px;color:var(--ink);display:block;margin-bottom:3px;font-weight:650}
+    .choice {display:flex;align-items:flex-start;gap:9px;border:1px solid #d5dfd7;border-radius:8px;padding:10px;margin:8px 0;cursor:pointer}
+    .choice:has(input:checked) {border-color:var(--green);background:#f1f8ef}
+    .choice input {flex:none;margin:4px 0 0;accent-color:var(--green);width:16px;height:16px}
+    .choice b {display:block;font-size:12px;font-weight:650}
+    .choice small {font-size:10px;line-height:1.6;color:var(--muted);display:block;margin-top:2px}
+    #duplicate .context-line {display:none}
+    #duplicate .page-heading {font-size:17px;margin-top:12px}
+    #duplicate .page-explain {font-size:11px;line-height:1.65;margin-bottom:10px}
+    #duplicate .compare {margin:12px 0 6px}
+    #duplicate .compare img {height:90px}
+    #duplicate .match-info {padding:8px 0}
+    #duplicate .choice {padding:9px;margin:7px 0}
+    .text-action {min-height:44px;background:transparent;font-size:11px;padding:8px 0;font-weight:500;color:var(--green)}
+    .fine-note {font-size:10px;line-height:1.7;color:var(--muted);margin:9px 0}
+    .recovery-note {background:var(--soft);border-radius:7px;padding:10px 11px;margin:12px 0 6px;font-size:11px;color:#355d3e;line-height:1.6}
+    .recovery-note b {display:block;font-size:12px;font-weight:650;margin-bottom:2px}
+    .recovery-note.warn {background:#fff5df;color:#875619}
+    .queue-heading {font-size:18px;font-weight:750;margin:12px 0 2px}
+    .queue-stats {font-size:10px;color:var(--muted);margin:0 0 2px}
+    .recovery-row {display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);min-height:90px}
+    .recovery-row img {width:59px;height:72px;object-fit:contain;border-radius:6px;background:#f4f6f2;flex:none}
+    .recovery-copy {flex:1;min-width:0}
+    .recovery-copy b {font-size:12px;font-weight:650;display:block;margin-bottom:4px}
+    .recovery-copy p {font-size:10px;color:var(--muted);margin:3px 0;line-height:1.6}
+    .row-actions {display:flex;gap:15px;margin-top:3px}
+    .row-actions button {background:transparent;min-height:34px;padding:5px 0;font-size:10px;font-weight:650}
+    .tiny-tag {display:inline-block;padding:2px 5px;border-radius:4px;font-size:10px;background:var(--soft);color:#355d3e}
+    .tiny-tag.warn {background:#fff5df;color:#875619}
+    .tiny-tag.blue {background:#edf5fa;color:#3b5d71}
+    .manual-sheet {display:none;inset:66px 0 0;border-radius:0;flex-direction:column;padding:16px;overflow:auto}
+    .manual-sheet.open {display:flex}
+    .manual-sheet h3 {font-size:17px;font-weight:750;margin:0}
+    .manual-sheet header {display:flex;justify-content:space-between;align-items:center}
+    .manual-context {display:flex;align-items:center;gap:12px;padding:10px 0 12px;border-bottom:1px solid var(--line);font-size:11px;color:var(--muted)}
+    .manual-context img {height:89px;width:68px;object-fit:contain;background:#f4f6f2;border-radius:6px}
+    .manual-context b {font-size:13px;display:block;color:var(--ink);margin-bottom:4px}
+    .manual-label {display:block;font-size:12px;font-weight:650;margin:17px 0 6px}
+    .name-field {height:44px;border:1px solid #cddbd0;border-radius:6px;padding:10px 12px;font:13px -apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;color:var(--ink);width:100%;background:white}
+    .manual-field {display:flex;justify-content:space-between;align-items:center;min-height:57px;border-bottom:1px solid var(--line);font-size:12px}
+    .manual-field b {font-weight:650}
+    .manual-field select {border:1px solid #cddbd0;border-radius:6px;color:#375a42;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif}
+    .manual-info {background:var(--soft);padding:11px;border-radius:7px;font-size:11px;color:#355d3e;line-height:1.7;margin-top:14px}
+    .manual-sheet .primary {margin-top:auto}
+    .manual-sheet .fine-note {margin-bottom:14px}
+    .result-mark {height:43px;width:43px;border-radius:50%;background:#fff5df;color:#875619;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:650;margin-top:17px}
+    .result-list {margin-top:13px;border-top:1px solid var(--line)}
+    .result-row {display:flex;gap:10px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line)}
+    .result-row img {height:65px;width:50px;object-fit:contain;background:#f4f6f2;border-radius:6px;flex:none}
+    .result-row .result-copy {flex:1;min-width:0}
+    .result-copy b {display:block;font-size:12px;font-weight:650}
+    .result-copy small {font-size:10px;color:var(--muted);display:block;margin-top:4px}
+    .result-state {font-size:10px;color:var(--green);white-space:nowrap}
+    .result-state.warn {color:#875619}
+    .result-note {background:#fff5df;color:#78501c;font-size:11px;line-height:1.7;border-radius:7px;padding:11px;margin-top:15px}
+    .viewer-screen {bottom:57px}
+    .viewer-banner {display:flex;align-items:center;gap:9px;background:#edf5fa;padding:10px;border-radius:7px;margin-top:12px;font-size:10px;color:#3b5d71;line-height:1.7}
+    .viewer-banner b {font-size:11px;white-space:nowrap;flex:none}
+    .viewer-screen .list-meta {margin-top:5px}
+    .viewer-card {padding:0;background:transparent;text-align:left;color:var(--ink);font-weight:400}
+    .viewer-card:hover {filter:none}
+    .viewer-card h4 {font-size:12px;font-weight:650;margin:6px 0 2px}
+    .viewer-detail {display:none;position:absolute;inset:66px 0 0;z-index:2;background:#fff;padding:0 16px 89px;overflow:auto}
+    .viewer-detail.open {display:block}
+    .viewer-detail-header {display:flex;align-items:center;justify-content:space-between;min-height:48px;font-size:11px;color:#3b5d71}
+    .viewer-detail-header button {background:transparent;padding:8px 0;font-size:12px}
+    .viewer-hero {height:183px;background:#f4f6f2;border-radius:7px;position:relative;overflow:hidden}
+    .viewer-hero img {height:100%;width:100%;object-fit:contain}
+    .origin-button {position:absolute;right:6px;bottom:6px;padding:6px 9px;min-height:34px;background:white;border:1px solid #d2dfd4;font-size:10px}
+    .detail-title {display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:12px}
+    .detail-title h3 {font-size:19px;font-weight:750;margin:0}
+    .detail-title .static-state {font-size:11px;padding:5px 9px;border-radius:5px;background:#fff5df;color:#875619}
+    .detail-meta {font-size:11px;color:var(--muted);margin:5px 0 12px;line-height:1.7}
+    .detail-row {display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:40px;border-top:1px solid var(--line);font-size:12px}
+    .detail-row span:last-child {color:var(--muted)}
+    .detail-label {font-size:12px;font-weight:650;margin:15px 0 4px}
+    .wearer-row {display:flex;align-items:center;gap:9px;min-height:54px;border-bottom:1px solid var(--line)}
+    .wearer-row .avatar {width:33px;height:33px;font-size:14px}
+    .wearer-row .copy {flex:1;font-size:12px}
+    .wearer-row small {display:block;font-size:10px;color:var(--muted)}
+    .wearer-row .fit {font-size:11px;color:var(--green)}
+    .viewer-detail-footer {position:absolute;bottom:0;left:0;right:0;background:white;height:89px;padding:11px 16px 22px;border-top:1px solid var(--line)}
+    .viewer-detail-footer p {font-size:10px;text-align:center;color:var(--muted);margin:0 0 7px}
+    .viewer-filter {display:none;inset:66px 0 0;background:rgba(25,38,31,.34);z-index:3;position:absolute}
+    .viewer-filter.open {display:block}
+    .viewer-filter .sheet {padding-bottom:22px}
+    .filter-options {display:flex;gap:7px;flex-wrap:wrap;margin:12px 0}
+    .filter-options button {min-height:36px;padding:7px 10px;font-size:11px;background:white;border:1px solid #d5dfd6;color:var(--muted);font-weight:500}
+    .filter-options button.selected {background:var(--soft);border-color:var(--green);color:var(--green)}
+    .archive-link {display:flex;align-items:center;justify-content:space-between;width:100%;border-top:1px solid var(--line);border-radius:0;background:white;font-size:12px;padding:10px 0;margin-bottom:7px}
+    .access-pane {display:none}
+    .access-pane.active {display:block}
+    .access-symbol {width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-top:20px;background:#edf5fa;color:#3b5d71}
+    .access-symbol svg {height:25px;width:25px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+    .latest-card {border:1px solid #d6e1d8;border-radius:8px;padding:11px;margin-top:13px}
+    .latest-card .item {display:flex;align-items:center;gap:10px;margin-bottom:10px}
+    .latest-card img {height:66px;width:51px;border-radius:6px;object-fit:contain;background:#f4f6f2}
+    .latest-card b {font-size:13px;display:block;font-weight:650}
+    .latest-card small {font-size:10px;color:var(--muted);display:block;margin-top:3px}
+    .latest-label {font-size:10px;color:var(--green);margin-bottom:8px;font-weight:650}
+    .person-summary {font-size:11px;line-height:1.9;color:var(--muted);display:flex;justify-content:space-between}
+    .draft-card {background:#fff5df;color:#78501c;border-radius:7px;padding:11px;margin-top:13px;font-size:11px;line-height:1.7}
+    .draft-card b {display:block;font-size:12px;font-weight:650;margin-bottom:3px}
+    .access-pane .fine-note {margin-top:14px}
+    .recheck-sheet {display:none;inset:66px 0 0;border-radius:0;padding:16px;background:white;flex-direction:column;overflow:auto}
+    .recheck-sheet.open {display:flex}
+    .recheck-sheet header {display:flex;align-items:center;justify-content:space-between;font-size:16px;font-weight:650}
+    .recheck-sheet .primary {margin-top:auto}
+    .check-row {display:flex;align-items:center;gap:9px;min-height:66px;border-bottom:1px solid var(--line);font-size:12px}
+    .check-row input {height:18px;width:18px;margin:0;accent-color:var(--green);flex:none}
+    .check-row label {flex:1}
+    .check-row select {border:1px solid #cddbd0;border-radius:6px;color:#375a42;font:12px -apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif}
+    .photo-dialog {position:absolute;inset:66px 0 0;z-index:5;display:none;flex-direction:column;background:rgba(17,26,21,.96);padding:14px;color:white}
+    .photo-dialog.open {display:flex}
+    .photo-dialog header {display:flex;align-items:center;justify-content:space-between;font-size:13px}
+    .photo-dialog button {background:transparent;color:white;min-width:44px;padding:0;font-size:22px}
+    .photo-dialog img {flex:1;min-height:0;width:100%;object-fit:contain;margin:8px 0}
+    .photo-dialog p {font-size:11px;color:#dbe4dd;text-align:center;margin:8px 0}
+    .inline-feedback {display:none;color:#355d3e;background:var(--soft);font-size:11px;line-height:1.7;border-radius:7px;padding:11px;margin-top:14px}
+    .inline-feedback.visible {display:block}
+    @media(max-width:760px) {.board:last-child {grid-column:auto}}
+  </style>
+</head>
+<body>
+  <svg width="0" height="0" aria-hidden="true" style="position:absolute"><defs>
+    <symbol id="home" viewBox="0 0 24 24"><path d="m3 11 9-8 9 8M5 9v11h14V9M10 20v-7h4v7"/></symbol>
+    <symbol id="hanger" viewBox="0 0 24 24"><path d="M10 5a2 2 0 1 1 4 0c0 1.6-2 1.6-2 3v2L3 16.5a1 1 0 0 0 .6 1.8h16.8a1 1 0 0 0 .6-1.8L12 10"/></symbol>
+    <symbol id="person" viewBox="0 0 24 24"><circle cx="12" cy="7" r="3.3"/><path d="M5 20v-2a7 7 0 0 1 14 0v2"/></symbol>
+  </defs></svg>
+  <main class="review">
+    <header class="review-head"><div><div class="eyebrow">智搭 · B 阶段 / 第 4 组</div><h1>遇到重复或失败，也能接着处理</h1><p class="intro">前三组已确认。本组补齐录入中的重复核对、局部失败、中断恢复，以及仅查看、权限变化和家人同时修改时的页面。</p></div><span class="review-state">第四组 · 待确认</span></header>
+    <div class="flow"><b>先核对重复</b><span>→</span><b>已完成部分先处理</b><span>→</span><b>失败只重试对应项</b><span>→</span><span>权限或资料变化先重新核对</span></div>
+    <nav class="review-nav" aria-label="查看画板"><a href="#duplicate">15 重复核对</a><a href="#recovery">16 失败与恢复</a><a href="#save-result">17 入库结果</a><a href="#viewer">18 仅查看</a><a href="#access">19 权限与冲突</a></nav>
+    <div class="boards">
+      <section class="board" id="duplicate">
+        <div class="board-head"><h2>同图与疑似重复</h2><span class="board-num">15 / 不自动合并实物</span></div>
+        <div class="variant-nav" aria-label="重复提示示例"><span>示例：</span><button class="active" onclick="duplicateVariant('same',this)">相同照片</button><button onclick="duplicateVariant('similar',this)">疑似同一件</button></div>
+        <div class="phone"><div class="status"><span>9:41</span><span>●●● ▰</span></div><div class="nav"><button class="back" aria-label="回到照片队列" onclick="document.querySelector('#recovery').scrollIntoView()">‹</button>核对衣物<span class="capsule">···</span></div>
+          <div class="screen exception-screen"><div class="context-line"><span>本次待确认单品</span><b>给小豆子</b></div><h3 class="page-heading" id="duplicate-title">这张照片之前用过</h3><p class="page-explain" id="duplicate-explain">衣橱里已有一件关联衣物。请确认，这次是不是同一件实物。</p><div class="compare"><div><label id="duplicate-photo-label">这次选择的照片</label><img src="/files/img003.jpg" alt="本次选择的米白短袖照片" id="duplicate-photo"></div><div><label>衣橱里的衣物</label><img src="/files/img003.jpg" alt="已有米白短袖照片"></div></div><div class="match-info"><b>米白短袖</b><span>小豆子 · 合身 · 可穿</span></div><label class="choice"><input type="radio" name="duplicate-choice" value="existing" onchange="chooseDuplicate()"><span><b>是同一件，使用已有衣物</b><small>保留现有资料和状态，不再新增一件</small></span></label><label class="choice"><input type="radio" name="duplicate-choice" value="another" onchange="chooseDuplicate()"><span><b>是另一件同款，继续录入</b><small>作为独立衣物，回集中确认后再入库</small></span></label><button class="text-action" onclick="showFeedback('duplicate-feedback','这件候选仍然保留，稍后可以继续核对。')">暂时拿不准，稍后核对</button><div class="inline-feedback" id="duplicate-feedback" role="status"></div></div><div class="footer"><p id="duplicate-help">先选择是不是同一件实物</p><button class="primary block" id="duplicate-next" disabled onclick="finishDuplicate()">确认处理方式</button></div>
+        </div><p class="caption"><b>同图只复用照片，实物由家长核对。</b>本例已有对应衣物；未关联已入库衣物时正常确认。疑似重复不自动合并，多件图按候选分别处理。新增使用者走共用核对，已移除衣物走恢复核对。</p>
+      </section>
+      <section class="board" id="recovery">
+        <div class="board-head"><h2>局部失败，恢复上次录入</h2><span class="board-num">16 / 保住已完成部分</span></div><div class="variant-nav" aria-label="照片保存示例"><span>示例：</span><button class="active" onclick="recoveryVariant('resume',this)">重开继续</button><button onclick="recoveryVariant('unsaved',this)">本机保存失败</button></div>
+        <div class="phone"><div class="status"><span>9:41</span><span>●●● ▰</span></div><div class="nav"><button class="back" aria-label="查看退出提示" onclick="leaveQueue()">‹</button>本次照片<span class="capsule">···</span></div><div class="screen exception-screen"><div class="context-line"><span>默认给小豆子</span><b>上次的这一批</b></div><div class="recovery-note" id="recovery-note"><b>接着上次的进度处理</b>照片、勾选和逐件修改已恢复，默认宝贝仍是小豆子。</div><h3 class="queue-heading">3 张照片，1 件可核对</h3><p class="queue-stats">2 张已保存到云端，1 张尚未上传完成</p><div class="recovery-row"><img src="/files/img003.jpg" alt="照片1米白短袖"><div class="recovery-copy"><b>照片 1</b><span class="tiny-tag">识别完成</span><p>1 件候选待确认 · 已保存到云端</p></div></div><div class="recovery-row"><img src="/files/img017.jpg" alt="照片2多件衣物"><div class="recovery-copy"><b>照片 2</b><span class="tiny-tag warn" id="recognition-state">识别失败</span><p id="recognition-copy">照片已保存到云端，可以重试或手填</p><div class="row-actions" id="recognition-actions"><button onclick="retryRecognition()">重新识别</button><button onclick="openManual()">手动填写</button></div></div></div><div class="recovery-row"><img src="/files/img005.jpg" alt="照片3绿格背带裤"><div class="recovery-copy"><b>照片 3</b><span class="tiny-tag blue" id="upload-state">上传中</span><p id="upload-copy">照片仅保存在本机，换设备无法接续</p><div class="row-actions" id="local-retry" hidden><button onclick="recoveryVariant('resume')">重新保存到本机</button></div></div></div><p class="fine-note" id="queue-exit-note">本机照片上传成功后，才会保存到云端。现在可先核对已识别的部分。</p><div class="inline-feedback" id="queue-feedback" role="status"></div></div><div class="footer"><p id="queue-footer-copy">剩余照片继续保留，先处理已完成部分</p><button class="primary block" id="queue-next" onclick="showFeedback('queue-feedback','将进入集中确认，本次仅包含可核对的候选。不会自动入库。')">先核对这 1 件</button></div>
+          <div class="sheet manual-sheet" id="manual-sheet" role="dialog" aria-label="手动填写照片2的衣物" aria-modal="true"><header><h3>手动填写一件衣物</h3><button class="close" aria-label="关闭手填" onclick="closeManual()">×</button></header><div class="manual-context"><img src="/files/img017.jpg" alt="照片2完整原图"><div><b>来自照片 2</b>只填写实际拥有的一件。<br>同图其他衣物稍后再处理。</div></div><label class="manual-label" for="manual-name">名称</label><input class="name-field" id="manual-name" value="衣物 2" oninput="validateManual()"><div class="manual-field"><b>类别 <span style="color:#875619;font-size:10px">· 必选</span></b><select class="dropdown-select" id="manual-category" aria-label="手填衣物类别" onchange="validateManual()"><option value="">请选择</option><option>上装</option><option>外套</option><option>下装</option><option>连体</option><option>鞋袜</option></select></div><div class="manual-info">默认给小豆子 · 合身 · 可穿<br>颜色、图案、厚薄暂不清楚，可在集中确认时补充或修改。</div><p class="fine-note">先保存为待确认内容，回集中确认后再入库。</p><button class="primary block" id="manual-save" disabled onclick="saveManual()">保存草稿，返回队列</button></div>
+        </div><p class="caption"><b>云端、本机与尚未保存分别说明。</b>重开绑定原账号、家庭和批次。只重试失败照片；手填保存不提前建衣物，迟到的识别结果不覆盖人工内容。保存失败时明确提醒退出可能丢失。</p>
+      </section>
+      <section class="board" id="save-result">
+        <div class="board-head"><h2>只处理未完成的入库项</h2><span class="board-num">17 / 明确失败与未知分开</span></div><div class="variant-nav" aria-label="入库结果示例"><span>示例：</span><button class="active" onclick="resultVariant('failed',this)">部分成功</button><button onclick="resultVariant('unknown',this)">结果待核实</button></div>
+        <div class="phone"><div class="status"><span>9:41</span><span>●●● ▰</span></div><div class="nav">入库结果<span class="capsule">···</span></div><div class="screen exception-screen"><div class="result-mark" id="result-mark">!</div><h3 class="page-heading" id="result-title">2 件已入库，1 件待重试</h3><p class="page-explain">给小豆子 · 已成功的衣物保留</p><div class="result-list"><div class="result-row"><img src="/files/img003.jpg" alt="米白短袖"><div class="result-copy"><b>米白短袖</b><small>合身 · 可穿</small></div><span class="result-state">已入库</span></div><div class="result-row"><img src="/files/img017.jpg" alt="浅蓝外套所在原图"><div class="result-copy"><b>浅蓝外套</b><small>合身 · 可穿</small></div><span class="result-state">已入库</span></div><div class="result-row"><img src="/files/img017.jpg" alt="灰色工装短裤所在原图"><div class="result-copy"><b>灰色工装短裤</b><small>合身 · 待洗</small></div><span class="result-state warn" id="last-result-state">保存失败</span></div></div><div class="result-note" id="result-note">短裤尚未入库，照片和核对内容已保存。只需重试这一件。</div><button class="text-action" onclick="viewSavedWardrobe()">查看已入库的衣物 ›</button><div class="inline-feedback" id="result-feedback" role="status"></div></div><div class="footer"><p id="result-footer">本次共确认 3 件，已成功的 2 件不会重复新增</p><button class="primary block" id="result-action" onclick="handleResult()">重试未入库的 1 件</button></div></div><p class="caption"><b>本例是另一批提交 3 件的结果。</b>明确失败才可重试；未收到响应先查询原保存结果，暂时查不到则继续保留进度；核实前不能再次提交该项。成功项不参与重试；权限或版本错误先重新核对。</p>
+      </section>
+      <section class="board" id="viewer">
+        <div class="board-head"><h2>仅查看成员的衣橱</h2><span class="board-num">18 / 浏览仍然完整</span></div><div class="variant-nav"><span>可点衣物查看只读详情，也可打开筛选</span></div><div class="phone"><div class="status"><span>9:41</span><span>●●● ▰</span></div><div class="nav" id="viewer-nav">衣橱<span class="capsule">···</span></div><div class="screen viewer-screen"><div class="child-row"><div class="avatar">豆</div><div class="child-copy"><div class="child-name">小豆子的衣橱</div><div class="child-age">2岁3个月</div></div><button class="switch dropdown-trigger" aria-label="切换宝贝，示意">切换<svg class="dropdown-icon" viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1.5 6 6.5 11 1.5"/></svg></button></div><div class="viewer-banner"><b>仅查看</b><span>你可以浏览衣物。添加和修改由可编辑的家人完成。</span></div><div class="categories"><button class="active">全部</button><button>上装</button><button>下装</button><button>连体</button><button>鞋袜</button></div><div class="list-meta"><span>2 件衣物 · 含共用衣物</span><button class="dropdown-trigger" onclick="document.querySelector('#viewer-filter').classList.add('open')">筛选<svg class="dropdown-icon" viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1.5 6 6.5 11 1.5"/></svg></button></div><div class="garments"><button class="viewer-card" aria-label="查看米白短袖" onclick="openViewerDetail('tee')"><div class="photo"><img src="/files/img003.jpg" alt="米白短袖"></div><h4>米白短袖</h4><div class="garment-meta"><span>合身</span><span>可穿</span></div></button><button class="viewer-card" aria-label="查看绿格背带裤" onclick="openViewerDetail('overall')"><div class="photo"><img src="/files/img005.jpg" alt="绿格背带裤"><span class="photo-label">共用</span></div><h4>绿格背带裤</h4><div class="garment-meta"><span>合身</span><span class="wash">待洗</span></div></button></div></div><div class="tabbar"><button><svg class="nav-icon"><use href="#home"/></svg>搭配</button><button class="active"><svg class="nav-icon"><use href="#hanger"/></svg>衣橱</button><button><svg class="nav-icon"><use href="#person"/></svg>我的</button></div>
+          <div class="viewer-detail" id="viewer-detail"><div class="viewer-detail-header" style="justify-content:flex-end"><span>仅查看</span></div><div class="viewer-hero"><img id="viewer-detail-photo" src="/files/img005.jpg" alt="衣物完整照片"><button class="origin-button" onclick="openViewerOriginal()">查看原图 ↗</button></div><div class="detail-title"><h3 id="viewer-detail-title">绿格背带裤</h3><span class="static-state" id="viewer-detail-state">待洗</span></div><p class="detail-meta" id="viewer-detail-meta">连体 · 绿色 / 米白色 · 格纹</p><div class="detail-row"><span>厚薄</span><span>暂不清楚</span></div><div class="detail-label">给哪些宝贝使用</div><div class="wearer-row"><div class="avatar">豆</div><div class="copy">小豆子<small>2岁3个月</small></div><span class="fit">合身</span></div><div class="wearer-row" id="viewer-hua"><div class="avatar" style="background:#f6e8eb;color:#835469">花</div><div class="copy">小花<small>4岁1个月</small></div><span class="fit">暂不清楚</span></div><div class="viewer-detail-footer"><p>当前权限仅查看</p><button class="primary block" onclick="closeViewerDetail()">查看衣橱</button></div></div>
+          <div class="viewer-filter" id="viewer-filter"><div class="sheet"><div class="handle"></div><div class="sheet-title">筛选衣物<button class="close" aria-label="关闭只读筛选" onclick="closeViewerFilter()">×</button></div><p class="fine-note">按小豆子的衣橱浏览</p><div class="filter-options"><button class="selected" onclick="selectViewerFilter(this)">全部</button><button onclick="selectViewerFilter(this)">可穿</button><button onclick="selectViewerFilter(this)">待洗</button><button onclick="selectViewerFilter(this)">找不到</button></div><button class="archive-link" onclick="showViewerArchive()">已移除衣物<span>›</span></button><p class="fine-note" id="viewer-archive-note" hidden>已移除列表可以查看，恢复由可编辑的家人操作。</p><button class="primary block" onclick="closeViewerFilter()">应用筛选</button></div></div><div class="photo-dialog" id="viewer-original" role="dialog" aria-label="只读衣物原图" aria-modal="true"><header>衣物原图<button aria-label="关闭只读原图" onclick="document.querySelector('#viewer-original').classList.remove('open')">×</button></header><img id="viewer-original-photo" src="/files/img005.jpg" alt="衣物完整原图"><p>仅查看成员也可以核对原图</p></div>
+        </div><p class="caption"><b>只读衣橱保留浏览、详情、原图和筛选。</b>衣物状态为静态标签；不显示添加、编辑、转交、移出、恢复或批次入口。草稿本期仅录入人接续，其他成员不接手。</p>
+      </section>
+      <section class="board" id="access">
+        <div class="board-head"><h2>权限变化与家人同时修改</h2><span class="board-num">19 / 不覆盖别人修改</span></div><div class="variant-nav" aria-label="权限与冲突示例"><span>示例：</span><button class="active" onclick="accessVariant('conflict',this)">家人修改</button><button onclick="accessVariant('viewer',this)">仅查看</button><button onclick="accessVariant('removed',this)">离开家庭</button></div><div class="phone"><div class="status"><span>9:41</span><span>●●● ▰</span></div><div class="nav" id="access-nav">重新核对<span class="capsule">···</span></div><div class="screen exception-screen">
+          <div class="access-pane active" id="access-conflict"><h3 class="page-heading">家人刚更新了这件衣物</h3><p class="page-explain">小花已开始共用。请按最新归属，再核对这次转交。</p><div class="latest-card"><div class="latest-label">家人更新后的归属</div><div class="item"><img src="/files/img005.jpg" alt="绿格背带裤"><div><b>绿格背带裤</b><small>妈妈刚更新 · 待洗</small></div></div><div class="person-summary"><span>小豆子 · 使用中</span><span>合身</span></div><div class="person-summary"><span>小花 · 使用中</span><span>暂不清楚</span></div></div><div class="draft-card"><b>你刚才的填写还在</b>准备从小豆子转交给小花，<br>对小花合身。<br>这次修改尚未保存。</div><p class="fine-note">接下来可调整使用者，核对哪些宝贝继续使用，并分别确认合身。</p><button class="text-action" onclick="showFeedback('access-feedback','已保留家人更新后的内容。你这次的修改没有保存。')">先保留家人更新后的内容</button></div>
+          <div class="access-pane" id="access-viewer"><div class="access-symbol"><svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3"/></svg></div><h3 class="page-heading">你现在只能查看</h3><p class="page-explain">你暂时不能继续录入或修改。已入库的衣物仍可浏览。</p><div class="recovery-note"><b>已经入库的衣物保留</b>以后重新获得编辑权限，可以继续仍保留的本人已保存草稿。</div><p class="fine-note">当前无法打开待确认批次，也不能继续上传、识别或保存。</p></div>
+          <div class="access-pane" id="access-removed"><div class="access-symbol"><svg viewBox="0 0 24 24"><path d="M10 3H4v18h6M14 7l5 5-5 5M8 12h11"/></svg></div><h3 class="page-heading">已无法查看这个家庭</h3><p class="page-explain">当前家庭页面已关闭。可以选择其他家庭，或联系管理员重新加入。</p><p class="fine-note">你仍然登录着账号，其他家庭可以正常使用。</p></div><div class="inline-feedback" id="access-feedback" role="status"></div>
+        </div><div class="footer"><p id="access-footer">你的填写仍然保留，这次修改尚未保存</p><button class="primary block" id="access-action" onclick="handleAccess()">重新核对归属</button></div>
+          <div class="sheet recheck-sheet" id="recheck-sheet" role="dialog" aria-label="按最新归属重新核对" aria-modal="true"><header>按最新归属重新核对<button class="close" aria-label="关闭归属核对" onclick="document.querySelector('#recheck-sheet').classList.remove('open')">×</button></header><p class="page-explain">当前两位宝贝正在共用。先查看最新记录，再决定这次如何调整。</p><div class="latest-card"><div class="latest-label">你上次填写，尚未保存</div><b>从小豆子转交给小花</b><small>对小花合身</small></div><div class="check-row"><input type="checkbox" id="recheck-dou" checked aria-label="重新核对给小豆子使用" onchange="validateRecheck()"><label for="recheck-dou">小豆子</label><select class="dropdown-select" aria-label="重新核对小豆子合身"><option>合身</option><option>偏大</option><option>偏小</option><option>暂不清楚</option></select></div><div class="check-row"><input type="checkbox" id="recheck-hua" checked aria-label="重新核对给小花使用" onchange="validateRecheck()"><label for="recheck-hua">小花</label><select class="dropdown-select" aria-label="重新核对小花合身"><option selected>暂不清楚</option><option>合身</option><option>偏大</option><option>偏小</option></select></div><div class="recovery-note">以上展示家人更新后的记录。你的旧填写供对照，不会自动替换最新内容。待洗状态继续保留。</div><p class="fine-note">至少保留一位使用者。保存时仍会核对家人是否再次修改。</p><button class="primary block" id="recheck-save" onclick="saveRecheck()">保存这次核对后的归属</button></div>
+        </div><p class="caption"><b>三种情况各自展示下一步。</b>版本冲突保留本人填写，显示最新内容后重新调整。降为仅查看后草稿不可读；离开家庭清除该家庭缓存并阻止旧结果回写。普通网络失败不会误判为权限失效。</p>
+      </section>
+    </div>
+    <section class="decision"><h2>本轮确认的产品规则</h2><p>推荐按候选分别确认、失败项单独重试。同图复用照片资产，已有衣物需要明确核对；不同照片相似只提示。把“使用已有”与“新入库”分别计数，同款多件保持独立实物。</p><p>照片和草稿只在对应保存成功后显示可恢复。尚未上传的照片可以只在本机接续，保存失败明确提醒。手填或重试的迟到结果不能覆盖人工修改。提交响应丢失先核实原结果，成功项不会再次入库。</p><p>本期草稿由录入人接续，身份必须仍可编辑；其他成员只看已入库衣物。权限变化立即停止相应操作，退出家庭清该家庭缓存。多人修改冲突保留本人填写用于对照，由用户基于最新记录重新调整。</p><div class="recovery-note">本组仅为设计评审，所有姓名、照片、结果和权限状态均为示例。标题下的“示例”按钮切换画稿状态，不属于小程序页面。按钮只演示草稿与界面状态，不上传、不识别、不修改业务数据。下一组补齐批量操作、已移除列表与恢复核对。</div></section>
+  </main>
+  <script>
+    let duplicateMode='same',recoveryMode='resume',resultMode='failed',accessMode='conflict',manualCount=0;
+    function activateVariant(button) {if(!button)return;button.parentElement.querySelectorAll('button').forEach(b=>b.classList.toggle('active',b===button))}
+    function showFeedback(id,copy) {const el=document.getElementById(id);el.textContent=copy;el.classList.add('visible')}
+    function duplicateVariant(mode,button) {duplicateMode=mode;activateVariant(button);document.getElementById('duplicate-title').textContent=mode==='same'?'这张照片之前用过':'可能与衣橱里的这件相似';document.getElementById('duplicate-explain').textContent=mode==='same'?'衣橱里已有一件关联衣物。请确认，这次是不是同一件实物。':'外观相似，不一定是同一件。请按家里的实物核对，不会自动合并。';document.getElementById('duplicate-photo').src=mode==='same'?'/files/img003.jpg':'/files/img017.jpg';document.getElementById('duplicate-photo-label').textContent=mode==='same'?'这次选择的照片':'米白印花 T 恤所在原图';document.querySelectorAll('[name="duplicate-choice"]').forEach(el=>el.checked=false);document.getElementById('duplicate-feedback').classList.remove('visible');chooseDuplicate()}
+    function chooseDuplicate() {const selected=document.querySelector('[name="duplicate-choice"]:checked');document.getElementById('duplicate-next').disabled=!selected;document.getElementById('duplicate-next').textContent=!selected?'确认处理方式':selected.value==='existing'?'保留已有衣物':'按另一件继续核对';document.getElementById('duplicate-help').textContent=!selected?'先选择是不是同一件实物':selected.value==='existing'?'已有衣物保留，本次不新增':'另一件同款作为独立实物，核对后再入库'}
+    function finishDuplicate() {const el=document.querySelector('[name="duplicate-choice"]:checked');if(!el)return;const copy=el.value==='existing'?'已保留衣橱里的这一件。本次使用已有衣物 1 件，新入库 0 件。':'这件作为另一件同款保留在待确认列表，还未入库。';showFeedback('duplicate-feedback',copy);document.getElementById('duplicate-help').textContent=el.value==='existing'?'已使用已有衣物，本次新入库 0 件':'已保留为另一件同款，尚未入库'}
+    function recoveryVariant(mode,button) {recoveryMode=mode;activateVariant(button);const note=document.getElementById('recovery-note');note.classList.toggle('warn',mode==='unsaved');note.innerHTML=mode==='resume'?'<b>接着上次的进度处理</b>照片、勾选和逐件修改已恢复，默认宝贝仍是小豆子。':'<b>照片 3 还没有保存</b>本机保存失败，退出后可能丢失。前两张照片和已保存的核对内容仍在。';document.getElementById('upload-state').textContent=mode==='resume'?'上传中':'尚未保存';document.getElementById('upload-copy').textContent=mode==='resume'?'照片仅保存在本机，换设备无法接续':'还未上传，无法保存在本机，请重新保存';document.getElementById('local-retry').hidden=mode!=='unsaved';document.getElementById('queue-footer-copy').textContent=mode==='resume'?'剩余已保存照片保留，先处理已完成部分':'照片 3 尚未保存，退出可能丢失';document.getElementById('queue-exit-note').textContent=mode==='resume'?'本机照片上传成功后，才会保存到云端。现在可先核对已识别的部分。':'退出前请重新保存照片 3，或接受这张照片可能丢失。其他已保存进度不受影响。';document.getElementById('queue-feedback').classList.remove('visible')}
+    function leaveQueue() {showFeedback('queue-feedback',recoveryMode==='resume'?'前两张和已确认内容保留在云端。照片 3 仅保存在本机，请在这台设备继续上传。':'照片 3 尚未保存，退出可能丢失。请先重新保存；其他已保存内容仍可继续。')}
+    function retryRecognition() {document.getElementById('recognition-state').textContent='识别中';document.getElementById('recognition-state').className='tiny-tag blue';document.getElementById('recognition-copy').textContent='只重试照片 2，其他照片继续保留';document.querySelector('#recognition-actions button').disabled=true;showFeedback('queue-feedback','照片 2 正在重新识别。现在仍可先核对已完成的 1 件。')}
+    function openManual() {document.getElementById('manual-sheet').classList.add('open');validateManual()}
+    function closeManual() {document.getElementById('manual-sheet').classList.remove('open')}
+    function validateManual() {document.getElementById('manual-save').disabled=!document.getElementById('manual-category').value||!document.getElementById('manual-name').value.trim()}
+    function saveManual() {if(document.getElementById('manual-save').disabled)return;manualCount+=1;closeManual();document.getElementById('recognition-state').textContent='有手填候选';document.getElementById('recognition-state').className='tiny-tag';document.getElementById('recognition-copy').textContent=manualCount+' 件手填候选，其他衣物可继续补充';document.getElementById('recognition-actions').innerHTML='<button onclick="openManual()">再手填一件</button>';document.querySelector('.queue-heading').textContent='3 张照片，'+(1+manualCount)+' 件可核对';document.getElementById('queue-next').textContent='先核对这 '+(1+manualCount)+' 件';document.getElementById('queue-footer-copy').textContent=recoveryMode==='unsaved'?'手填草稿已保存，照片 3 退出可能丢失':'手填内容已存为草稿，原图和其他进度保留';showFeedback('queue-feedback','手填内容还未入库，同图其他衣物可继续补充。');document.getElementById('manual-name').value='衣物 '+(manualCount+2);document.getElementById('manual-category').value=''}
+    function resultVariant(mode,button) {resultMode=mode;activateVariant(button);document.getElementById('result-mark').textContent=mode==='failed'?'!':'…';document.getElementById('result-mark').style.background=mode==='failed'?'#fff5df':'#edf5fa';document.getElementById('result-title').textContent=mode==='failed'?'2 件已入库，1 件待重试':'2 件已入库，1 件正在核实';document.getElementById('last-result-state').textContent=mode==='failed'?'保存失败':'结果待核实';document.getElementById('last-result-state').className='result-state warn';document.getElementById('result-note').textContent=mode==='failed'?'短裤尚未入库，照片和核对内容已保存。只需重试这一件。':'刚才没有收到短裤的保存结果。先查询是否已入库，核实前不用重新提交。';document.getElementById('result-action').textContent=mode==='failed'?'重试未入库的 1 件':'核对保存结果';document.getElementById('result-footer').textContent='本次共确认 3 件，已成功的 2 件不会重复新增';document.getElementById('result-action').disabled=false;document.getElementById('result-feedback').classList.remove('visible')}
+    function handleResult() {if(resultMode==='success'){viewSavedWardrobe();return}if(resultMode==='unknown'){resultMode='unknown-paused';document.getElementById('result-title').textContent='2 件已入库，1 件继续核实';document.getElementById('result-note').textContent='暂时无法核实短裤是否已入库，照片和填写已保存。稍后继续查询，先不用重新提交。';document.getElementById('result-footer').textContent='正在核实的这一件不会再次提交';document.getElementById('result-action').textContent='再次核对保存结果';return}const wasUnknown=resultMode==='unknown-paused';resultMode='success';document.getElementById('result-mark').textContent='✓';document.getElementById('result-mark').style.background='#eef7eb';document.getElementById('result-title').textContent='3 件已放进衣橱';document.getElementById('last-result-state').textContent='已入库';document.getElementById('last-result-state').className='result-state';document.getElementById('result-note').textContent=wasUnknown?'核对发现短裤刚才已成功入库，本次没有重复提交。':'只重试了短裤，已成功的两件继续保留。';document.getElementById('result-footer').textContent='本次 3 件全部完成，没有重复新增';document.getElementById('result-action').textContent='查看衣橱';showFeedback('result-feedback',wasUnknown?'示例：查询原保存结果，确认已成功。':'示例：失败项重试成功，原合身和待洗设置保留。')}
+    function viewSavedWardrobe() {showFeedback('result-feedback','设计稿演示：返回可编辑衣橱，查看本次已入库的衣物。');document.getElementById('result-note').textContent=resultMode==='success'?'本次 3 件已入库，回衣橱后可以继续查看和编辑。':'已入库的两件可以正常查看；短裤继续保留当前处理进度。'}
+    function openViewerDetail(kind) {const overall=kind==='overall';document.getElementById('viewer-detail-photo').src=overall?'/files/img005.jpg':'/files/img003.jpg';document.getElementById('viewer-detail-title').textContent=overall?'绿格背带裤':'米白短袖';document.getElementById('viewer-detail-state').textContent=overall?'待洗':'可穿';document.getElementById('viewer-detail-meta').textContent=overall?'连体 · 绿色 / 米白色 · 格纹':'上装 · 米白色 · 字母';document.getElementById('viewer-hua').hidden=!overall;document.getElementById('viewer-detail').classList.add('open');document.getElementById('viewer-nav').innerHTML='<button class="back" aria-label="返回只读衣橱" onclick="closeViewerDetail()">‹</button>衣物详情<span class="capsule">···</span>'}
+    function closeViewerDetail() {document.getElementById('viewer-detail').classList.remove('open');document.getElementById('viewer-nav').innerHTML='衣橱<span class="capsule">···</span>'}
+    function openViewerOriginal() {document.getElementById('viewer-original-photo').src=document.getElementById('viewer-detail-photo').src;document.getElementById('viewer-original').classList.add('open')}
+    function closeViewerFilter() {document.getElementById('viewer-filter').classList.remove('open')}
+    function selectViewerFilter(button) {button.parentElement.querySelectorAll('button').forEach(b=>b.classList.toggle('selected',b===button))}
+    function showViewerArchive() {document.getElementById('viewer-archive-note').hidden=false}
+    function accessVariant(mode,button) {accessMode=mode;activateVariant(button);document.querySelectorAll('.access-pane').forEach(el=>el.classList.toggle('active',el.id==='access-'+mode));document.getElementById('access-nav').innerHTML=(mode==='conflict'?'重新核对':mode==='viewer'?'权限已更新':'家庭访问')+'<span class="capsule">···</span>';document.getElementById('access-footer').textContent=mode==='conflict'?'你的填写仍然保留，这次修改尚未保存':mode==='viewer'?'当前仅查看，未完成的操作不会继续提交':'当前账号保持登录';document.getElementById('access-action').textContent=mode==='conflict'?'重新核对归属':mode==='viewer'?'查看衣橱':'选择其他家庭';document.getElementById('access-feedback').classList.remove('visible');document.getElementById('recheck-sheet').classList.remove('open')}
+    function handleAccess() {if(accessMode==='conflict'){document.getElementById('recheck-sheet').classList.add('open');validateRecheck()}else if(accessMode==='viewer'){document.querySelector('#viewer').scrollIntoView()}else{showFeedback('access-feedback','示例：返回家庭选择，只显示仍有访问权限的家庭。')}}
+    function validateRecheck() {document.getElementById('recheck-save').disabled=!document.getElementById('recheck-dou').checked&&!document.getElementById('recheck-hua').checked}
+    function saveRecheck() {if(document.getElementById('recheck-save').disabled)return;document.getElementById('recheck-sheet').classList.remove('open');showFeedback('access-feedback','示例：按你重新核对的使用者保存，待洗状态保留。保存前再次检查家人是否有新修改。')}
+  </script>
+</body>
+</html>

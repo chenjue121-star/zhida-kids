@@ -1,0 +1,70 @@
+/* Shared selection treatment for the Phase B review. */
+:root {
+  --selection-bg:#eef6f0;
+  --selection-edge:#98b8a2;
+  --selection-idle:#819589;
+  --selection-check:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='m3.5 8 3 3 6-6' fill='none' stroke='%23fff' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  --selection-check-green:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='m3.5 8 3 3 6-6' fill='none' stroke='%23267a42' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+.phone input[type=checkbox] {
+  appearance:none;
+  -webkit-appearance:none;
+  width:20px;
+  height:20px;
+  border:1.5px solid var(--selection-idle);
+  border-radius:50%;
+  background-color:white;
+  background-position:center;
+  background-repeat:no-repeat;
+  background-size:16px 16px;
+  margin:0;
+  flex:none;
+  cursor:pointer;
+  transition:background-color 140ms ease-out,border-color 140ms ease-out;
+}
+.phone input[type=checkbox]:checked {
+  background-color:var(--green);
+  background-image:var(--selection-check);
+  border-color:var(--green);
+}
+.phone input[type=checkbox]:indeterminate {
+  background-color:var(--green);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8h8' fill='none' stroke='%23fff' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E");
+  border-color:var(--green);
+}
+.phone input[type=checkbox]:focus-visible {
+  outline:2px solid var(--green);
+  outline-offset:3px;
+}
+.phone .bulk-card input {left:8px;top:8px}
+.phone .selection-scope label {min-height:44px}
+.phone .selection-scope {margin-bottom:5px}
+.phone .fit-row label {min-height:44px;display:flex;flex-direction:column;justify-content:center}
+.phone .bulk-card:has(input:checked) .photo {
+  border-color:var(--selection-edge);
+  background-color:var(--selection-bg);
+}
+.phone .status-choices button {
+  position:relative;
+  border-color:var(--line);
+  font-weight:500;
+}
+.phone .status-choices button.selected {
+  border-color:var(--selection-edge);
+  background-color:var(--selection-bg);
+  color:var(--green);
+  font-weight:500;
+}
+.phone .status-choices button.selected::before {
+  content:"";
+  position:absolute;
+  left:8px;
+  top:50%;
+  transform:translateY(-50%);
+  width:12px;
+  height:12px;
+  background:var(--selection-check-green) center/12px 12px no-repeat;
+}
+@media(prefers-reduced-motion:reduce) {
+  .phone input[type=checkbox] {transition:none}
+}

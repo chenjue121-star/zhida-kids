@@ -1,0 +1,99 @@
+<style>
+  .review-head {max-width: 1080px; margin: 0 auto 22px;}
+  .review-head h2 {font-size: 24px; margin-bottom: 6px;}
+  .review-head p {color: #607079; font-size: 14px; margin: 0;}
+  .layout-options {display: grid; grid-template-columns: repeat(2, minmax(320px, 1fr)); gap: 20px; max-width: 1080px; margin: 0 auto;}
+  .layout-options .card {padding: 20px 16px 18px; border: 2px solid #dce6e2; border-radius: 8px; text-align: center; background: #fff;}
+  .layout-options .card.selected {border-color: #39834d; background: #f7fbf6;}
+  .layout-options .card-body {padding: 15px 8px 0; text-align: left; max-width: 390px; margin: auto;}
+  .layout-options .card-body h3 {font-size: 17px; color: #22312b;}
+  .layout-options .card-body p {line-height: 1.55; margin: 4px 0 0; color: #61736e;}
+  .recommend-tag {display: inline-block; color: #2a7c44; background: #e8f4e7; border-radius: 4px; font-size: 11px; padding: 4px 8px; margin-left: 5px; vertical-align: 2px;}
+  .phone {position: relative; width: 330px; height: 715px; margin: auto; border: 7px solid #222c2e; border-radius: 34px; background: #fff; box-shadow: 0 14px 34px rgba(24,39,34,.14); overflow: hidden; text-align: left; color: #1b2a29;}
+  .statusbar {height: 27px; padding: 10px 18px 0; display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; line-height: 1; background: #fff;}
+  .mini-nav {height: 39px; position: relative; text-align: center; padding-top: 6px; font-size: 15px; font-weight: 700; background: #fff;}
+  .mini-nav .capsule {position: absolute; right: 12px; top: 0; border: 1px solid #d9dcda; border-radius: 20px; width: 62px; height: 28px; text-align: center; line-height: 25px; font-size: 16px; letter-spacing: 3px; font-weight: 500;}
+  .phone-inner {height: 583px; overflow: hidden; position: relative;}
+  .phone-bottom {position: absolute; height: 57px; left: 0; right: 0; bottom: 0; border-top: 1px solid #e4e9e5; background: #fff; display: flex; justify-content: space-around; text-align: center; font-size: 10px; color: #73817b; padding-top: 6px;}
+  .phone-bottom strong {color: #32844c;}
+  .nav-glyph {display: block; font-size: 20px; line-height: 21px; font-weight: 400;}
+  .home-a {background: linear-gradient(180deg,#eff8fd 0%,#fff 35%); padding: 11px 16px 0;}
+  .child-line {display: flex; align-items: center; gap: 10px; height: 54px;}
+  .child-line img {width: 42px; height: 42px; border-radius: 50%; background: #dceefa; object-fit: cover;}
+  .child-line .child-name {font-size: 16px; font-weight: 800; line-height: 1.1;}
+  .child-line .child-age {font-size: 10px; color: #748383; padding-top: 2px;}
+  .child-line .child-arrow {color: #4a6654; font-size: 15px; margin-left: 3px;}
+  .child-line .add {margin-left: auto; width: 29px; height: 29px; border: 1px solid #cddfd0; border-radius: 50%; color: #2b8448; text-align: center; font-size: 23px; line-height: 24px;}
+  .day-switch {display: flex; height: 42px; border-bottom: 1px solid #dfe7e4; margin-top: 10px;}
+  .day-switch span {width: 50%; text-align: center; padding-top: 8px; color: #71807c; font-size: 13px; font-weight: 700;}
+  .day-switch .on {color: #2a8048; border-bottom: 3px solid #388e53;}
+  .weather-strip {height: 58px; display: flex; align-items: center; gap: 8px; margin-top: 14px; padding: 0 11px; background: #eef6ed; border-radius: 8px;}
+  .weather-icon {color: #2c8a4f; font-size: 24px; width: 29px; text-align: center;}
+  .weather-strip b {display: block; font-size: 12px;}
+  .weather-strip small {display: block; color: #687b79; font-size: 10px;}
+  .weather-strip em {margin-left: auto; font-size: 10px; color: #277d42; font-style: normal; white-space: nowrap;}
+  .stage-a {margin-top: 20px; text-align: center; position: relative;}
+  .stage-a .eyebrow {color: #2d8550; font-size: 10px; font-weight: 800;}
+  .stage-a h4 {font-size: 21px; line-height: 1.25; margin: 4px 0 3px;}
+  .stage-a p {font-size: 11px; color: #687d78; margin: 0;}
+  .art-a {height: 205px; width: 100%; position: relative; margin: 4px auto 0; background: radial-gradient(ellipse at 50% 75%,#e9f4e6 0%,rgba(255,255,255,0) 65%);}
+  .art-a img {position: absolute; width: 100%; height: 205px; object-fit: contain; left: 0; top: 0;}
+  .sample-btn {height: 45px; display: flex; align-items: center; justify-content: center; gap: 8px; background: #32884e; color: #fff; font-size: 13px; font-weight: 800; border-radius: 8px;}
+  .small-note {text-align: center; color: #8b9a96; font-size: 10px; padding-top: 10px;}
+  .home-b {padding: 11px 16px 0; background: linear-gradient(180deg,#eff8fd 0%,#fff 45%);}
+  .home-b-top {display: flex; align-items: center; gap: 8px;}
+  .home-b-top img {width: 34px; height: 34px; border-radius: 50%;}
+  .home-b-top b {font-size: 14px;}
+  .home-b-top small {font-size: 10px; color: #7b8985; margin-left: auto;}
+  .weather-pill {margin-top: 13px; color: #47654f; font-size: 11px;}
+  .weather-pill span {color: #277b44; font-weight: 800; float: right;}
+  .story-stage {height: 387px; background: linear-gradient(180deg,#f4f9ef,#fff); border: 1px solid #e6eee4; border-radius: 8px; text-align: center; margin-top: 18px; padding: 22px 11px 0;}
+  .story-stage h4 {font-size: 21px; line-height: 1.25; margin: 0;}
+  .story-stage p {font-size: 11px; color: #718078; padding-top: 7px;}
+  .story-stage img {width: 100%; height: 220px; object-fit: contain; margin-top: 0;}
+  .story-stage .sample-btn {margin: -2px 6px 0;}
+  .home-b .day-switch {margin-top: 18px;}
+  .home-b .small-note {padding-top: 12px;}
+  .comparison-note {max-width: 1080px; margin: 18px auto 0; padding: 13px 16px; background: #edf5ee; border-left: 3px solid #39834d; font-size: 13px; color: #3a5a45;}
+  @media (max-width: 780px) {.layout-options {grid-template-columns: 1fr;} .review-head h2 {font-size: 20px;}}
+</style>
+
+<div class="review-head">
+  <h2>A 阶段首页：哪种布局更顺手？</h2>
+  <p>同样是“一个宝贝、天气暂不可用、衣物尚未录入”的真实状态。下面是布局草稿，不是已实现页面。</p>
+</div>
+
+<div class="cards layout-options">
+  <div class="card" data-choice="task-first" onclick="toggleSelect(this)">
+    <div class="phone">
+      <div class="statusbar"><span>9:41</span><span>●●●  ▰</span></div>
+      <div class="mini-nav">智搭 <span class="capsule">···</span></div>
+      <div class="phone-inner home-a">
+        <div class="child-line"><img src="/files/child-avatar.png" alt=""><div><div class="child-name">小豆子 <span class="child-arrow">⌄</span></div><div class="child-age">2岁3个月</div></div><div class="add">+</div></div>
+        <div class="day-switch"><span class="on">今天穿</span><span>准备明天</span></div>
+        <div class="weather-strip"><div class="weather-icon">⌖</div><div><b>获取当地天气</b><small>天气暂不可用，不影响体验</small></div><em>选择城市 ›</em></div>
+        <div class="stage-a"><div class="eyebrow">第一步 · 认识衣橱</div><h4>给宝贝的穿搭灵感</h4><p>先看看一套示例，衣物录入将在下一阶段开放</p><div class="art-a"><img src="/files/outfit-flatlay.png" alt="搭配示例图"></div></div>
+        <div class="sample-btn">看看搭配示例 <span>›</span></div>
+        <div class="small-note">示例图片，不是根据宝贝衣橱生成的推荐</div>
+      </div>
+      <div class="phone-bottom"><div><strong><span class="nav-glyph">⌂</span>搭配</strong></div><div><span class="nav-glyph">♙</span>我的</div></div>
+    </div>
+    <div class="card-body"><h3>方案 1 · 任务优先 <span class="recommend-tag">推荐</span></h3><p>孩子、时间、天气和下一步操作依次可见。主视觉保留，但不把信息藏进大卡片，适合反复打开使用。</p></div>
+  </div>
+  <div class="card" data-choice="illustration-first" onclick="toggleSelect(this)">
+    <div class="phone">
+      <div class="statusbar"><span>9:41</span><span>●●●  ▰</span></div>
+      <div class="mini-nav">智搭 <span class="capsule">···</span></div>
+      <div class="phone-inner home-b">
+        <div class="home-b-top"><img src="/files/child-avatar.png" alt=""><b>小豆子的穿搭日</b><small>切换宝贝 ⌄</small></div>
+        <div class="weather-pill">⌖ 当前城市 · 天气暂不可用 <span>选择城市 ›</span></div>
+        <div class="story-stage"><h4>每天的穿搭，<br>从一点灵感开始</h4><p>一套适合宝贝的轻松搭配</p><img src="/files/outfit-flatlay.png" alt="搭配示例图"><div class="sample-btn">看看搭配示例 ›</div></div>
+        <div class="day-switch"><span class="on">今天穿</span><span>准备明天</span></div>
+        <div class="small-note">衣物录入与真实推荐将在下一阶段开放</div>
+      </div>
+      <div class="phone-bottom"><div><strong><span class="nav-glyph">⌂</span>搭配</strong></div><div><span class="nav-glyph">♙</span>我的</div></div>
+    </div>
+    <div class="card-body"><h3>方案 2 · 插画优先</h3><p>第一眼更温暖，适合展示品牌气质；但时间切换被推到主视觉下方，日常操作需要更多注意力。</p></div>
+  </div>
+</div>
+<div class="comparison-note">本轮只选择首页的信息顺序。选定后，我会用同一布局语言画首次建档、宝贝资料及家庭协作页面，再统一确认整套 A 阶段视觉稿。</div>

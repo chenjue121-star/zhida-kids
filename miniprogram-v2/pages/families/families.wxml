@@ -1,0 +1,26 @@
+<view class="page families-page">
+  <view class="header"><view class="title">{{mode === 'create' ? '新建家庭' : '切换家庭'}}</view></view>
+  <view wx:if="{{loading}}" class="loading">正在读取家庭…</view>
+  <view wx:if="{{cached && !ready}}" class="notice">正在核对最新成员权限</view>
+  <view wx:if="{{error}}" class="notice error">{{error}}<button class="link" bindtap="reload" disabled="{{loading || busy}}">重新连接</button></view>
+  <block wx:if="{{mode === 'list' && ready}}">
+    <view class="families-intro">选择要查看的家庭</view>
+    <view wx:for="{{families}}" wx:key="id" class="family-item" data-id="{{item.id}}" bindtap="open" aria-role="button">
+      <view class="family-icon" aria-hidden="true">⌂</view>
+      <view class="family-item-main"><view class="name">{{item.name}}</view><view class="meta">{{item.city || '未设置备用城市'}} · {{item.roleLabel}}</view></view>
+      <text class="family-arrow">›</text>
+    </view>
+    <view wx:if="{{!families.length}}" class="families-empty">还没有家庭。可以新建一个，或打开家人发来的邀请。</view>
+    <button class="families-add" bindtap="newFamily"><text>＋</text> 新建家庭</button>
+  </block>
+  <view wx:if="{{mode === 'create' && ready}}" class="families-create">
+    <view class="meta">新家庭独立保存，不会移动已有的宝贝资料。</view>
+    <form bindsubmit="create">
+      <label class="field"><text class="field-label">家庭名称</text><input value="{{form.name}}" data-field="name" bindinput="input" maxlength="80" placeholder="例如：我们家" disabled="{{busy}}"/></label>
+      <label class="field"><text class="field-label">备用城市（选填）</text><input value="{{form.city}}" data-field="city" bindinput="input" maxlength="120" placeholder="例如：杭州市" disabled="{{busy}}"/></label>
+      <button class="primary" form-type="submit" loading="{{busy}}" disabled="{{busy}}">创建家庭</button>
+    </form>
+    <button class="link" bindtap="cancelCreate" disabled="{{busy}}">返回家庭列表</button>
+  </view>
+  <button wx:if="{{mode === 'list'}}" class="link families-exit" bindtap="logout" disabled="{{busy}}">退出登录</button>
+</view>

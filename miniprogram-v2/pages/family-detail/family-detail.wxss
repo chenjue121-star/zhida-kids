@@ -1,0 +1,62 @@
+.family-detail-page .header {margin-bottom:10px}
+.family-detail-head {display:flex;align-items:center;gap:13px;padding:4px 0 20px}
+.family-detail-icon {display:flex;align-items:center;justify-content:center;width:54px;height:54px;flex:none;border-radius:14px;background:#e8f5e9;color:#2b7e47;font-size:28px}
+.family-detail-head .name {font-size:18px}
+.family-detail-page .section {margin-top:20px}
+.member-record {padding:18px 0;border-bottom:1px solid #e5eaf0}
+.member-main {display:flex;align-items:center;gap:12px;min-width:0}
+.member-avatar {width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:none;background:#e8f5ec;color:#257740;font-weight:700;font-size:18px}
+.member-identity {flex:1;min-width:0}
+.member-identity .name {font-size:15px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.member-role {flex:none;padding:4px 9px;border-radius:10px;background:#f0f5f2;color:#39704d;font-size:12px}
+.member-actions {display:flex;align-items:center;gap:14px;margin:14px 0 0 56px}
+.member-actions picker {flex:none}
+.member-action {display:flex;align-items:center;justify-content:center;min-height:44px;padding:7px 10px;border:1px solid #d8e4dc;border-radius:7px;background:#fff;color:#2f794a;font-size:13px;font-weight:600}
+.member-action.danger-text {color:#ac4a47;border-color:#edd5d3}
+.invite-entry {display:flex;align-items:center;justify-content:space-between;min-height:53px}
+.invite-entry .section-title {margin:0 0 3px}
+.invite-entry>text {color:#7e8d9a;font-size:25px}
+.invite-content {padding-top:15px}
+.invite-help {margin-bottom:13px}
+.family-detail-page .leave-section {margin-top:29px}
+.family-detail-page .leave-section button {width:100%}
+.family-detail-page > button.link {display:block;text-align:center;margin:22px auto 0}
+.family-action-mask {position:fixed;inset:0;z-index:20;display:flex;align-items:flex-end;background:rgba(22,29,38,.5)}
+.family-action-sheet {width:100%;padding:28px 20px calc(22px + env(safe-area-inset-bottom));border-radius:16px 16px 0 0;background:#fff}
+.family-action-title {font-size:18px;font-weight:750}
+.family-action-copy {margin:9px 0 22px;color:#5c6f83;font-size:14px;line-height:1.6}
+.family-action-sheet button {width:100%;margin-top:10px}
+.family-action-cancel {background:#fff;color:#4c6072}
+.family-detail-page {padding-top:4px;background:linear-gradient(180deg,#eef8fc 0,#fff 180px);color:#203029}
+.family-detail-head {min-height:88px;gap:12px;padding:0}
+.family-detail-icon {width:55px;height:55px;flex:none;border-radius:0;background:transparent}
+.family-detail-head .name {font-size:16px;font-weight:800;line-height:1.2}
+.family-detail-head .meta {margin-top:6px;color:#728579;font-size:11px}
+.family-profile-entry {display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:50px;border-top:1px solid #e4ebe5;border-bottom:1px solid #e4ebe5;font-size:13px;font-weight:700}
+.family-profile-entry > view {display:flex;align-items:center;gap:8px;min-width:0;color:#7d8c81;font-size:11px;font-weight:400}
+.family-chevron {color:#96a99b;font-size:19px;line-height:1}
+.family-profile-form {padding:16px 0 4px;border-bottom:1px solid #e4ebe5}
+.family-profile-form .field-label {font-size:12px}
+.family-profile-form input {font-size:13px}
+.family-profile-form button {width:100%}
+.family-members-heading {display:flex;align-items:flex-end;justify-content:space-between;min-height:57px;padding-bottom:10px;color:#32543b;font-size:13px;font-weight:800}
+.family-members-heading text:last-child {color:#829387;font-size:11px;font-weight:400}
+.member-record {margin-bottom:8px;padding:0;border:1px solid #e2eae4;border-radius:8px;background:#fff;box-shadow:0 2px 7px rgba(41,64,44,.04)}
+.member-main {min-height:74px;gap:11px;padding:0 10px}
+.member-avatar {width:44px;height:44px;font-size:15px}
+.member-identity .name {font-size:14px;font-weight:750}
+.member-identity .meta {margin-top:4px;color:#7f8f83;font-size:11px}
+.member-role {padding:4px 6px;border-radius:4px;font-size:11px;font-weight:650}
+.member-role.admin {background:#fff3d9;color:#876320}
+.member-role.editor {background:#e9f5e7;color:#397447}
+.member-role.viewer {background:#eaf2f8;color:#4b7087}
+.member-chevron {color:#96a99b;font-size:19px;line-height:1}
+.member-actions {display:flex;gap:8px;flex-wrap:wrap;margin:0 10px 12px 65px;padding-top:10px;border-top:1px solid #edf1ed}
+.member-action {min-height:44px;padding:6px 10px;font-size:12px}
+.family-detail-page .section {margin:16px 0 0;padding:0;border:0}
+.invite-entry {min-height:44px;justify-content:center;gap:8px;border-radius:7px;background:#31884c;color:#fff;font-size:13px;font-weight:800}
+.invite-entry > text {color:#fff;font-size:13px}
+.invite-content {padding:16px 0 2px}
+.family-detail-page .leave-section {margin-top:10px}
+.leave-section button.danger {min-height:44px;border:0;background:transparent;color:#a45a58;font-size:12px}
+.family-detail-page > button.link {margin-top:4px;font-size:12px}

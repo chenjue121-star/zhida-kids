@@ -1,0 +1,113 @@
+<style>
+  .review-head {max-width: 1120px; margin: 0 auto 18px;}
+  .review-head h2 {font-size: 23px; margin: 0 0 6px;}
+  .review-head p {font-size: 13px; line-height: 1.6; color: #61736c; margin: 0;}
+  .flow-grid {display: grid; grid-template-columns: repeat(3,minmax(330px,1fr)); gap: 13px; max-width: 1120px; margin: auto;}
+  .flow-panel {background: #fff; border: 1px solid #dce8df; border-radius: 8px; padding: 14px 8px 16px;}
+  .flow-panel .phone {position: relative; width: 330px; height: 715px; margin: auto; overflow: hidden; border: 7px solid #27332f; border-radius: 34px; background: #fff; color: #203029; box-shadow: 0 10px 26px rgba(30,48,36,.13);}
+  .flow-panel .status {height: 27px; padding: 10px 18px 0; display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; line-height: 1;}
+  .flow-panel .nav {height: 39px; position: relative; text-align: center; padding-top: 6px; font-size: 15px; font-weight: 700; background: #fff;}
+  .flow-panel .nav .back {position: absolute; left: 17px; top: -3px; font-size: 27px; font-weight: 400;}
+  .flow-panel .nav .capsule {position: absolute; top: 0; right: 12px; width: 62px; height: 28px; border: 1px solid #d9dfdb; border-radius: 20px; font-size: 16px; font-weight: 400; letter-spacing: 3px; line-height: 25px;}
+  .flow-panel .body {height: 625px; padding: 0 16px 11px; overflow: hidden; background: linear-gradient(180deg,#eef8fc 0%,#fff 150px);}
+  .flow-panel .family-head {height: 86px; display: flex; align-items: center; gap: 11px;}
+  .flow-panel .family-head img {height: 52px; width: 52px; object-fit: contain; flex: none;}
+  .flow-panel .family-name {font-size: 16px; font-weight: 800; line-height: 1.2;}
+  .flow-panel .family-sub {font-size: 11px; color: #728579; margin-top: 5px;}
+  .flow-panel .section-head {height: 53px; display: flex; align-items: flex-end; justify-content: space-between; padding-bottom: 9px;}
+  .flow-panel .section-head b {font-size: 13px; color: #32543b;}
+  .flow-panel .section-head small {font-size: 11px; color: #829387;}
+  .flow-panel .member {height: 75px; display: flex; align-items: center; gap: 10px; margin-bottom: 8px; padding: 0 10px; border: 1px solid #e2eae4; border-radius: 8px; background: #fff; box-shadow: 0 2px 7px rgba(41,64,44,.04);}
+  .flow-panel .avatar {height: 44px; width: 44px; flex: none; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 750;}
+  .flow-panel .avatar.mom {background: #e2eef0; color: #5d7671;}
+  .flow-panel .avatar.dad {background: #e6f2e5; color: #4f8059;}
+  .flow-panel .avatar.grandma {background: #f8ebe8; color: #a26b68;}
+  .flow-panel .member-copy {flex: 1; min-width: 0;}
+  .flow-panel .member-name {display: block; font-size: 14px; font-weight: 750; white-space: nowrap;}
+  .flow-panel .member-sub {display: block; font-size: 11px; color: #7f8f83; margin-top: 5px;}
+  .flow-panel .role-pill {padding: 4px 6px; border-radius: 4px; font-size: 11px; font-weight: 650; white-space: nowrap;}
+  .flow-panel .role-pill.admin {background: #fff3d9; color: #876320;}
+  .flow-panel .role-pill.editor {background: #e9f5e7; color: #397447;}
+  .flow-panel .role-pill.viewer {background: #eaf2f8; color: #4b7087;}
+  .flow-panel .chev {color: #96a99b; font-size: 19px; line-height: 1;}
+  .flow-panel .settings-row {height: 52px; border-bottom: 1px solid #e5ece6; display: flex; align-items: center; gap: 10px; font-size: 13px;}
+  .flow-panel .settings-row span {margin-left: auto; color: #7d8c81; font-size: 11px;}
+  .flow-panel .leave-link {font-size: 12px; color: #a45a58; text-align: center; margin-top: 24px;}
+  .flow-panel .scrim {position: absolute; inset: 66px 0 0; background: rgba(25,38,31,.33);}
+  .flow-panel .sheet {position: absolute; left: 0; right: 0; bottom: 0; height: 316px; border-radius: 16px 16px 0 0; background: #fff; box-shadow: 0 -8px 24px rgba(30,49,35,.11); padding: 9px 17px 16px;}
+  .flow-panel .handle {height: 4px; width: 31px; margin: 0 auto 16px; border-radius: 4px; background: #d9e2db;}
+  .flow-panel .sheet-icon {height: 42px; width: 42px; border-radius: 50%; margin: 0 auto 12px; display: flex; align-items: center; justify-content: center; font-size: 21px; font-weight: 750;}
+  .flow-panel .sheet-icon.amber {background: #fff3df; color: #9e7837;}
+  .flow-panel .sheet-icon.red {background: #f9ebea; color: #ad5b57;}
+  .flow-panel .sheet-icon.green {background: #eaf4e8; color: #41824d;}
+  .flow-panel .sheet h4 {margin: 0 0 9px; font-size: 17px; line-height: 1.25; text-align: center; color: #203029;}
+  .flow-panel .sheet p {margin: 0 2px 15px; font-size: 12px; line-height: 1.55; text-align: center; color: #6b7e70;}
+  .flow-panel .impact {font-size: 11px; line-height: 1.45; padding: 9px 10px; border-radius: 6px; background: #f2f8f1; color: #557b5d; text-align: center; margin-bottom: 13px;}
+  .flow-panel .impact.red {background: #fbf3f2; color: #91605c;}
+  .flow-panel .dual-actions {height: 44px; display: grid; grid-template-columns: 1fr 1fr; gap: 9px;}
+  .flow-panel .action {height: 44px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; white-space: nowrap;}
+  .flow-panel .action.cancel {border: 1px solid #b8d3be; color: #3b8250; background: #fff;}
+  .flow-panel .action.confirm {background: #31884c; color: #fff;}
+  .flow-panel .action.danger {background: #b45f5b; color: #fff;}
+  .flow-panel .profile-head {height: 97px; display: flex; align-items: center; gap: 11px;}
+  .flow-panel .profile-head b {font-size: 16px; display: block;}
+  .flow-panel .profile-head small {font-size: 11px; color: #728579; margin-top: 5px; display: block;}
+  .flow-panel .profile-head .avatar {height: 48px; width: 48px;}
+  .flow-panel .separator {height: 14px; background: #f7faf6; margin: 12px -16px;}
+  .flow-panel .status-illustration {height: 105px; width: 125px; object-fit: contain; display: block; margin: 63px auto 13px; opacity: .7;}
+  .flow-panel .status-chip {width: max-content; margin: 0 auto 13px; padding: 5px 8px; border-radius: 4px; background: #eaf2f7; color: #527487; font-size: 11px; font-weight: 750;}
+  .flow-panel .empty-title {font-size: 18px; font-weight: 800; text-align: center; margin: 0 0 9px;}
+  .flow-panel .empty-copy {font-size: 12px; color: #728579; text-align: center; line-height: 1.6; margin: 0 17px;}
+  .flow-panel .empty-hint {font-size: 11px; color: #8c9c90; text-align: center; margin: 24px 17px 0; line-height: 1.5;}
+  .flow-panel .fixed-action {position: absolute; left: 0; right: 0; bottom: 0; height: 61px; padding: 7px 16px 8px; border-top: 1px solid #e7ede8; background: #fff;}
+  .flow-panel .fixed-action .action {width: 100%;}
+  .flow-panel .caption {max-width: 330px; margin: 12px auto 0;}
+  .flow-panel .caption h3 {font-size: 15px; color: #27362c; margin: 0 0 4px;}
+  .flow-panel .caption p {font-size: 12px; color: #687a70; line-height: 1.5; margin: 0;}
+  .scope-note {max-width: 1120px; margin: 17px auto 0; background: #edf6ed; border-left: 3px solid #388b50; padding: 12px 15px; font-size: 13px; line-height: 1.55; color: #47634e;}
+  .approval {max-width: 1120px; margin: 20px auto 0;}
+  .approval .subtitle {font-size: 13px; margin-bottom: 10px;}
+  .approval .option {border-color: #dce7de; border-radius: 7px;}
+  .approval .option.selected {border-color: #31884c; background: #f1f8f0;}
+  @media (max-width: 1110px) {.flow-grid {grid-template-columns: repeat(2,minmax(330px,1fr));}}
+  @media (max-width: 755px) {.flow-grid {grid-template-columns: 1fr;} .review-head h2 {font-size: 20px;}}
+</style>
+
+<div class="review-head"><h2>退出与权限确认</h2><p>真正影响成员访问权时，再做二次确认。每个弹层只回答三件事：影响谁、影响哪一个家庭、云端资料是否保留。</p></div>
+
+<div class="flow-grid">
+  <div class="flow-panel"><div class="phone"><div class="status"><span>9:41</span><span>●●● ▰</span></div><div class="nav"><span class="back">‹</span>家庭与成员 <span class="capsule">···</span></div><div class="body">
+    <div class="family-head"><img src="/files/family-house.png" alt=""><div><div class="family-name">我的家庭</div><div class="family-sub">1 位宝贝 · 3 位成员</div></div></div><div class="section-head"><b>家庭成员</b><small>3 位</small></div>
+    <div class="member"><div class="avatar mom">妈</div><div class="member-copy"><span class="member-name">豆豆妈妈（我）</span><span class="member-sub">创建者</span></div><span class="role-pill admin">管理员</span></div>
+    <div class="member"><div class="avatar dad">爸</div><div class="member-copy"><span class="member-name">豆豆爸爸</span><span class="member-sub">家庭成员</span></div><span class="role-pill editor">可编辑</span><span class="chev">›</span></div>
+    <div class="member"><div class="avatar grandma">外</div><div class="member-copy"><span class="member-name">外婆</span><span class="member-sub">家庭成员</span></div><span class="role-pill viewer">仅查看</span><span class="chev">›</span></div>
+    </div><div class="scrim"></div><div class="sheet"><div class="handle"></div><div class="sheet-icon amber">!</div><h4>将爸爸改为仅查看？</h4><p>变更后，他仍可查看“我的家庭”，但不能编辑宝贝资料或共同偏好。</p><div class="impact">已有资料不会删除；管理员可再次调整权限</div><div class="dual-actions"><div class="action cancel">取消</div><div class="action confirm">确认更改</div></div></div>
+    </div><div class="caption"><h3>01 · 权限降级</h3><p>明确被修改的人和新权限；唯一管理员降级仍先被拦截，不出现此确认。</p></div></div>
+
+  <div class="flow-panel"><div class="phone"><div class="status"><span>9:41</span><span>●●● ▰</span></div><div class="nav"><span class="back">‹</span>家庭与成员 <span class="capsule">···</span></div><div class="body">
+    <div class="family-head"><img src="/files/family-house.png" alt=""><div><div class="family-name">我的家庭</div><div class="family-sub">1 位宝贝 · 3 位成员</div></div></div><div class="section-head"><b>家庭成员</b><small>3 位</small></div>
+    <div class="member"><div class="avatar mom">妈</div><div class="member-copy"><span class="member-name">豆豆妈妈（我）</span><span class="member-sub">创建者</span></div><span class="role-pill admin">管理员</span></div>
+    <div class="member"><div class="avatar dad">爸</div><div class="member-copy"><span class="member-name">豆豆爸爸</span><span class="member-sub">家庭成员</span></div><span class="role-pill editor">可编辑</span><span class="chev">›</span></div>
+    <div class="member"><div class="avatar grandma">外</div><div class="member-copy"><span class="member-name">外婆</span><span class="member-sub">家庭成员</span></div><span class="role-pill viewer">仅查看</span><span class="chev">›</span></div>
+    </div><div class="scrim"></div><div class="sheet"><div class="handle"></div><div class="sheet-icon red">!</div><h4>移除外婆？</h4><p>移除后，她将无法继续查看或编辑“我的家庭”。重新加入需要新的邀请。</p><div class="impact red">家庭中的宝贝与资料不会被删除</div><div class="dual-actions"><div class="action cancel">取消</div><div class="action danger">确认移除</div></div></div>
+    </div><div class="caption"><h3>02 · 移除成员</h3><p>只撤销这位成员在当前家庭的访问；不影响其他家庭，也不删除宝贝数据。</p></div></div>
+
+  <div class="flow-panel"><div class="phone"><div class="status"><span>9:41</span><span>●●● ▰</span></div><div class="nav"><span class="back">‹</span>家庭与成员 <span class="capsule">···</span></div><div class="body">
+    <div class="family-head"><img src="/files/family-house.png" alt=""><div><div class="family-name">外婆的小院</div><div class="family-sub">2 位宝贝 · 4 位成员</div></div></div><div class="settings-row"><b>家庭资料</b><span>名称、备用城市</span><span class="chev">›</span></div><div class="section-head"><b>家庭成员</b><small>4 位</small></div><div class="member"><div class="avatar grandma">外</div><div class="member-copy"><span class="member-name">外婆</span><span class="member-sub">家庭成员</span></div><span class="role-pill admin">管理员</span></div><div class="member"><div class="avatar mom">我</div><div class="member-copy"><span class="member-name">我</span><span class="member-sub">家庭成员</span></div><span class="role-pill viewer">仅查看</span></div><div class="leave-link">退出家庭</div>
+    </div><div class="scrim"></div><div class="sheet"><div class="handle"></div><div class="sheet-icon red">!</div><h4>退出“外婆的小院”？</h4><p>退出后，你将无法查看这个家庭的资料。需要再次加入时，请家人重新邀请。</p><div class="impact red">其他家庭和你的账号都不会受影响</div><div class="dual-actions"><div class="action cancel">取消</div><div class="action danger">确认退出</div></div></div>
+    </div><div class="caption"><h3>03 · 退出一个家庭</h3><p>先检查不是唯一管理员；退出只撤销当前家庭权限，不执行整账号登出。</p></div></div>
+
+  <div class="flow-panel"><div class="phone"><div class="status"><span>9:41</span><span>●●● ▰</span></div><div class="nav"><span class="back">‹</span>我的 <span class="capsule">···</span></div><div class="body">
+    <div class="profile-head"><div class="avatar mom">我</div><div><b>豆豆妈妈</b><small>我的账号</small></div></div><div class="settings-row"><b>我的宝贝</b><span>2 位</span><span class="chev">›</span></div><div class="settings-row"><b>家庭与成员</b><span>2 个家庭</span><span class="chev">›</span></div><div class="separator"></div><div class="settings-row"><b>退出登录</b><span class="chev">›</span></div>
+    </div><div class="scrim"></div><div class="sheet"><div class="handle"></div><div class="sheet-icon green">i</div><h4>退出登录？</h4><p>只清除这台设备上的登录状态。下次使用需要重新登录，云端资料仍会保留。</p><div class="impact">不会退出已加入的家庭，也不会删除孩子档案</div><div class="dual-actions"><div class="action cancel">取消</div><div class="action confirm">退出登录</div></div></div>
+    </div><div class="caption"><h3>04 · 退出登录</h3><p>和“退出家庭”区分：仅清本机登录缓存，云端账号、家庭和宝贝保持不变。</p></div></div>
+
+  <div class="flow-panel"><div class="phone"><div class="status"><span>9:41</span><span>●●● ▰</span></div><div class="nav"><span class="back">‹</span>家庭不可访问 <span class="capsule">···</span></div><div class="body">
+    <img class="status-illustration" src="/files/family-house.png" alt=""><div class="status-chip">访问权限已更新</div><div class="empty-title">无法继续查看这个家庭</div><p class="empty-copy">当前账号已不再拥有这个家庭的访问权限，相关资料已停止展示。</p><p class="empty-hint">其他仍可访问的家庭不会受影响。</p>
+    </div><div class="fixed-action"><div class="action confirm">查看可用家庭</div></div>
+    </div><div class="caption"><h3>05 · 权限被撤销</h3><p>仅在服务端确认无权访问时显示，清掉当前家庭展示与缓存；其他家庭仍可切换。</p></div></div>
+</div>
+
+<div class="scope-note">这五屏不包含“删除家庭”。移除或退出后的旧家庭信息不得继续留在首页、孩子切换列表或离线缓存里；云端资料仍归该家庭所有。成员权限变更失败时保持原角色，并提示重试。</div>
+
+<div class="approval"><h3>这组确认与失去访问权的处理可以吗？</h3><p class="subtitle">重点看警示强度、按钮顺序，以及“退出家庭”和“退出登录”的区别。</p><div class="options"><div class="option" data-choice="access-confirmations-approved" onclick="toggleSelect(this)"><div class="letter">✓</div><div class="content"><h3>可以，继续最后一组空状态</h3><p>保留当前确认方式和权限变化后的清理提示。</p></div></div><div class="option" data-choice="access-confirmations-revise" onclick="toggleSelect(this)"><div class="letter">✎</div><div class="content"><h3>还需要调整</h3><p>可以指出具体哪一屏的文字、间距或按钮不合适。</p></div></div></div></div>

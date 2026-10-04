@@ -1,0 +1,45 @@
+// Native transport shim only; all business responses come from the real V2 HTTP app.
+const assert=require('node:assert/strict');
+const {storage}=require('./helpers');
+const {createContextStore}=require('../stores/context');
+const {createSession}=require('../services/session');
+const {createApi}=require('../services/api');
+const {createIntake}=require('../services/intake');
+const {createWardrobe}=require('../services/wardrobe');
+const {createMedia}=require('../services/media');
+const config=require('../config');
+async function main(){
+ const target=process.argv[2],platform=storage(),context=createContextStore(),session=createSession(platform,context);
+ const image=Buffer.from(process.argv[3],'base64');
+ platform.request=o=>{const url=o.url.replace(config.apiBase,target);fetch(url,{method:o.method,headers:o.header,body:o.data===undefined?undefined:o.data instanceof ArrayBuffer?o.data:JSON.stringify(o.data)}).then(async r=>{const data=await r.json();if(r.status>=400)console.error(o.method,new URL(url).pathname,r.status,data.error && data.error.code,JSON.stringify(data.error && data.error.fields || []));o.success({statusCode:r.status,data});}).catch(o.fail);};
+ platform.getFileSystemManager=()=>({readFile:o=>o.success({data:image.buffer.slice(image.byteOffset,image.byteOffset+image.byteLength)})});platform.reLaunch=()=>{};
+ const api=createApi(platform,session,context),intake=createIntake(api,session),wardrobe=createWardrobe(api,session),media=createMedia(platform,api,session,context);
+ const login=await api.request('/auth/wechat-login',{method:'POST',public:true,data:{code:'phase-b-contract-admin'}});session.set(login);
+ const family=await api.request('/families',{method:'POST',data:{name:'B contract',city:'Shanghai'},idempotencyKey:'contract-family'});const f=family.id;
+ context.select({familyId:f,childId:null});session.capability(f,'admin');
+ const child=await api.request('/families/'+f+'/children',{method:'POST',data:{nickname:'甲',age_months:24},idempotencyKey:'child-a'});
+ const childB=await api.request('/families/'+f+'/children',{method:'POST',data:{nickname:'乙',age_months:48},idempotencyKey:'child-b'});context.select({familyId:f,childId:child.id});
+ const batch=await intake.create(f,child.id),item=await intake.item(f,batch.id,{client_id:'photo-1',source:'camera'});
+ const uploaded=await media.upload(f,batch.id,item.id,'/fixture/image');assert.ok(uploaded.asset_id);
+ const manual={client_id:'manual-1',item_id:item.id,name:'短袖',category:'top',colors:['white'],pattern:'solid',thickness:'unknown',state:'washing',owners:[{child_id:child.id,fit:'fit'}],selected:true};
+ let candidate=await intake.candidate(f,batch.id,manual);assert.equal(candidate.asset_id,uploaded.asset_id);
+ candidate=await intake.candidate(f,batch.id,{expected_version:candidate.version,ownership_exception:true,owners:[{child_id:child.id,fit:'small'}]},candidate.id);
+ const result=await intake.confirm(f,batch.id,[{candidate_id:candidate.id,expected_version:candidate.version,action:'new'}]);assert.equal(result.counts.new,1);
+ let g=result.results[0].garment;assert.equal(g.owners[0].fit,'small');assert.equal(g.state,'washing');
+ const repeated=await intake.confirm(f,batch.id,[{candidate_id:candidate.id,expected_version:candidate.version,action:'new'}]);assert.equal(repeated.results[0].garment.id,g.id);
+ g=await wardrobe.owners(f,g.id,{expected_version:g.version,owners:[{child_id:child.id,fit:'small'},{child_id:childB.id,fit:'unknown'}]});assert.equal(g.owners.length,2);
+ await assert.rejects(wardrobe.transfer(f,g.id,{expected_version:g.version,child_id:childB.id,fit:'fit'}),e=>e.status===409);
+ const shared=await wardrobe.list(f,{child_id:child.id,shared:true,limit:1});assert.equal(shared.total,1);assert.equal(shared.items[0].id,g.id);
+ g=await wardrobe.action(f,g.id,'archive',{expected_version:g.version});assert.ok(g.archived_at);const removed=await wardrobe.list(f,{archived:true,history_child_id:child.id});assert.equal(removed.total,1);
+ g=await wardrobe.action(f,g.id,'restore',{expected_version:g.version,owners:[{child_id:childB.id,fit:'unknown'}]});assert.equal(g.archived_at,null);assert.equal(g.state,'washing');assert.equal(g.owners.length,1);assert.equal(g.owners[0].child_id,childB.id);
+ const bulk=await wardrobe.bulk(f,'state',[{id:g.id,expected_version:g.version}],'ready');assert.equal(bulk.results[0].status,'success');g=bulk.results[0].garment;
+ const existingItem=await intake.item(f,batch.id,{client_id:'photo-2',source:'album'}),same=await media.upload(f,batch.id,existingItem.id,'/fixture/image');assert.equal(same.asset_id,uploaded.asset_id);
+ const second=await intake.candidate(f,batch.id,{...manual,client_id:'manual-2',item_id:existingItem.id,owners:[{child_id:childB.id,fit:'unknown'}]});assert.ok(second.duplicate_garments.some(old=>old.id===g.id));
+ const reused=await intake.confirm(f,batch.id,[{candidate_id:second.id,expected_version:second.version,action:'existing',existing_garment_id:g.id,expected_garment_version:g.version}]);assert.equal(reused.counts.existing,1);assert.equal(reused.results[0].garment.state,'ready');
+ const invitation=await api.request('/families/'+f+'/invitations',{method:'POST',data:{role:'viewer'}});
+ const viewer=await api.request('/auth/wechat-login',{method:'POST',public:true,data:{code:'phase-b-contract-viewer'}});session.set(viewer);context.select({familyId:f,childId:childB.id});await api.request('/invitations/accept',{method:'POST',data:{token:invitation.token}});session.capability(f,'viewer');
+ const visible=await wardrobe.list(f,{child_id:childB.id});assert.equal(visible.total,1);await assert.rejects(intake.get(f,batch.id),e=>e.code==='EDIT_ACCESS_REVOKED');
+ const picture=await fetch(target+'/families/'+f+'/assets/'+uploaded.asset_id+'/content',{headers:{Authorization:'Bearer '+session.token()}});assert.equal(picture.status,200);assert.ok((await picture.arrayBuffer()).byteLength);
+ console.log(JSON.stringify({status:'passed',physicalGarments:visible.total,steps:'upload,manual,confirm,replay,share,transfer-conflict,archive,restore,bulk,asset-dedup,reuse,viewer-read,private-image'}));
+}
+main().catch(e=>{console.error(e.code||e.name,e.message);process.exitCode=1;});

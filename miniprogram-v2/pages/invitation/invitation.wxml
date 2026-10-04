@@ -1,0 +1,15 @@
+<view class="page invitation-page">
+  <view class="header"><view class="title">家庭邀请</view></view>
+  <view wx:if="{{loading}}" class="loading">正在核对邀请…</view>
+  <view wx:if="{{error && !unavailable}}" class="notice error">{{error}}<button class="link" bindtap="reload" disabled="{{busy || loading}}">重试</button></view>
+  <view wx:if="{{unavailable}}" class="invitation-unavailable"><view class="unavailable-icon" aria-hidden="true">!</view><view class="unavailable-title">邀请暂时无法使用</view><view class="meta">{{error || '邀请已过期或被撤销，请联系家人重新邀请。'}}</view><button class="primary" bindtap="cancel">返回我的家庭</button></view>
+  <view wx:if="{{preview}}" class="section invitation-content">
+    <image class="invitation-house" src="/assets/family-house.png" mode="aspectFit" aria-hidden="true"/>
+    <view class="invite-from">{{preview.inviter_name || '家庭管理员'}}邀请你加入</view>
+    <view class="invite-family">{{preview.family_name}}</view>
+    <view class="invite-role"><text>加入后的权限</text><text>{{preview.roleLabel}}</text></view>
+    <view class="meta invite-expiry">有效期至 {{preview.expires_at}}</view>
+    <view class="actions"><button class="primary" bindtap="accept" disabled="{{!ready || busy}}" loading="{{busy}}">确认加入家庭</button></view>
+  </view>
+  <button wx:if="{{!unavailable}}" class="link" bindtap="cancel" disabled="{{busy}}">暂不加入，返回我的家庭</button>
+</view>

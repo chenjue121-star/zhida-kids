@@ -1,0 +1,8 @@
+@import "../../b.wxss";
+.b-edit-field{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:48px;border-bottom:1px solid #e7ede7;font-size:14px;color:#314338}
+.b-edit-field>text,.b-edit-field>view{flex:1;min-width:0;line-height:1.5;overflow-wrap:anywhere}
+.b-edit-field picker,.b-edit-field .b-color-summary{width:104px;flex-shrink:0}
+.b-edit-field .b-select{min-height:44px;padding:10px 32px 10px 12px;border:none;border-radius:0;font-size:13px;font-weight:500;line-height:1.6;background-color:#fff}
+.b-edit-field .b-color-summary{text-align:left;margin:0;white-space:normal;overflow-wrap:anywhere}
+.b-edit-field .b-muted{font-size:11px}
+.b-sheet .b-color-grid{margin-top:18px}

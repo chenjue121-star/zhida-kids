@@ -1,0 +1,209 @@
+{
+  "total": 20,
+  "valid": 18,
+  "unique_valid": 4,
+  "invalid": 2,
+  "duplicates": 14,
+  "entries": [
+    {
+      "image": "img001.png",
+      "sha256": "4c4b6a3be1314ab86138bef4314dde022e600960d8689a2c8f8631802d20dab6",
+      "valid": false,
+      "width": null,
+      "height": null,
+      "format": null,
+      "duplicate_of": null,
+      "error": "UnidentifiedImageError: cannot identify image file <_io.BytesIO object at 0x1045504a0>"
+    },
+    {
+      "image": "img002.jpg",
+      "sha256": "4a0d309f35dfcf5f9c5ba8bf67683fc15db29a452049f8e7ab3dd8d0c3fddc9e",
+      "valid": true,
+      "width": 1280,
+      "height": 1707,
+      "format": "JPEG",
+      "duplicate_of": null,
+      "error": null
+    },
+    {
+      "image": "img003.jpg",
+      "sha256": "0855fa0eaf441467fb0c0cedb68c774bf50deb7b50917a713dfea45ee4995387",
+      "valid": true,
+      "width": 1080,
+      "height": 1920,
+      "format": "JPEG",
+      "duplicate_of": null,
+      "error": null
+    },
+    {
+      "image": "img004.jpg",
+      "sha256": "4a0d309f35dfcf5f9c5ba8bf67683fc15db29a452049f8e7ab3dd8d0c3fddc9e",
+      "valid": true,
+      "width": 1280,
+      "height": 1707,
+      "format": "JPEG",
+      "duplicate_of": "img002.jpg",
+      "error": null
+    },
+    {
+      "image": "img005.jpg",
+      "sha256": "1aaeb2eddc87c7416d23e62e8dbd9f9343cdddbff4009fa04c4dffcf91ebf1d5",
+      "valid": true,
+      "width": 1080,
+      "height": 1920,
+      "format": "JPEG",
+      "duplicate_of": null,
+      "error": null
+    },
+    {
+      "image": "img006.jpg",
+      "sha256": "4a0d309f35dfcf5f9c5ba8bf67683fc15db29a452049f8e7ab3dd8d0c3fddc9e",
+      "valid": true,
+      "width": 1280,
+      "height": 1707,
+      "format": "JPEG",
+      "duplicate_of": "img002.jpg",
+      "error": null
+    },
+    {
+      "image": "img007.jpg",
+      "sha256": "1aaeb2eddc87c7416d23e62e8dbd9f9343cdddbff4009fa04c4dffcf91ebf1d5",
+      "valid": true,
+      "width": 1080,
+      "height": 1920,
+      "format": "JPEG",
+      "duplicate_of": "img005.jpg",
+      "error": null
+    },
+    {
+      "image": "img008.jpg",
+      "sha256": "c20dd18be0fc1759d362860be5310e595d8e7e5b32ce4b8fb984fb6bc5386ea3",
+      "valid": true,
+      "width": 1206,
+      "height": 1214,
+      "format": "JPEG",
+      "duplicate_of": null,
+      "error": null
+    },
+    {
+      "image": "img009.jpg",
+      "sha256": "4a0d309f35dfcf5f9c5ba8bf67683fc15db29a452049f8e7ab3dd8d0c3fddc9e",
+      "valid": true,
+      "width": 1280,
+      "height": 1707,
+      "format": "JPEG",
+      "duplicate_of": "img002.jpg",
+      "error": null
+    },
+    {
+      "image": "img010.jpg",
+      "sha256": "4a0d309f35dfcf5f9c5ba8bf67683fc15db29a452049f8e7ab3dd8d0c3fddc9e",
+      "valid": true,
+      "width": 1280,
+      "height": 1707,
+      "format": "JPEG",
+      "duplicate_of": "img002.jpg",
+      "error": null
+    },
+    {
+      "image": "img011.jpg",
+      "sha256": "1aaeb2eddc87c7416d23e62e8dbd9f9343cdddbff4009fa04c4dffcf91ebf1d5",
+      "valid": true,
+      "width": 1080,
+      "height": 1920,
+      "format": "JPEG",
+      "duplicate_of": "img005.jpg",
+      "error": null
+    },
+    {
+      "image": "img012.jpg",
+      "sha256": "4a0d309f35dfcf5f9c5ba8bf67683fc15db29a452049f8e7ab3dd8d0c3fddc9e",
+      "valid": true,
+      "width": 1280,
+      "height": 1707,
+      "format": "JPEG",
+      "duplicate_of": "img002.jpg",
+      "error": null
+    },
+    {
+      "image": "img013.jpg",
+      "sha256": "0855fa0eaf441467fb0c0cedb68c774bf50deb7b50917a713dfea45ee4995387",
+      "valid": true,
+      "width": 1080,
+      "height": 1920,
+      "format": "JPEG",
+      "duplicate_of": "img003.jpg",
+      "error": null
+    },
+    {
+      "image": "img014.jpg",
+      "sha256": "c20dd18be0fc1759d362860be5310e595d8e7e5b32ce4b8fb984fb6bc5386ea3",
+      "valid": true,
+      "width": 1206,
+      "height": 1214,
+      "format": "JPEG",
+      "duplicate_of": "img008.jpg",
+      "error": null
+    },
+    {
+      "image": "img015.jpg",
+      "sha256": "4a0d309f35dfcf5f9c5ba8bf67683fc15db29a452049f8e7ab3dd8d0c3fddc9e",
+      "valid": true,
+      "width": 1280,
+      "height": 1707,
+      "format": "JPEG",
+      "duplicate_of": "img002.jpg",
+      "error": null
+    },
+    {
+      "image": "img016.jpg",
+      "sha256": "4a0d309f35dfcf5f9c5ba8bf67683fc15db29a452049f8e7ab3dd8d0c3fddc9e",
+      "valid": true,
+      "width": 1280,
+      "height": 1707,
+      "format": "JPEG",
+      "duplicate_of": "img002.jpg",
+      "error": null
+    },
+    {
+      "image": "img017.jpg",
+      "sha256": "4a0d309f35dfcf5f9c5ba8bf67683fc15db29a452049f8e7ab3dd8d0c3fddc9e",
+      "valid": true,
+      "width": 1280,
+      "height": 1707,
+      "format": "JPEG",
+      "duplicate_of": "img002.jpg",
+      "error": null
+    },
+    {
+      "image": "img018.jpg",
+      "sha256": "0855fa0eaf441467fb0c0cedb68c774bf50deb7b50917a713dfea45ee4995387",
+      "valid": true,
+      "width": 1080,
+      "height": 1920,
+      "format": "JPEG",
+      "duplicate_of": "img003.jpg",
+      "error": null
+    },
+    {
+      "image": "img019.jpg",
+      "sha256": "1aaeb2eddc87c7416d23e62e8dbd9f9343cdddbff4009fa04c4dffcf91ebf1d5",
+      "valid": true,
+      "width": 1080,
+      "height": 1920,
+      "format": "JPEG",
+      "duplicate_of": "img005.jpg",
+      "error": null
+    },
+    {
+      "image": "img020.jpg",
+      "sha256": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad",
+      "valid": false,
+      "width": null,
+      "height": null,
+      "format": null,
+      "duplicate_of": null,
+      "error": "UnidentifiedImageError: cannot identify image file <_io.BytesIO object at 0x1045504a0>"
+    }
+  ]
+}

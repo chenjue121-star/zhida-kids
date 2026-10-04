@@ -1,0 +1,88 @@
+<style>
+  .review-head {max-width: 1120px; margin: 0 auto 18px;}
+  .review-head h2 {font-size: 23px; margin: 0 0 6px;}
+  .review-head p {font-size: 13px; line-height: 1.6; color: #61736c; margin: 0;}
+  .flow-grid {display: grid; grid-template-columns: repeat(3,minmax(330px,1fr)); gap: 13px; max-width: 1120px; margin: auto;}
+  .flow-panel {background: #fff; border: 1px solid #dce8df; border-radius: 8px; padding: 14px 8px 16px;}
+  .flow-panel .phone {position: relative; width: 330px; height: 715px; margin: auto; overflow: hidden; border: 7px solid #27332f; border-radius: 34px; background: #fff; color: #203029; box-shadow: 0 10px 26px rgba(30,48,36,.13);}
+  .flow-panel .status {height: 27px; padding: 10px 18px 0; display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; line-height: 1;}
+  .flow-panel .nav {height: 39px; position: relative; text-align: center; padding-top: 6px; font-size: 15px; font-weight: 700; background: #fff;}
+  .flow-panel .nav .back {position: absolute; left: 17px; top: -3px; font-size: 27px; font-weight: 400;}
+  .flow-panel .nav .capsule {position: absolute; top: 0; right: 12px; width: 62px; height: 28px; border: 1px solid #d9dfdb; border-radius: 20px; font-size: 16px; font-weight: 400; letter-spacing: 3px; line-height: 25px;}
+  .flow-panel .body {height: 570px; padding: 0 16px 11px; overflow: hidden; background: linear-gradient(180deg,#eef8fc 0%,#fff 160px);}
+  .flow-panel .family-line {height: 59px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #e4ece7;}
+  .flow-panel .family-line b {font-size: 13px; font-weight: 750;}
+  .flow-panel .family-line span {font-size: 11px; color: #3d8051; font-weight: 700;}
+  .flow-panel .empty-art {width: 150px; height: 122px; display: block; object-fit: contain; margin: 77px auto 17px;}
+  .flow-panel .empty-title {font-size: 19px; font-weight: 800; line-height: 1.25; text-align: center; margin: 0 0 9px;}
+  .flow-panel .empty-copy {font-size: 12px; color: #718477; line-height: 1.6; text-align: center; margin: 0 23px 19px;}
+  .flow-panel .inline-primary {height: 45px; margin: 0 27px; border-radius: 7px; background: #31884c; color: #fff; font-size: 14px; font-weight: 800; display: flex; align-items: center; justify-content: center;}
+  .flow-panel .inline-link {height: 38px; display: flex; align-items: center; justify-content: center; color: #3b8450; font-size: 12px; font-weight: 700;}
+  .flow-panel .role-chip {font-size: 11px; color: #52758a; background: #eaf2f7; padding: 4px 6px; border-radius: 4px; margin-left: 5px;}
+  .flow-panel .bottom-nav {position: absolute; left: 0; right: 0; bottom: 0; height: 57px; border-top: 1px solid #e5ece6; background: #fff; display: flex; justify-content: space-around; align-items: center; text-align: center; font-size: 10px; color: #718076;}
+  .flow-panel .bottom-nav .active {color: #2e8749; font-weight: 750;}
+  .flow-panel .bottom-nav .icon {display: block; font-size: 20px; line-height: 20px; margin-bottom: 2px;}
+  .flow-panel .identity {height: 72px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #e5ece6;}
+  .flow-panel .initial {height: 43px; width: 43px; flex: none; border-radius: 50%; background: #f6e8ec; color: #9b6678; display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 800;}
+  .flow-panel .identity b {display: block; font-size: 14px; line-height: 1.2;}
+  .flow-panel .identity small {display: block; font-size: 11px; color: #7d8c80; margin-top: 4px;}
+  .flow-panel .section-label {font-size: 12px; font-weight: 800; color: #3d6149; margin: 21px 0 8px;}
+  .flow-panel .field {height: 48px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid #e5ece6; font-size: 13px;}
+  .flow-panel .field b {font-weight: 650;}
+  .flow-panel .field span {margin-left: auto; color: #5d7162;}
+  .flow-panel .field .arrow {margin-left: 0; font-size: 18px; color: #9dae9e;}
+  .flow-panel .archive-link {font-size: 12px; text-align: center; color: #ad5f5c; margin-top: 25px;}
+  .flow-panel .fixed-action {position: absolute; left: 0; right: 0; bottom: 0; height: 61px; padding: 7px 16px 8px; border-top: 1px solid #e7ede8; background: #fff;}
+  .flow-panel .fixed-action .primary {height: 44px; border-radius: 7px; background: #31884c; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800;}
+  .flow-panel .scrim {position: absolute; inset: 66px 0 0; background: rgba(25,38,31,.33);}
+  .flow-panel .sheet {position: absolute; left: 0; right: 0; bottom: 0; height: 324px; border-radius: 16px 16px 0 0; background: #fff; box-shadow: 0 -8px 24px rgba(30,49,35,.11); padding: 9px 17px 16px;}
+  .flow-panel .handle {height: 4px; width: 31px; margin: 0 auto 15px; border-radius: 4px; background: #d9e2db;}
+  .flow-panel .sheet-icon {height: 42px; width: 42px; border-radius: 50%; margin: 0 auto 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 750; background: #f9ebea; color: #ad5b57;}
+  .flow-panel .sheet h4 {margin: 0 0 9px; font-size: 17px; line-height: 1.25; text-align: center; color: #203029;}
+  .flow-panel .sheet p {margin: 0 2px 14px; font-size: 12px; line-height: 1.55; text-align: center; color: #6b7e70;}
+  .flow-panel .impact {font-size: 11px; line-height: 1.45; padding: 9px 10px; border-radius: 6px; background: #fbf3f2; color: #90615d; text-align: center; margin-bottom: 13px;}
+  .flow-panel .dual-actions {height: 44px; display: grid; grid-template-columns: 1fr 1fr; gap: 9px;}
+  .flow-panel .action {height: 44px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; white-space: nowrap;}
+  .flow-panel .action.cancel {border: 1px solid #b8d3be; color: #3b8250; background: #fff;}
+  .flow-panel .action.danger {background: #b45f5b; color: #fff;}
+  .flow-panel .skeleton {background: #e9efeb; border-radius: 5px;}
+  .flow-panel .skeleton-top {height: 18px; width: 75px; margin-top: 23px;}
+  .flow-panel .skeleton-child {height: 66px; margin-top: 17px; border-radius: 7px; display: flex; align-items: center; gap: 11px; padding: 0 12px; background: #f1f5f2;}
+  .flow-panel .skeleton-dot {width: 37px; height: 37px; border-radius: 50%; background: #e2eae4;}
+  .flow-panel .skeleton-lines {display: flex; flex-direction: column; gap: 8px;}
+  .flow-panel .skeleton-lines span {height: 9px; width: 104px; background: #e2eae4; border-radius: 4px;}
+  .flow-panel .skeleton-lines span:last-child {width: 72px;}
+  .flow-panel .skeleton-stage {height: 224px; margin-top: 21px; background: #f2f6f1; border-radius: 8px; display: flex; align-items: center; justify-content: center;}
+  .flow-panel .loading-mark {height: 31px; width: 31px; border: 3px solid #d9e7dc; border-top-color: #5b9e68; border-radius: 50%;}
+  .flow-panel .loading-copy {font-size: 12px; color: #667e6c; text-align: center; margin-top: 18px;}
+  .flow-panel .loading-sub {font-size: 11px; color: #94a497; text-align: center; margin-top: 7px;}
+  .flow-panel .error-art {width: 139px; height: 104px; display: block; object-fit: contain; margin: 92px auto 15px; opacity: .75;}
+  .flow-panel .caption {max-width: 330px; margin: 12px auto 0;}
+  .flow-panel .caption h3 {font-size: 15px; color: #27362c; margin: 0 0 4px;}
+  .flow-panel .caption p {font-size: 12px; color: #687a70; line-height: 1.5; margin: 0;}
+  .scope-note {max-width: 1120px; margin: 17px auto 0; background: #edf6ed; border-left: 3px solid #388b50; padding: 12px 15px; font-size: 13px; line-height: 1.55; color: #47634e;}
+  .approval {max-width: 1120px; margin: 20px auto 0;}
+  .approval .subtitle {font-size: 13px; margin-bottom: 10px;}
+  .approval .option {border-color: #dce7de; border-radius: 7px;}
+  .approval .option.selected {border-color: #31884c; background: #f1f8f0;}
+  @media (max-width: 1110px) {.flow-grid {grid-template-columns: repeat(2,minmax(330px,1fr));}}
+  @media (max-width: 755px) {.flow-grid {grid-template-columns: 1fr;} .review-head h2 {font-size: 20px;}}
+</style>
+
+<div class="review-head"><h2>空状态、归档与加载</h2><p>家庭没有可用孩子时，管理员与仅查看成员看到不同下一步。归档是主动操作；读资料失败时不把旧缓存当作最新结果。</p></div>
+
+<div class="flow-grid">
+  <div class="flow-panel"><div class="phone"><div class="status"><span>9:41</span><span>●●● ▰</span></div><div class="nav">智搭 <span class="capsule">···</span></div><div class="body"><div class="family-line"><b>我的家庭</b><span>家庭与成员 ›</span></div><img class="empty-art" src="/files/family-house.png" alt=""><div class="empty-title">还没有宝贝</div><p class="empty-copy">添加一个孩子，就可以开始准备他的穿搭档案。</p><div class="inline-primary">添加宝贝</div></div><div class="bottom-nav"><div class="active"><span class="icon">⌂</span>搭配</div><div><span class="icon">♙</span>我的</div></div></div><div class="caption"><h3>01 · 管理员无宝贝</h3><p>只在受邀进入空家庭或全部孩子归档后出现；首次普通进入仍先完成简建。</p></div></div>
+
+  <div class="flow-panel"><div class="phone"><div class="status"><span>9:41</span><span>●●● ▰</span></div><div class="nav">智搭 <span class="capsule">···</span></div><div class="body"><div class="family-line"><b>外婆的小院 <span class="role-chip">仅查看</span></b><span>家庭与成员 ›</span></div><img class="empty-art" src="/files/family-house.png" alt=""><div class="empty-title">这个家庭还没有宝贝</div><p class="empty-copy">等待管理员添加孩子后，就能在这里查看档案。</p><div class="inline-link">查看家庭与成员 ›</div></div><div class="bottom-nav"><div class="active"><span class="icon">⌂</span>搭配</div><div><span class="icon">♙</span>我的</div></div></div><div class="caption"><h3>02 · 仅查看成员无宝贝</h3><p>没有“添加宝贝”或归档入口；查看家庭信息可以继续，不能把权限不足伪装成加载中。</p></div></div>
+
+  <div class="flow-panel"><div class="phone"><div class="status"><span>9:41</span><span>●●● ▰</span></div><div class="nav"><span class="back">‹</span>编辑宝贝 <span class="capsule">···</span></div><div class="body"><div class="identity"><div class="initial">花</div><div><b>小花</b><small>4岁1个月</small></div></div><div class="section-label">基本资料</div><div class="field"><b>昵称</b><span>小花</span><span class="arrow">›</span></div><div class="field"><b>生日</b><span>2022-08-01</span><span class="arrow">›</span></div><div class="section-label">身体信息</div><div class="field"><b>最近测量</b><span>2026-09-20</span><span class="arrow">›</span></div><div class="archive-link">归档宝贝</div></div><div class="fixed-action"><div class="primary">保存修改</div></div><div class="scrim"></div><div class="sheet"><div class="handle"></div><div class="sheet-icon">!</div><h4>归档小花？</h4><p>归档后，小花将从当前宝贝列表中移除。历史记录仍会保留。</p><div class="impact">A 阶段暂不提供自行恢复入口，请确认后再操作</div><div class="dual-actions"><div class="action cancel">取消</div><div class="action danger">确认归档</div></div></div></div><div class="caption"><h3>03 · 归档确认</h3><p>归档当前孩子后选下一个有效孩子；没有剩余孩子则进入对应权限的空状态。</p></div></div>
+
+  <div class="flow-panel"><div class="phone"><div class="status"><span>9:41</span><span>●●● ▰</span></div><div class="nav">智搭 <span class="capsule">···</span></div><div class="body"><div class="skeleton skeleton-top"></div><div class="skeleton-child"><div class="skeleton-dot"></div><div class="skeleton-lines"><span></span><span></span></div></div><div class="skeleton-stage"><div class="loading-mark"></div></div><div class="loading-copy">正在读取家庭与宝贝资料…</div><div class="loading-sub">确认权限后再展示内容</div></div><div class="bottom-nav"><div class="active"><span class="icon">⌂</span>搭配</div><div><span class="icon">♙</span>我的</div></div></div><div class="caption"><h3>04 · 加载中</h3><p>保留原页面结构和尺寸；在核实当前权限前，不展示可能已经失效的私有缓存。</p></div></div>
+
+  <div class="flow-panel"><div class="phone"><div class="status"><span>9:41</span><span>●●● ▰</span></div><div class="nav">智搭 <span class="capsule">···</span></div><div class="body"><img class="error-art" src="/files/family-house.png" alt=""><div class="empty-title">暂时无法读取资料</div><p class="empty-copy">请检查网络后重试。我们不会把旧资料当作最新内容展示。</p><div class="inline-primary">重新连接</div><div class="inline-link">稍后再试</div></div><div class="bottom-nav"><div class="active"><span class="icon">⌂</span>搭配</div><div><span class="icon">♙</span>我的</div></div></div><div class="caption"><h3>05 · 读取失败</h3><p>不自动退出账号，不假装读取成功。若失败发生在编辑页，保留该页未提交的填写。</p></div></div>
+</div>
+
+<div class="scope-note">示例姓名、生日只是设计样本，不会成为新用户默认值。无孩子时不请求天气或生成穿搭；天气失败也不展示模拟温度。照片上传与衣物能力不在 A 阶段。</div>
+
+<div class="approval"><h3>最后这组页面与状态可以吗？</h3><p class="subtitle">确认后我会整理一份完整的 A 阶段设计说明，供你逐项复核。</p><div class="options"><div class="option" data-choice="empty-loading-approved" onclick="toggleSelect(this)"><div class="letter">✓</div><div class="content"><h3>可以，整理 A 阶段设计说明</h3><p>保留权限差异、归档提醒和不展示过期缓存的加载策略。</p></div></div><div class="option" data-choice="empty-loading-revise" onclick="toggleSelect(this)"><div class="letter">✎</div><div class="content"><h3>还需要调整</h3><p>可以指出具体哪一屏的布局、文字或下一步动作不合适。</p></div></div></div></div>

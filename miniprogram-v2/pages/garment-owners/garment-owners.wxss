@@ -1,0 +1,31 @@
+@import "../../b.wxss";
+.b-item-context{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #e4ebe3}
+.b-item-context image,.b-context-placeholder{width:55px;height:68px;flex:none;background:#f4f6f2;border-radius:6px}
+.b-context-placeholder{display:flex;align-items:center;justify-content:center;color:#738477;font-size:11px}
+.b-context-copy{flex:1;min-width:0}
+.b-context-name{font-size:14px;font-weight:650;overflow-wrap:anywhere}
+.b-context-meta{font-size:11px;line-height:1.6;color:#64736a;margin-top:3px}
+.b-item-context button{font-size:11px;font-weight:500;white-space:nowrap;flex:none;padding:8px 0}
+.b-owners-page .b-section-title{font-size:14px;margin:17px 0 7px}
+.b-owners-page .b-info-row{font-size:12px;min-height:51px}
+.b-owners-page .b-info-row picker{flex:none;width:104px}
+.b-owners-page .b-select{font-size:11px;border-radius:6px}
+.b-owners-page .b-fit-required{border-color:#cba763;background-color:#fff8e9;color:#875619}
+.b-owners-page .b-owner-row{min-height:64px;padding:8px 0;gap:9px}
+.b-owner-row .b-initial{width:34px;height:34px;font-size:14px;flex:none}
+.b-owner-row .b-check{min-width:0;gap:8px}
+.b-owner-copy{flex:1;min-width:0;font-size:12px;font-weight:650;overflow-wrap:anywhere}
+.b-owner-age{font-size:10px;color:#64736a;font-weight:400;margin-top:2px}
+.b-new-owner{display:block;color:#875619}
+.b-transfer-path{display:flex;align-items:center;gap:7px;padding:15px 0;border-bottom:1px solid #e4ebe3}
+.b-transfer-person{flex:1;min-width:0;text-align:center;font-size:13px;font-weight:650}
+.b-transfer-person .b-initial{width:37px;height:37px;margin:0 auto 5px;font-size:15px}
+.b-transfer-person text{display:block;font-size:10px;color:#64736a;font-weight:400;margin-top:2px}
+.b-transfer-arrow{font-size:23px;color:#267a42;flex:none}
+.b-history-row{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:39px;border-bottom:1px solid #edf0ec;font-size:12px}
+.b-history-row text:last-child{color:#64736a;flex:none}
+.b-owner-footer{flex-direction:column;gap:7px}
+.b-footer-note{font-size:10px;color:#64736a;line-height:1.5;text-align:center;width:100%}
+.b-footer-actions{display:flex;gap:9px;width:100%}
+.b-footer-actions button{flex:1;font-size:13px}
+.b-secondary{background:white;border:1px solid #c8dccb;color:#267a42;box-shadow:none}

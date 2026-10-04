@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "kind": "dataset_summary",
+  "images": 47,
+  "valid": 47,
+  "unique_file_contents": 47,
+  "invalid": 0,
+  "exact_duplicates": 0,
+  "source_bytes": 103033179,
+  "source_type": "ecommerce_product_screenshot",
+  "ai_suggested_main_objects": 75,
+  "ai_main_single_images": 21,
+  "ai_main_multi_images": 26,
+  "ai_suggested_category_counts": {
+    "accessory": 1,
+    "bottom": 25,
+    "dress": 13,
+    "onesie": 5,
+    "outerwear": 7,
+    "pending": 3,
+    "top": 21
+  },
+  "human_reviewed_images": 0,
+  "negative_images": 0,
+  "conservative_groups": 1,
+  "split": "development",
+  "network_calls": 0,
+  "production_preprocessing_passed": 47,
+  "scope": "AI主商品标注建议仍待审核；不代表完整截图计数或实测准确率。"
+}
