@@ -1,0 +1,2 @@
+# Preserve PDF documents as binary files.
+*.pdf binary

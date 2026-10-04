@@ -1,0 +1,83 @@
+# 草稿标注 —— 需人工复核！
+#
+# 来源：以下 8 条由数据库中用户已保存的 Clothing 记录（photo_url 匹配）回填，
+# 属真实 ground truth，但仍请逐条核对（季节/风格标签等主观字段尤其值得复查）。
+#
+# 另有 12 张图片（img002, img005, img006, img009, img010, img012, img015,
+# img016, img017, img018, img019, img020）数据库中无对应记录，本环境又无法看图，
+# 故未包含。请你按肉眼为它们补充条目（格式同下，合法枚举见 app/domain/vocab.py），
+# 补齐后可纳入评估集以增大样本量。
+#
+# 校验：$PY -c "from eval.recognition.labels import load_labels; print(len(load_labels('eval/recognition/dataset/labels.yaml')),'ok')"
+
+- image: img001.png        # 5_bc24...png
+  type: top
+  sub_type: tshirt
+  main_color: white
+  pattern: solid
+  season: [summer]
+  thickness: thin
+  style_tags: [cute]
+
+- image: img003.jpg        # 6_25c0b1...jpg
+  type: top
+  sub_type: tshirt
+  main_color: white
+  pattern: solid
+  season: [summer]
+  thickness: thin
+  style_tags: []
+
+- image: img004.jpg        # 6_6803c6...jpg
+  type: outerwear
+  sub_type: windbreaker
+  main_color: sky_blue
+  pattern: solid
+  season: [spring, autumn]
+  thickness: normal
+  style_tags: [casual, sporty, cool]
+
+- image: img007.jpg        # 6_b41f69...jpg
+  type: pants
+  sub_type: jeans
+  main_color: white
+  pattern: solid
+  season: [summer]
+  thickness: thin
+  style_tags: []
+
+- image: img008.jpg        # 6_df75d7...jpg
+  type: shoes
+  sub_type: sneakers
+  main_color: white
+  pattern: solid
+  season: [summer]
+  thickness: thin
+  style_tags: []
+
+- image: img011.jpg        # 7_2f7add...jpg
+  type: pants
+  sub_type: bib_pants
+  main_color: green
+  pattern: plaid
+  season: [spring, summer]
+  thickness: normal
+  style_tags: [cute, japanese, casual]
+
+- image: img013.jpg        # 7_349b8d...jpg
+  type: top
+  sub_type: tshirt
+  main_color: white
+  pattern: letter
+  season: [spring, summer]
+  thickness: normal
+  style_tags: [casual, japanese, minimalist]
+
+- image: img014.jpg        # 7_40e7cd...jpg
+  type: shoes
+  sub_type: toddler_shoes
+  main_color: sky_blue
+  pattern: colorblock
+  season: [spring, summer, autumn]
+  thickness: normal
+  style_tags: [sporty, casual, cute]

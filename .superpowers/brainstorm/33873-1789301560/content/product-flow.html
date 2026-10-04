@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>智搭 · 首版需求总览</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f7f9fa;color:#23312b;font:16px/1.7 system-ui,sans-serif;letter-spacing:0}main{max-width:1100px;margin:auto;padding:40px 24px 72px}header{border-bottom:1px solid #d6dfdc;padding-bottom:24px}h1{font-size:30px;margin:8px 0}h2{font-size:21px;margin:0 0 18px}h3{font-size:17px;margin:0 0 6px}p{margin:6px 0;color:#50625b}.eyebrow{font-size:13px;color:#397855}section{padding:28px 0;border-bottom:1px solid #d6dfdc}.flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px}.step{position:relative;border-top:3px solid #5ba557;padding:15px 0}.step:not(:last-child):after{content:'→';position:absolute;right:-18px;top:16px;color:#668376}.num{font-size:12px;color:#397855}.daily .step{border-color:#5484ae}.daily .num{color:#356b99}.principle{background:#fff4ce;padding:15px 20px;border-left:3px solid #c49b2e;margin-top:20px}.columns{display:grid;grid-template-columns:1fr 1fr;gap:40px}ul{padding-left:21px;margin:8px 0}li{margin:8px 0}details{padding:14px 0;border-top:1px solid #d6dfdc}summary{cursor:pointer;font-weight:600}.tag{font-size:12px;color:#356b99}.nav{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.nav div{padding:12px 0;border-top:2px solid #d6dfdc}.nav strong{display:block}.foot{font-size:13px;margin-top:24px}@media(max-width:700px){main{padding:24px 18px}.flow,.columns{grid-template-columns:1fr}.step:not(:last-child):after{content:'↓';top:auto;bottom:-25px;right:50%}.nav{grid-template-columns:repeat(2,1fr)}h1{font-size:26px}}
+</style></head><body><main>
+<header><div class="eyebrow">智搭重构 / 需求审阅 / 2026-09-13</div><h1>打开就有一套合适的搭配</h1><p>0–6 岁 · 多宝家庭 · 微信小程序 · 真实衣物展示</p><p>省时决策与审美帮助，建立在舒适、适龄、天气和可穿条件之上。</p></header>
+<section><h2>第一次：录入够用的一批，先得到价值</h2><div class="flow">
+<div class="step"><span class="num">01 家庭与孩子</span><h3>建档或接受邀请</h3><p>初始风格与舒适偏好；照片选填。</p></div>
+<div class="step"><span class="num">02 集中拍摄</span><h3>连续拍照／多图选择</h3><p>默认当前孩子，拍摄不用等待识别。</p></div>
+<div class="step"><span class="num">03 快速确认</span><h3>只处理例外和不确定项</h3><p>默认合身可穿；多件候选、归属可调整。</p></div>
+<div class="step"><span class="num">04 首次推荐</span><h3>够搭一套就开始</h3><p>不足时指出缺项，不要求录完整个衣柜。</p></div></div></section>
+<section class="daily"><h2>每一天：准备好，忙的时候不用手机</h2><div class="flow">
+<div class="step"><span class="num">01 打开</span><h3>当前孩子 · 今天／明天</h3><p>直接推荐，记住场景；同条件复用建议。</p></div>
+<div class="step"><span class="num">02 按需调整</span><h3>换一套，或固定一件</h3><p>真实单品清晰可辨，理由简短。</p></div>
+<div class="step"><span class="num">03 选定准备</span><h3>主搭配＋按需备用</h3><p>同步家庭，自动保存已选方案。</p></div>
+<div class="step"><span class="num">04 再次需要</span><h3>下次直接继续选衣</h3><p>不催补记，不要求维护完整穿着历史。</p></div></div>
+<div class="principle"><strong>已选搭配 ≠ 已实际穿过。</strong> 不推断洗衣或换洗状态；已选方案不会被天气刷新或成员切换悄悄改掉。</div></section>
+<section class="columns"><div><h2>推荐如何做决定</h2><ol><li>可穿、合身、天气与活动要求</li><li>配色、款式、图案协调</li><li>家庭或指定成员的偏好权重</li><li>适度变化，保留好穿的重复</li></ol><p>默认日常耐看。模型和规则兜底使用同一审美基准。</p></div><div><h2>家庭如何协作</h2><ul><li>管理员、可编辑、仅查看权限</li><li>每个孩子独立方案，家庭成员共享</li><li>统一／指定成员／当前成员偏好可选</li><li>衣物可转交，共用实物需要占用提示</li></ul></div></section>
+<section><h2>四个入口</h2><div class="nav"><div><strong>搭配</strong><p>推荐、调整、备用</p></div><div><strong>衣橱</strong><p>录入、确认、管理</p></div><div><strong>搭配日历</strong><p>一天多套、回看复用</p></div><div><strong>我的</strong><p>档案、偏好、家庭</p></div></div></section>
+<section><h2>边界与下一步</h2><details open><summary>首版不包含</summary><p>AI 试穿放后续；不以换衣打卡和补记为使用前提；不从未知数据展示精确穿着统计。</p></details><details><summary>下一轮技术设计需解决</summary><p>家庭权限与数据归属、共用衣物冲突、后台识别任务恢复、偏好反馈归属、推荐与已选方案分离、旧数据迁移及部署。</p></details><details><summary>如何判断产品有效</summary><p>首次获得可用搭配的时间、录入恢复体验、搭配采用与调整情况、再次需要时的回访。不以补记率为核心指标。</p></details></section>
+<p class="foot">这是需求流程图，不是最终页面视觉稿。请在聊天中提出修改意见。</p>
+</main></body></html>

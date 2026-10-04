@@ -20,10 +20,18 @@ backend/.env
 .env
 **/.env.local
 **/.env.*.local
+.env.*
+!.env.example
+!.env.*.example
 # 注：.env.example 是模板，可以提交
 
 # --- 本地上传/生成的文件 ---
 backend/uploads/
+/uploads/
+
+# --- 本地工具设置与预览服务状态 ---
+/.claude/settings.local.json
+/.superpowers/brainstorm/*/state/
 
 # --- 微信小程序 ---
 project.private.config.json
