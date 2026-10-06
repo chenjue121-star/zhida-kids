@@ -20,8 +20,8 @@ class V2Settings(BaseSettings):
     qweather_api_key: SecretStr = SecretStr('')
     private_storage_dir: str = str(BACKEND_ROOT / 'var' / 'private-media')
     upload_max_bytes: int = 12 * 1024 * 1024
-    recognition_provider: Literal['qwen', 'ark', 'disabled'] = 'qwen'
-    recognition_model: str = 'qwen3.7-plus-2026-05-26'
+    recognition_provider: Literal['qwen', 'ark', 'disabled'] = 'ark'
+    recognition_model: str = 'doubao-seed-2-1-lite-260915'
     qwen_api_key: SecretStr = SecretStr('')
     qwen_base_url: str = 'https://dashscope.aliyuncs.com/compatible-mode/v1'
     ark_api_key: SecretStr = SecretStr('')

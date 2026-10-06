@@ -21,10 +21,11 @@
   <block wx:else>
    <view class="b-flow-heading">{{selectedCount}} 件准备放进衣橱</view>
    <view class="b-summary"><text>这批默认给 {{defaultChildLabel}}</text><button bindtap="openBulk" disabled="{{!selectedCount}}">批量改归属</button></view>
-   <view class="b-note">勾选你实际拥有的实物。多件图默认不选；未选候选会保留。默认合身、可穿，例外可以逐件修改。</view>
+   <view wx:if="{{unknownFitCount}}" class="b-note">本批 {{unknownFitCount}} 件合身待确认。先核对你实际拥有的实物，可以先保存资料；确认合身后用于推荐。多件图默认不选；未选候选会保留。</view>
+   <view wx:else class="b-note">勾选你实际拥有的实物。多件图默认不选；未选候选会保留。默认合身、可穿，例外可以逐件修改。</view>
    <button wx:if="{{undoCount}}" class="link" bindtap="undoBulk" disabled="{{busy}}">撤回上次已保存的批量归属 · {{undoCount}} 件</button>
    <checkbox-group bindchange="select">
-    <block wx:for="{{candidates}}" wx:key="id">
+    <block wx:for="{{visibleCandidates}}" wx:key="id">
      <block wx:if="{{!item.confirmed_garment_id}}">
       <view class="b-candidate-row">
        <label class="b-check b-candidate-check {{item.selected ? 'selected' : ''}}"><checkbox value="{{item.id}}" checked="{{item.selected}}" disabled="{{busy}}" aria-label="{{item.name || '选择候选'}}"/><view class="b-circle"></view></label>
@@ -44,6 +45,7 @@
      </block>
     </block>
    </checkbox-group>
+   <view wx:if="{{candidatePages > 1}}" class="actions"><button data-step="-1" bindtap="changeCandidatePage" disabled="{{busy || candidatePage === 0}}">上一页</button><view class="b-muted">第 {{candidatePage + 1}} / {{candidatePages}} 页</view><button data-step="1" bindtap="changeCandidatePage" disabled="{{busy || candidatePage + 1 >= candidatePages}}">下一页</button></view>
    <view wx:if="{{!hasRemaining}}" class="b-empty"><view class="b-empty-title">本批候选已处理完成</view><view class="b-empty-copy">可以返回照片页，继续添加衣物。</view></view>
    <view wx:elif="{{!selectedCount && !remainingCandidates}}" class="b-empty"><view class="b-empty-title">暂时没有候选</view><view class="b-empty-copy">照片可能仍在识别，也可以返回为照片手填单品。</view></view>
    <view wx:if="{{remainingCandidates || processingPhotos || attentionPhotos || unfinishedManualCount}}" class="b-note">本批另有 {{remainingCandidates}} 件候选未选、{{processingPhotos}} 张照片识别中。<view wx:if="{{attentionPhotos}}">{{attentionPhotos}} 张照片需要返回重试或手填。</view><view wx:if="{{unfinishedManualCount}}">{{unfinishedManualCount}} 件手动补充尚未填写，可以返回继续。</view>它们会保留，可以先保存已选部分。</view>

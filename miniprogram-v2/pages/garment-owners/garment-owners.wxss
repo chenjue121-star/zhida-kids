@@ -26,6 +26,6 @@
 .b-history-row text:last-child{color:#64736a;flex:none}
 .b-owner-footer{flex-direction:column;gap:7px}
 .b-footer-note{font-size:10px;color:#64736a;line-height:1.5;text-align:center;width:100%}
-.b-footer-actions{display:flex;gap:9px;width:100%}
+.b-footer-actions{display:flex;gap:12px;width:100%}
 .b-footer-actions button{flex:1;font-size:13px}
 .b-secondary{background:white;border:1px solid #c8dccb;color:#267a42;box-shadow:none}

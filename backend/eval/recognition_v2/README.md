@@ -2,7 +2,7 @@
 
 本工具连接生产 v2 的 Qwen／ARK adapter、图片预处理和候选归一化。审核标签与原模型建议分开；默认严格离线，缓存缺失不会联网，也不会用部分成绩制造模型排名。
 
-截至 2026-10-03，工具和桩数据回归已完成，尚未开展真实模型对测。原有 20 个文件中只有 4 种独立有效文件内容；现已按用户指示另整理 [桌面 47 图诊断集](dataset/desktop-2026-10-03/README.md)，47 张商品截图均有效、无文件重复，逐图 AI 草稿仍待人工审核。正式项目准确率仍未知。采集与审核步骤见 [样本采集说明](../../../docs/runbooks/recognition-evaluation.md)。
+截至 2026-10-05，已用用户整体确认的75件主商品清单开展16张单件裁图的Lite、Pro、Qwen开发诊断，见[三模型报告](../outfits_v2/dataset/desktop-2026-10-05/runs/model-comparison-with-qwen-2026-10-05/report.md)。这不等于47张截图端到端评测，也没有独立双人标签复核。原有20个文件只有4种独立有效内容，另整理的[桌面47图诊断集](dataset/desktop-2026-10-03/README.md)均有效、无文件重复。正式项目准确率仍未知。采集与审核步骤见[样本采集说明](../../../docs/runbooks/recognition-evaluation.md)。
 
 ## 入口
 
@@ -90,6 +90,26 @@
 - **分层：** 场景、真值类别、逐图错误、图片数和独立 group 数。重复运行不是新增独立样本；本工具不生成置信区间或自动判定上线门槛。
 
 当前是原图端到端评测。无框预测即使描述看似正确，也不算定位完成；“已定位对象的属性能力”与“人工裁剪后的属性能力”需要另设实验，不能把它们当成同一种准确率。
+
+### 颜色分层提示试验（仅单件裁图开发诊断）
+
+Python入口支持 `run_one(..., prompt=COLOR_ROLE_PROMPT)`。它仍复用生产HTTP、JSON校验与归一化，但使用评测专用提示：
+
+```python
+from eval.recognition_v2.color_prompt import COLOR_ROLE_PROMPT
+from eval.recognition_v2.runner import run_one
+
+# image_path、spec、cache_dir和frozen_sha256由已校验的冻结清单提供。
+# 默认离线；实时调用另需offline=False、明确CallBudget及已配置的进程凭据。
+record = run_one(image_path, spec, cache_dir,
+                 prompt=COLOR_ROLE_PROMPT, expected_sha256=frozen_sha256)
+```
+
+`primary_colors`、`secondary_colors`、`accent_colors`在原始候选中保留；评分用的`colors`由前两者合并，装饰色单独记录。三个数组必须互斥且枚举合法，缺角色或派生颜色不一致显式失败。自定义provider工厂合同为`factory(spec, *, prompt)`；离线测试可以向`create_color_provider(spec, explicit_key, http_client, prompt=...)`注入MockTransport。
+
+自定义模式缓存身份包含实际发送的完整提示摘要与评测适配器源码摘要，原模式的缓存身份和行为保持兼容。自定义实时调用先检查缓存可写，失败不自动重试；HTTP200角色校验失败仍保留安全usage和实际模型。生产提示和配置不受该试验影响。
+
+颜色提示对照固定16分母，对原确认标签评分，不修改标签，也不把角色输出当作新增人工真值。原框/厚薄指标不进入这两个纯属性指标。提示优化已观察过开发误差，成绩不代表独立测试集准确率。
 
 工具复用当前七大类别词表，尚不评分袖长、裤长、材质、适龄、是否拥有、归属、合身或待洗状态。鞋袜计数规范进入人工标签后，应观察生产提示词是否遵守，而不是后处理悄悄合并候选。
 

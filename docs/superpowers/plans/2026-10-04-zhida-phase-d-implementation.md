@@ -37,7 +37,7 @@ ID 输出字符串，版本整数，日期 `YYYY-MM-DD` 使用家庭时区，所
 {"expected_version":2,"action":"dismiss"}
 ```
 
-accept 转为显式标签，dismiss 删除推断并记录证据截止位置。原 PUT 修改显式风格；删除风格同样抑制旧证据。显式权重大于推断，推断有上限和版本化规则；舒适和合身过滤继续独立。权重是初版可回归规则，不宣称已验证个性化效果。
+正向 accept 转为显式标签，负向 accept 返回明确校验错误，dismiss 删除推断并记录证据截止位置。原 PUT 修改显式风格；删除风格同样抑制旧证据。显式权重大于推断，推断有上限和版本化规则；舒适和合身过滤继续独立。权重是初版可回归规则，不宣称已验证个性化效果。
 
 ### 日历
 
@@ -50,41 +50,47 @@ accept 转为显式标签，dismiss 删除推断并记录证据截止位置。�
 
 ## 任务1：后端偏好与日历（后端代理）
 
-**Files:** `backend/app/v2/preferences/{models,schemas,service,router,learning}.py`；`outfits/{models,schemas,service,router,calendar}.py`；`core/database.py`；`main.py`；`migrations-v2/versions/0005_personalization_calendar.py`；`tests/v2/test_d_preferences.py`、`test_d_calendar.py`、`test_d_mysql_races.py` 及既有迁移/head契约。
+**Files:** `backend/app/v2/preferences/{models,schemas,service,router}.py`；`outfits/{models,schemas,service,router,rules}.py`；`core/database.py`；`main.py`；`migrations-v2/versions/0005_personalization_calendar.py`；`tests/v2/test_d_preferences.py`、`test_d_calendar.py`、`test_d_mysql_races.py` 及既有迁移/head契约。
 
-- [ ] 先写 HTTP 行为失败测试：事件幂等、主体隔离、临时原因不学习、三套阈值、删除截止、新证据、显式优先、签名变化、快照不变；范围多条、viewer/撤权、撤销幂等/回滚/版本竞争/释放占用、复用无写入及目标条件。
-- [ ] 运行 `.venv/bin/python -m pytest -c pytest-v2.ini tests/v2/test_d_preferences.py tests/v2/test_d_calendar.py -q`，确认缺失功能失败。
-- [ ] 实现原始事件、学习结果及版本；把选择事件与方案/回执写入同一事务；扩展有效偏好排序。
-- [ ] 实现日历范围/详情、撤销与复用；所有天气 IO 在事务锁外，回来重验权限和来源版本。
-- [ ] 新增0005迁移，更新 readiness，注册演练来源记录模型；验证 SQLite/MySQL schema 与元数据一致。
-- [ ] 运行行为测试和真实 MySQL 竞争测试；由根代理进行规格审查，再由另一代理代码质量复核。
+- [x] 先写 HTTP 行为失败测试：事件幂等、主体隔离、临时原因不学习、三套阈值、删除截止、新证据、显式优先、签名变化、快照不变；范围多条、viewer/撤权、撤销幂等/回滚/版本竞争/释放占用、复用无写入及目标条件。
+- [x] 运行 `.venv/bin/python -m pytest -c pytest-v2.ini tests/v2/test_d_preferences.py tests/v2/test_d_calendar.py -q`，确认缺失功能失败。
+- [x] 实现原始事件、学习结果及版本；把选择事件与方案/回执写入同一事务；扩展有效偏好排序。
+- [x] 实现日历范围/详情、撤销与复用；所有天气 IO 在事务锁外，回来重验权限和来源版本。
+- [x] 新增0005迁移，更新 readiness，注册演练来源记录模型；验证 SQLite/MySQL schema 与元数据一致。
+- [x] 运行行为测试和真实 MySQL 竞争测试；由根代理进行规格审查，再由另一代理代码质量复核。
 
 ## 任务2：原生界面与状态（前端代理）
 
-**Files:** `miniprogram-v2/services/{calendar,preferences,runtime}.js`；`stores/outfit-context.js`；新 `pages/calendar/*`、`pages/plan-detail/*`；`pages/preferences/*`；`app.json`；搭配/衣橱/我的四入口导航；`tests/phase-d-*.test.js`；`PRODUCT.md`。
+**Files:** `miniprogram-v2/services/{plans,calendar-view,runtime}.js`；`stores/outfit-context.js`；新 `pages/calendar/*`、`pages/plan-detail/*`；`pages/preferences/*`；`app.json`；搭配/衣橱/我的四入口导航；`tests/phase-d-*.test.js`；`PRODUCT.md`。
 
-- [ ] 先写页面动作和服务行为测试：切账号/家庭/孩子/月份/标签后的迟到结果拒收；仅查看禁止写；撤销未知结果冻结查询；反馈重试同键；日历多条/撤销状态；复用新身份和目标实际日期；资料变更不静默采用。
-- [ ] `node --test tests/phase-d-*.test.js` 确认失败，再实现服务与页面。
-- [ ] 日历使用月份/日期原生选择，详情展示选择时主件/备用及操作人，编辑与新草稿进入现有 C 页面。
-- [ ] 偏好分开呈现显式和推断、依据、接受/编辑/删除、归属说明及版本冲突；反馈原因可跳过，暂时理由不变为审美。
-- [ ] 保留白绿样式、固定字号、44px操作、权限照片、空/加载/失败状态；四入口为搭配/衣橱/日历/我的。
-- [ ] `npm test`、所有JS语法、wcc/wcsc编译和窄屏源模板视觉检查；规格与质量分别复核。
+- [x] 先写页面动作和服务行为测试：切账号/家庭/孩子/月份/标签后的迟到结果拒收；仅查看禁止写；撤销未知结果冻结查询；反馈重试同键；日历多条/撤销状态；复用新身份和目标实际日期；资料变更不静默采用。
+- [x] `node --test tests/phase-d-*.test.js` 确认失败，再实现服务与页面。
+- [x] 日历使用月份/日期原生选择，详情展示选择时主件/备用及操作人，编辑与新草稿进入现有 C 页面。
+- [x] 偏好分开呈现显式和推断、依据、接受/编辑/删除、归属说明及版本冲突；反馈原因可跳过，暂时理由不变为审美。
+- [x] 保留白绿样式、固定字号、44px操作、权限照片、空/加载/失败状态；四入口为搭配/衣橱/日历/我的。
+- [x] `npm test`、所有JS语法、wcc/wcsc编译和窄屏源模板视觉检查；规格与质量分别复核。
 
 ## 任务3：迁移、备份、回退演练（发布代理）
 
 **Files:** `backend/app/v2/release/{models,legacy,rehearsal}.py`；`backend/scripts/phase_d_rehearsal.py`；`tests/v2/test_d_release.py`；固定legacy与0–6衣橱样本；`docs/runbooks/zhida-phase-d-release.md`。
 
-- [ ] 先测旧用户→个人家庭、孩子、实物/适配、可空身体资料；唯一来源映射保证重跑不复制，变更来源拒绝并回滚。
-- [ ] 旧日记只保留带来源的历史记录；旧图片URL不冒充新版已验证私有资产；旧 wear_count/last_worn_at 不进入新版事实或学习。
-- [ ] CLI只接受显式JSON导出并创建新隔离目录/SQLite库，禁止触碰实际旧库。备份数据库和媒体、记录哈希和0600权限，恢复至另一路径逐项比对。
-- [ ] 隔离演练升级→ready→备份→回退恢复→一致性，报告其SQLite限制；真实MySQL由迁移/并发测试证明。
-- [ ] 检查已配置模型能力；在授权且有密钥时最多两张真实衣物烟测，结果与人工审阅需求单独记录。
+- [x] 先测旧用户→个人家庭、孩子、实物/适配、可空身体资料；唯一来源映射保证重跑不复制，变更来源拒绝并回滚。
+- [x] 旧日记只保留带来源的历史记录；旧图片URL不冒充新版已验证私有资产；旧 wear_count/last_worn_at 不进入新版事实或学习。
+- [x] CLI只接受显式JSON导出并创建新隔离目录/SQLite库，禁止触碰实际旧库。备份数据库和媒体、记录哈希和0600权限，恢复至另一路径逐项比对。
+- [x] 隔离演练升级→ready→备份→回退恢复→一致性，报告其SQLite限制；真实MySQL由迁移/并发测试证明。
+- [x] 检查已配置模型能力；在授权且有密钥时最多两张真实衣物烟测，结果与人工审阅需求单独记录。
 
 ## 任务4：整体验收与交付（根代理）
 
 **Files:** `backend/tests/v2/test_d_acceptance.py`、`test_frontend_d_contract.py`；`miniprogram-v2/tests/phase-d-contract-smoke.js`；`docs/runbooks/zhida-phase-d-acceptance.md`。
 
-- [ ] 固定0/6/12/24/36/60/83月龄、连体/上下装/裙/鞋/外套、共用实物、未知合身/待洗；天气未知/高温/低温，双孩子及第三账号权限回归。
-- [ ] 真实临时HTTP服务运行发布目录客户端，确认日历/反馈/撤销/复用与后端一致，不将mock作为联通证据。
-- [ ] 全套 `.venv/bin/python -m pytest -c pytest-v2.ini -q`、`npm test`、`node --check`、compileall、wcc/wcsc、迁移元数据与回环、`git diff --check`。
-- [ ] 记录真实执行数量和范围；真机、收费模型、天气、实际历史迁移和生产切换分别给状态。可自动完成的工作全部执行后交付，保留现有分支供审阅。
+- [x] 固定0/6/12/24/36/60/83月龄、连体/上下装/裙/鞋/外套、共用实物、未知合身/待洗；天气未知/高温/低温，双孩子及第三账号权限回归。
+- [x] 真实临时HTTP服务运行发布目录客户端，确认日历/反馈/撤销/复用与后端一致，不将mock作为联通证据。
+- [x] 全套 `.venv/bin/python -m pytest -c pytest-v2.ini -q`、`npm test`、`node --check`、compileall、wcc/wcsc、迁移元数据与回环、`git diff --check`。
+- [x] 记录真实执行数量和范围；真机、收费模型、天气、实际历史迁移和生产切换分别给状态。可自动完成的工作全部执行后交付，保留现有分支供审阅。
+
+## 执行结果
+
+2026-10-04 开发与本地可执行验收完成。完整后端443通过、小程序338通过；真实MySQL并发、迁移回环、真实HTTP客户端、22WXML/26WXSS/70JS语法均通过。授权两张评估衣物图片的真实模型调用成功；合成旧数据演练与真实本地MySQL/媒体备份恢复完成；本地API迁移至0005并正常运行，微信开发者工具日期格和偏好区域已复核。
+
+真机/双账号、有效天气上游、真实旧历史迁移与生产入口切换保留为未执行项。具体范围和证据见 `docs/runbooks/zhida-phase-d-acceptance.md`，不将本计划的开发完成等同正式上线验收通过。

@@ -32,7 +32,7 @@ python3.13 -m venv .venv
 - `http://127.0.0.1:8001/ready` 检查数据库和迁移版本。
 - `http://127.0.0.1:8001/docs` 查看 `/v2` 接口。
 
-2026-10-03 本轮后台进程 PID 为 `36392`；当前 PID 记录在工作区 `.cache/v2-server.pid`，日志在 `.cache/v2-server.log`。这是本轮启动的本地进程，不是开机自动启动服务；电脑重启后按上述命令重新启动。
+2026-10-06 已按模型实测选择接通 Seed 2.1 Lite，重新启动本地 API 与识别 worker。当前 PID 分别记录在工作区 `.cache/v2-server.pid`、`.cache/v2-worker.pid`，日志为 `.cache/v2-server.log`、`.cache/v2-worker.log`。它们不是开机自动启动服务；电脑重启后按本文命令分别启动。
 
 ### 目标日天气
 
@@ -65,7 +65,19 @@ B 阶段新增衣橱及真实衣物录入：衣橱 → 选择本批默认宝贝 
 
 同日可选多套，每套保留编号；修改原方案保留身份并增加版本。主搭配和已确认备用才产生计划占用。分时共用需要填写所有相关孩子的非重叠时段与原因，不能改动其他已确认安排。保存响应丢失时查询原操作，查不到仍为未知；明确核实未执行后才可重新开始。其他独立草稿可准备，同家庭同日的再次保存须等原结果明确。
 
-搭配模型默认关闭。需要启用时在本机配置 `V2_OUTFIT_PROVIDER=qwen` 或 `ark`、对应 `V2_OUTFIT_MODEL` 及同供应商的既有 API Key，并重启 API。不要把不同供应商的 model ID 混用。模型只排序服务器已校验的真实组合，不接收孩子姓名或照片；供应商失败回退基础规则。启用模型会产生外部调用费用，本次没有调用收费模型。具体实现与验收范围见 [C 阶段验收记录](zhida-phase-c-acceptance.md)。日历、试穿与偏好学习仍在后续阶段。
+搭配模型默认关闭。需要启用时在本机配置 `V2_OUTFIT_PROVIDER=qwen` 或 `ark`、对应 `V2_OUTFIT_MODEL` 及同供应商的既有 API Key，并重启 API。不要把不同供应商的 model ID 混用。模型只排序服务器已校验的真实组合，不接收孩子姓名或照片；供应商失败回退基础规则。启用模型会产生外部调用费用，C 验收没有调用收费模型。具体实现与验收范围见 [C 阶段验收记录](zhida-phase-c-acceptance.md)。D 已增加日历与偏好学习；AI 试穿仍在后续阶段。
+
+2026-10-06 按用户要求，本机私有运行配置已设置 `V2_OUTFIT_PROVIDER=qwen`、`V2_OUTFIT_MODEL=qwen3.8-flash`，并重启 API；识别 worker 继续使用 Seed 2.1 Lite。现有适配器的一次合成属性请求返回 HTTP 200、完整候选组合及理由，随后 `/health`、`/ready` 均为 200。当前按类别、颜色、图案、厚薄等标签选择候选，不发送衣物照片。真实衣橱仍为空，待核对资料需明确确认入库并符合合身和适用条件后才能参与推荐。模型异常或组合不合法仍回退基础规则；未清除既有推荐缓存，衣物变化会使原输入版本失效。配置模板仍保持默认关闭。
+
+### D 日历、反馈与偏好
+
+2026-10-04 已备份本地开发库和私有媒体，恢复至专用 MySQL 测试库核对一致，再升级 `zhida_kids_v2_dev` 至 `0005_personalization_calendar`。`/health`、`/ready` 均为 200；当前导航为搭配／衣橱／日历／我的。
+
+日历读取已选方案，同日多套和撤销记录分开展示。打开详情可修改、撤销、给同一宝贝重新准备，或按需记录喜欢／不喜欢及原因。撤销结果待确认时查询原操作；复用不会自动选定，当前衣物变化须核对，目标天气和共用冲突继续经过 C review/save。
+
+“我的 → 穿衣偏好”中明确风格与推断分开展示。推断至少需要三个不同方案的同向依据；已选为弱依据、款式反馈为明确依据，临时不可用与舒适理由不推断审美。正向推断可采纳，负向推断只能编辑明确偏好或移除。移除后旧证据不会立即重建。选择、反馈或日期经过不表示实际穿过。
+
+本轮授权使用既有评估图片做了两次真实 Ark 识别烟测，均成功；没有修改 `.env.v2` 或启用运行中的识别/搭配供应商。微信开发者工具已核对日历与偏好实际联通和原生空态；双真机、真实天气与生产切换仍待执行。详细证据见 [D 阶段验收记录](zhida-phase-d-acceptance.md)和[发布运行记录](zhida-phase-d-release.md)。
 
 ### B 图片与识别 worker
 
@@ -79,15 +91,34 @@ B 阶段新增衣橱及真实衣物录入：衣橱 → 选择本批默认宝贝 
 
 仅处理一个领取周期可用 `--once`。任务保存在数据库，API 重启不丢队列；worker 用租约和领取身份防迟到结果写入。未知上游调用结果不会自动再次付费请求；可继续手填。照片上传不会等待识别，批次默认孩子始终以创建时的服务端结果为准。
 
-当前本机没有识别供应商密钥，上传后会诚实显示“识别尚未配置，可继续手填”，不会生成模拟候选。需要启用时按模板在本机配置，勿覆盖已有微信、数据库与天气配置：
+2026-10-06 本机已接通 Seed 2.1 Lite 原识别方案，原来排队的 6 张照片已成功生成 9 件待核对候选。新的上传会进入 worker 识别；缺密钥仍显示“识别尚未配置，可继续手填”。识别配置如下，勿覆盖已有微信、数据库与天气配置：
 
 ```sh
-V2_RECOGNITION_PROVIDER=qwen
-V2_RECOGNITION_MODEL=qwen3.7-plus-2026-05-26
-V2_QWEN_API_KEY=YOUR_API_KEY
+V2_RECOGNITION_PROVIDER=ark
+V2_RECOGNITION_MODEL=doubao-seed-2-1-lite-260915
+V2_ARK_API_KEY=YOUR_API_KEY
+V2_ARK_BASE_URL=https://ark.cn-beijing.volces.com/api/v3
 ```
 
-ARK 可设 `V2_RECOGNITION_PROVIDER=ark`、`V2_RECOGNITION_MODEL=doubao-seed-2-0-mini-260428` 和 `V2_ARK_API_KEY`；不要把 Qwen 的 model ID 用于 ARK。模型试点选择与项目测评边界见 `../design/phase-b-review/recognition-model-comparison.md`。保存配置后重启 API 和 worker。默认自动重试上限为 3，输出限制 4096 tokens；原始候选 JSON、模型、用量、提示词 hash 和归一结果保存在私有 attempt trace 中，不向家庭其他成员开放。
+需要切换 Qwen 时，同时设置 `V2_RECOGNITION_PROVIDER=qwen`、明确的 `V2_RECOGNITION_MODEL`（例如本次实测的 `qwen3.8-flash`）及 `V2_QWEN_API_KEY`；不要混用供应商的 model ID。选择依据与指标口径见 [本轮模型选择](../design/model-selection-2026-10-05.md)。Lite 使用原生产提示词；颜色角色实验没有采用。保存配置后重启 API 和 worker。默认自动重试上限为 3，输出限制 4096 tokens；原始候选 JSON、模型、用量、提示词 hash 和归一结果保存在私有 attempt trace 中，不向家庭其他成员开放。
+
+### 已确认测试集资料填充
+
+2026-10-06 已将确认测试集的 47 张原图、75 件主商品资料填入本地开发空间：家庭 1、录入者 1、孩子 1，独立批次 4。原先 6 张照片的 Lite 识别结果仍保留在原批次，未覆盖本人草稿。衣橱显示的是待确认候选，确认入库后才成为实物。
+
+本批复用确认标签填充，没有再次付费识别，也没有创建已入库衣物。类别缺失 3 件、图案未知 3 件、厚薄未知 75 件；合身均为待确认，未自动选中。原图保留、仅作上下文的近似框未自动裁剪。进入“衣橱 → 继续”找到 47 张照片、75 件候选的批次，再核对实际拥有、归属与合身。可先保存已核对部分；合身未知不会参与搭配。普通新照片仍沿用既有默认合身可穿的核对流程。
+
+重复填充不会新增批次、照片或候选，也不会覆盖人工填写、放弃、选中与已经入库的状态。工具仅允许开发环境及本机独立开发/测试库，默认只校验。当前本机复现命令（在新版 `backend`）为：
+
+```sh
+.venv/bin/python -m scripts.seed_confirmed_inventory \
+  --inventory eval/outfits_v2/dataset/desktop-2026-10-05/garments.json \
+  --images eval/recognition_v2/dataset/desktop-2026-10-03/images \
+  --confirmation eval/outfits_v2/dataset/desktop-2026-10-05/confirmation.json \
+  --family-id 1 --user-id 1 --child-id 1
+```
+
+末尾加 `--apply` 才写入。改换目标时须明确实际录入者、家庭和孩子 ID，不能把示例目标用到其他空间。来源绑定与原图 hash 任何不一致都会在写入前拒绝。验收及实际记录见 [Lite 填充验收](zhida-lite-intake-20261006.md)。
 
 ### B 恢复、权限与真机验收
 

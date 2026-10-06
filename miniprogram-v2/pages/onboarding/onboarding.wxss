@@ -49,5 +49,5 @@
 .sheet-title {font-size:22px;font-weight:750;color:#17273a}
 .sheet-copy {font-size:14px;color:#5d6c80;line-height:1.6;margin-top:13rpx}
 .sheet-error {margin-top:18rpx;padding:13rpx 16rpx;border-radius:10rpx;background:#fff1ef;color:#9b2929;font-size:13px;text-align:left}
-.sheet-cancel {width:100%;background:transparent;color:#5d6c80;margin-top:8rpx}
+.sheet-cancel {width:100%;background:transparent;color:#5d6c80;margin-top:12px}
 @media(max-width:350px) {.welcome {padding-left:26rpx;padding-right:26rpx}.welcome-hero {margin-left:-26rpx;margin-right:-26rpx}.age-picker {padding:0 10rpx;font-size:13px}.style-pick {height:235rpx}.brand-note {max-width:130rpx}}

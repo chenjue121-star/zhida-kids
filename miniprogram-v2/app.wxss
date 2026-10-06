@@ -20,8 +20,8 @@ button.danger { background: #fff; color: #c53c38; border: 1px solid #edc6c4; }
 button.link { background: transparent; color: #277d42; padding-left: 0; padding-right: 0; text-align: left; box-shadow: none; }
 button[disabled] { background: #e9eeeb; color: #53645b; box-shadow: none; }
 button.button-hover { opacity: .82; }
-.actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 16px; }
-.actions > button { flex: 1 1 110px; }
+.actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 16px; }
+.actions > button { flex: 1 1 110px; min-width: 0; }
 .row { display: flex; gap: 12px; align-items: center; justify-content: space-between; }
 .row > .grow { flex: 1; min-width: 0; }
 .name { font-size: 17px; font-weight: 700; word-break: break-all; }
@@ -30,6 +30,7 @@ button.button-hover { opacity: .82; }
 .item { background: #fff; padding: 17px; border: 1px solid #dfe7ec; border-radius: 10px; margin-bottom: 12px; min-width: 0; }
 .item.selected { border-color: #2e8a4b; background: #f2f9f0; }
 .empty { padding: 24px 0; color: #60758a; }
+.notice > button { width: 100%; margin-top: 12px; }
 .notice { background: #ecf6fc; color: #35536c; padding: 13px 14px; border-radius: 9px; margin: 12px 0; font-size: 13px; overflow-wrap: anywhere; }
 .error { background: #fff0ef; color: #9b2929; }
 .loading { min-height: 46px; display: flex; align-items: center; color: #60758a; }

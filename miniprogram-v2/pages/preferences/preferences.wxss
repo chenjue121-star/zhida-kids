@@ -21,4 +21,4 @@
 .preference-style-sprite.sprite-3 {left:-110px;top:-110px}
 .preference-page .section .actions button,.preference-page .section > button.primary {width:100%}
 .preference-page > button.link {display:block;margin:24px auto 0;text-align:center}
-.inferred-section {margin-top:24px;padding-top:20px;border-top:1px solid #e5eaf0}.inferred-row {padding:16px 0;border-bottom:1px solid #e5eaf0}.inferred-row .name {font-size:15px}.inferred-row .actions {gap:6px}.inferred-row .actions button {font-size:12px;min-height:44px;padding:9px 8px}.inferred-row > button.link {min-height:44px}.inferred-section .meta {line-height:1.8}
+.inferred-section {margin-top:24px;padding-top:20px;border-top:1px solid #e5eaf0}.inferred-row {padding:16px 0;border-bottom:1px solid #e5eaf0}.inferred-row .name {font-size:15px}.inferred-row .actions {gap:12px}.inferred-row .actions button {font-size:12px;min-height:44px;padding:9px 8px}.inferred-row > button.link {min-height:44px}.inferred-section .meta {line-height:1.8}

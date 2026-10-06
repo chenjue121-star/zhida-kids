@@ -81,28 +81,41 @@ def pipeline_fingerprint():
     }
 
 
-def cache_identity(image: bytes, spec: ModelSpec, run_index: int):
+def cache_identity(image: bytes, spec: ModelSpec, run_index: int, *, prompt=None):
     if type(run_index) is not int or run_index < 0:
         raise ValueError('run_index must be non-negative')
-    return {'schema_version': CACHE_SCHEMA, 'image_sha256': hashlib.sha256(image).hexdigest(),
+    pipeline = pipeline_fingerprint()
+    if prompt is not None:
+        from eval.recognition_v2 import color_prompt
+        color_prompt.validate_prompt(prompt)
+        pipeline['evaluation_adapter'] = hashlib.sha256(Path(color_prompt.__file__).read_bytes()).hexdigest()
+    identity = {'schema_version': CACHE_SCHEMA, 'image_sha256': hashlib.sha256(image).hexdigest(),
             'provider': spec.provider, 'requested_model': spec.model, 'base_url': spec.base_url.rstrip('/'),
-            'prompt_sha256': hashlib.sha256(PROMPT.encode()).hexdigest(),
-            'parameters': request_parameters(spec.provider), 'pipeline': pipeline_fingerprint(),
+            'prompt_sha256': hashlib.sha256((PROMPT if prompt is None else prompt).encode()).hexdigest(),
+            'parameters': request_parameters(spec.provider), 'pipeline': pipeline,
             'run_index': run_index}
+    if prompt is not None:
+        identity['evaluation_variant'] = color_prompt.VARIANT
+    return identity
 
 
 def _json(value):
     return json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(',', ':'), allow_nan=False)
 
 
-def cache_key(image: bytes, spec: ModelSpec, run_index: int):
-    return hashlib.sha256(_json(cache_identity(image, spec, run_index)).encode()).hexdigest()
+def cache_key(image: bytes, spec: ModelSpec, run_index: int, *, prompt=None):
+    return hashlib.sha256(_json(cache_identity(image, spec, run_index, prompt=prompt)).encode()).hexdigest()
 
 
-def create_provider(spec: ModelSpec):
+def create_provider(spec: ModelSpec, *, prompt=None):
+    if prompt is not None:
+        from eval.recognition_v2.color_prompt import create_color_provider, validate_prompt
+        validate_prompt(prompt)
     key = os.environ.get(spec.api_key_env, '')
     if not key.strip():
         raise ValueError(f'missing API key environment variable: {spec.api_key_env}')
+    if prompt is not None:
+        return create_color_provider(spec, key, prompt=prompt)
     if spec.provider == 'qwen':
         from app.v2.integrations.qwen import QwenProvider
         return QwenProvider(key, spec.model, spec.base_url)
@@ -127,6 +140,9 @@ def _read_cache(path, identity):
             return None
         if not isinstance(record['usage'], dict) or _usage({'usage': record['usage']}) != record['usage']:
             return None
+        if identity.get('evaluation_variant') is not None:
+            from eval.recognition_v2.color_prompt import validate_adapted_candidates
+            validate_adapted_candidates(record['raw_candidates'])
         candidates = normalization.normalize_result({'candidates': record.get('candidates')})
         if candidates != record['candidates'] or normalization.normalize_result({'candidates': record['raw_candidates']}) != candidates:
             return None
@@ -153,6 +169,15 @@ def _write_cache(path, record):
             temporary.unlink(missing_ok=True)
 
 
+def _check_cache_writable(path):
+    """Probe custom-run cache storage before reserving a paid model request."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with tempfile.NamedTemporaryFile(mode='w', encoding='utf-8', dir=path.parent,
+                                     prefix=path.stem + '.', suffix='.probe') as target:
+        target.write('{}')
+        target.flush()
+
+
 def _usage(trace):
     allowed = ('prompt_tokens', 'completion_tokens', 'total_tokens', 'input_tokens', 'output_tokens',
                'cached_tokens', 'image_tokens')
@@ -162,12 +187,22 @@ def _usage(trace):
 
 
 def run_one(image_path, spec: ModelSpec, cache_dir, *, run_index=0, offline=True,
-            budget: CallBudget | None = None, provider_factory=None, expected_sha256=None):
+            budget: CallBudget | None = None, provider_factory=None, expected_sha256=None, prompt=None):
+    """Run/replay recognition with an optional evaluation color-role prompt.
+
+    Default factories keep their existing ``factory(spec)`` contract. A custom
+    prompt selects color_roles_v1 and calls ``factory(spec, prompt=prompt)``;
+    that provider must return validated roles, derived colors and the actual
+    sent-prompt hash in _trace. All identity hashes use the full prompt text.
+    """
     started = time.perf_counter()
+    if prompt is not None:
+        from eval.recognition_v2.color_prompt import validate_adapted_candidates, validate_prompt
+        validate_prompt(prompt)
     if not offline and budget is None:
         raise ValueError('live runs require an explicit call budget')
     raw = Path(image_path).read_bytes()
-    identity = cache_identity(raw, spec, run_index)
+    identity = cache_identity(raw, spec, run_index, prompt=prompt)
     path = Path(cache_dir) / (hashlib.sha256(_json(identity).encode()).hexdigest() + '.json')
     record = {'identity': identity, 'source': 'validation', 'status': 'invalid_image',
               'candidates': [], 'raw_candidates': [], 'model': spec.model,
@@ -199,7 +234,12 @@ def run_one(image_path, spec: ModelSpec, cache_dir, *, run_index=0, offline=True
         return record
     if budget.used >= budget.max_calls:
         raise CallLimitExceeded('model call budget exhausted')
-    provider = (provider_factory or create_provider)(spec)
+    factory = provider_factory or create_provider
+    if prompt is not None:
+        _check_cache_writable(path)
+        provider = factory(spec, prompt=prompt)
+    else:
+        provider = factory(spec)
     budget.take()
     record.update(source='live', status='error')
     called = time.perf_counter()
@@ -208,9 +248,17 @@ def run_one(image_path, spec: ModelSpec, cache_dir, *, run_index=0, offline=True
         trace = result.get('_trace', {}) if isinstance(result, dict) else {}
         model = trace.get('model') if isinstance(trace, dict) else None
         record.update(usage=_usage(trace), model=model if isinstance(model, str) and model.strip() else spec.model)
+        if prompt is not None:
+            if not isinstance(trace, dict) or trace.get('prompt_hash') != identity['prompt_sha256']:
+                raise RecognitionFailure('EVAL_PROMPT_MISMATCH', '评测请求提示词与缓存身份不一致')
+            validate_adapted_candidates(result['candidates'])
         candidates = normalization.normalize_result(result)
         record.update(status='ok', candidates=candidates, raw_candidates=result['candidates'])
     except RecognitionFailure as error:
+        if prompt is not None and isinstance(error.trace, dict):
+            model = error.trace.get('model')
+            record.update(usage=_usage(error.trace),
+                          model=model if isinstance(model, str) and model.strip() else spec.model)
         record['error'] = {'code': error.code, 'message': error.message,
                            'retryable': error.retryable, 'uncertain': error.uncertain}
     except (TypeError, ValueError, KeyError, OverflowError):

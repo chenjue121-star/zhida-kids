@@ -31,7 +31,7 @@
 .editor-sheet {width:100%;padding:28px 20px calc(22px + env(safe-area-inset-bottom));border-radius:16px 16px 0 0;background:#fff}
 .editor-sheet-title {font-size:18px;font-weight:750}
 .editor-sheet-copy {margin:9px 0 22px;color:#5c6f83;font-size:14px;line-height:1.6}
-.editor-sheet button {width:100%;margin-top:10px}
+.editor-sheet button {width:100%;margin-top:12px}
 .editor-sheet-cancel {background:#fff;color:#4c6072}
 .child-editor {padding-top:4px}
 .child-editor-head {gap:10px;min-height:72px;padding:0;border-color:#e6ece7}

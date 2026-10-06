@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "kind": "user_main_product_dataset_confirmation",
+  "confirmed_on": "2026-10-05",
+  "user_statement": "测试集已经确认。下一步",
+  "confirmation_method": "single_user_overall_confirmation_of_ai_assisted_main_product_annotations",
+  "confirmed_by": "user_in_current_chat",
+  "reviewer_count": 1,
+  "independent_dual_review": false,
+  "source_path_base": "backend",
+  "source_annotations": "eval/recognition_v2/dataset/desktop-2026-10-03/labels.ai-review.json",
+  "source_annotations_sha256": "92b1ac874ddb940c97abbc3ac78bfe6d5073693ef55017df68d3b603d936c542",
+  "source_image_root_from_backend": "eval/recognition_v2/dataset/desktop-2026-10-03/images",
+  "scope": "main_product_only",
+  "source_image_count": 47,
+  "inventory_object_count": 75,
+  "inventory_file": "garments.json",
+  "unknown_fields_policy": "preserve_null_without_inference",
+  "unknown_field_counts": {
+    "category": 3,
+    "pattern": 3,
+    "thickness": 75
+  },
+  "is_full_screenshot_end_to_end_recognition_ground_truth": false,
+  "notes": [
+    "本记录绑定用户对准备好的主商品AI辅助标注的整体确认；不伪造逐字段裁决或双人独立审核。",
+    "75个主商品建议全部进入独立搭配库存；原AI包、原图和来源哈希保持不变。",
+    "待裁决类别、图案、全部厚薄及未确认属性继续保留null；疑似同款关系与待核对问题保留。",
+    "主商品范围不包括商品截图中的标题、价格、色款缩略图及其他界面内容。",
+    "此确认不是完整原截图端到端识别真值，也不是模型准确率、人工审美偏好或真实拥有/合身情况的证据。",
+    "本批保留同一development来源组；不能作为多个独立家庭的盲测样本。"
+  ]
+}

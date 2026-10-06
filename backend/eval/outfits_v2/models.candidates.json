@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "models": [
+  {
+    "name": "Qwen 3.8 Flash",
+    "provider": "qwen",
+    "model": "qwen3.8-flash",
+    "base_url": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+    "api_key_env": "V2_QWEN_API_KEY"
+  },
+  {
+    "name": "Seed 2.1 Lite",
+    "provider": "ark",
+    "model": "doubao-seed-2-1-lite-260915",
+    "base_url": "https://ark.cn-beijing.volces.com/api/v3",
+    "api_key_env": "OUTFIT_EVAL_ARK_KEY"
+  },
+  {
+    "name": "Seed 2.1 Pro",
+    "provider": "ark",
+    "model": "doubao-seed-2-1-pro-260915",
+    "base_url": "https://ark.cn-beijing.volces.com/api/v3",
+    "api_key_env": "OUTFIT_EVAL_ARK_KEY"
+  },
+  {
+    "name": "Qwen 3.7 Plus baseline",
+    "provider": "qwen",
+    "model": "qwen3.7-plus-2026-05-26",
+    "base_url": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+    "api_key_env": "V2_QWEN_API_KEY"
+  }
+  ]
+}

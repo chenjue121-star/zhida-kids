@@ -31,6 +31,46 @@ test('confirmation exposes source photo, each child fit, fixed batch child and a
  assert.equal(p.data.candidates[0].sourceLabel,'照片 1 · 候选 1 / 2');assert.equal(p.data.candidates[0].owners[0].fitLabel,'偏大');
  assert.equal(p.data.defaultChildLabel,'豆子');assert.equal(p.data.remainingCandidates,1);assert.equal(p.data.processingPhotos,1);
 });
+test('fit awaiting confirmation counts each pending garment once and excludes discarded or confirmed candidates',()=>{
+ const {p}=harness('intake-confirm');p.batchId='b';const b=batch();
+ b.candidates[0].owners=[{child_id:'a',fit:'unknown'},{child_id:'other',fit:'unknown'}];
+ b.candidates[1].owners=[{child_id:'a',fit:'unknown'}];
+ b.candidates.push({...b.candidates[1],id:'confirmed',confirmed_garment_id:'g',selected:true});
+ b.candidates.push({...b.candidates[1],id:'discarded',discarded:true,selected:true});
+ p.update(b);assert.equal(p.data.unknownFitCount,2);assert.equal(p.data.selectedCount,1);
+ p.onEditRevoked();assert.equal(p.data.unknownFitCount,0);
+});
+test('unknown-fit guidance permits saving reviewed possessions while ordinary defaults retain their existing note',()=>{
+ const {p}=harness('intake-confirm');p.batchId='b';p.update(batch());assert.equal(p.data.unknownFitCount,0);
+ const markup=fs.readFileSync(path.resolve(__dirname,'../pages/intake-confirm/intake-confirm.wxml'),'utf8');
+ assert.match(markup,/wx:if="{{unknownFitCount}}"[^>]*>[^<]*本批 {{unknownFitCount}} 件合身待确认/);
+ assert.match(markup,/先核对你实际拥有的实物，可以先保存资料；确认合身后用于推荐/);
+ assert.match(markup,/wx:else[^>]*>勾选你实际拥有的实物。多件图默认不选；未选候选会保留。默认合身、可穿，例外可以逐件修改。/);
+});
+test('cancelling the unknown-fit save dialog uses the current selection and makes no request',async()=>{
+ const {p,requests}=harness('intake-confirm');p.batchId='b';p.data.writable=true;const b=batch();
+ b.candidates[0].owners=[{child_id:'a',fit:'unknown'},{child_id:'other',fit:'unknown'}];b.candidates[1].owners=[{child_id:'a',fit:'unknown'}];p.update(b);
+ p.data.unknownFitCount=99;let modal;global.wx.showModal=o=>{modal=o;o.success({confirm:false});};const before=structuredClone(p.data.candidates);
+ await p.save();assert.match(modal.content,/其中 1 件合身待确认/);assert.match(modal.content,/会保留该状态，不用于搭配/);
+ assert.equal(requests.length,0);assert.deepEqual(p.data.candidates,before);
+});
+test('saving a selected unknown-fit garment retains its draft fit and sends no ownership replacement',async()=>{
+ const {p,rt}=harness('intake-confirm');p.batchId='b';p.data.writable=true;const b=batch();b.candidates[0].owners=[{child_id:'a',fit:'unknown'}];b.candidates[0].version=3;p.update(b);p.refresh=()=>{};
+ let modal;global.wx.showModal=o=>{modal=o;o.success({confirm:true});};const calls=[];
+ rt.api.request=async(url,options)=>{calls.push({url,options});return {status:'completed',counts:{new:1,existing:0,failed:0},results:[{candidate_id:'c1',status:'success',kind:'new',garment:{id:'g',name:'外套',state:'washing',owners:[{child_id:'a',fit:'unknown'}]}}]};};
+ await p.save();assert.match(modal.content,/其中 1 件合身待确认/);assert.equal(calls.length,1);assert.equal(calls[0].url,'/families/f/intake/batches/b/confirm');
+ assert.deepEqual(calls[0].options.data.entries,[{candidate_id:'c1',expected_version:3,action:'new'}]);
+ assert.equal(p.data.candidates[0].owners[0].fit,'unknown');assert.equal(p.data.result.results[0].garment.owners[0].fit,'unknown');assert.equal(p.data.candidates[0].state,'washing');
+});
+test('ordinary save retains the default fit and ready-state description',async()=>{
+ const {p,rt}=harness('intake-confirm');p.batchId='b';p.data.writable=true;const b=batch();Object.assign(b.candidates[0],{state:'ready',owners:[{child_id:'a',fit:'fit'}],version:1});p.update(b);p.refresh=()=>{};
+ let modal;global.wx.showModal=o=>{modal=o;o.success({confirm:true});};rt.intake.confirm=async()=>({status:'completed',counts:{new:1,existing:0,failed:0},results:[]});
+ await p.save();assert.equal(modal.content,'本次选中的衣物按所列宝贝归属入库，默认合身、可穿；已调整的例外会保留。');assert.equal(p.data.candidates[0].owners[0].fit,'fit');assert.equal(p.data.candidates[0].state,'ready');
+});
+test('an unresolved original operation goes straight to query without another fit dialog',async()=>{
+ const {p,rt}=harness('intake-confirm');p.batchId='b';p.data.writable=true;const b=batch();b.candidates[0].owners=[{child_id:'a',fit:'unknown'}];rt.session.write('f','intake-operation:b',{operation_id:'pending',entries:[{candidate_id:'c1'}]});p.update(b);
+ let queries=0,modals=0;p.query=async()=>queries++;global.wx.showModal=()=>modals++;await p.save();assert.equal(queries,1);assert.equal(modals,0);
+});
 test('the single candidate review action dispatches fields, fit and explicit discard for the same candidate',async()=>{
  const {p,rt,nav}=harness('intake-confirm');p.batchId='b';p.data.ready=true;p.data.writable=true;p.update(batch());let sheet;global.wx.showActionSheet=o=>sheet=o;
  const event={currentTarget:{dataset:{id:'c1'}}};p.review(event);assert.deepEqual(sheet.itemList,['核对资料','归属与合身','明确放弃这个候选']);sheet.success({tapIndex:0});assert.equal(nav[0],'/pages/garment-edit/garment-edit?batch=b&id=c1');

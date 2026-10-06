@@ -23,7 +23,7 @@
 .b-ownership-links .b-danger-link{color:#a83532;margin-left:auto}
 .b-detail-footer{flex-direction:column;gap:7px}
 .b-footer-note{font-size:10px;color:#64736a;line-height:1.5;text-align:center;width:100%}
-.b-footer-actions{display:flex;gap:9px;width:100%}
+.b-footer-actions{display:flex;gap:12px;width:100%}
 .b-footer-actions button{flex:1}
 .b-detail-footer>button{width:100%}
 .b-secondary{background:white;border:1px solid #c8dccb;color:#267a42;box-shadow:none}

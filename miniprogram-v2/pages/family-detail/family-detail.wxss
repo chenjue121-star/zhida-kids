@@ -25,7 +25,7 @@
 .family-action-sheet {width:100%;padding:28px 20px calc(22px + env(safe-area-inset-bottom));border-radius:16px 16px 0 0;background:#fff}
 .family-action-title {font-size:18px;font-weight:750}
 .family-action-copy {margin:9px 0 22px;color:#5c6f83;font-size:14px;line-height:1.6}
-.family-action-sheet button {width:100%;margin-top:10px}
+.family-action-sheet button {width:100%;margin-top:12px}
 .family-action-cancel {background:#fff;color:#4c6072}
 .family-detail-page {padding-top:4px;background:linear-gradient(180deg,#eef8fc 0,#fff 180px);color:#203029}
 .family-detail-head {min-height:88px;gap:12px;padding:0}

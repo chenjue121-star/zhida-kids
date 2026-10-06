@@ -6,7 +6,7 @@ from app.v2.core.errors import fail
 from app.v2.identity.tokens import current_user
 from app.v2.families.access import family_access
 from app.v2.media.models import MediaAsset
-from app.v2.media.service import normalize_image
+from app.v2.media.service import normalize_image, thumbnail_image
 from app.v2.recognition import service
 from app.v2.recognition.models import IntakeBatch, IntakeItem
 from app.v2.wardrobe.models import Clothing
@@ -50,8 +50,8 @@ async def upload(fid: int, bid: int, iid: int, request: Request, user=Depends(cu
                            now=request.app.state.clock())
 
 
-@router.get('/families/{fid}/assets/{asset_id}/content')
-def content(fid: int, asset_id: int, request: Request, user=Depends(current_user), db: Session = Depends(get_db)):
+def readable_asset(db: Session, fid: int, asset_id: int, user):
+    """The original and preview representations have identical private access."""
     _, member = family_access(db, fid, user)
     asset = db.scalar(select(MediaAsset).where(MediaAsset.id == asset_id, MediaAsset.family_id == fid))
     confirmed = db.scalar(select(Clothing.id).where(Clothing.family_id == fid, Clothing.asset_id == asset_id).limit(1))
@@ -61,18 +61,32 @@ def content(fid: int, asset_id: int, request: Request, user=Depends(current_user
             IntakeBatch.created_by == user.id, IntakeItem.asset_id == asset_id).limit(1))
     if asset is None or (confirmed is None and own_draft is None):
         fail(404, 'NOT_FOUND', '图片不存在或无查看权限')
+    return asset
+
+
+def asset_response(fid: int, asset_id: int, request: Request, user, db: Session, *, thumbnail=False):
+    asset = readable_asset(db, fid, asset_id, user)
     object_key, content_type = asset.object_key, asset.content_type
     db.rollback()
     try:
         data = request.app.state.storage.get(object_key)
     except (OSError, ValueError):
         fail(404, 'NOT_FOUND', '图片暂不可用')
-    # Recheck role/reference after potentially slow storage I/O; never serve public static files.
-    _, member = family_access(db, fid, user)
-    confirmed = db.scalar(select(Clothing.id).where(Clothing.family_id == fid, Clothing.asset_id == asset_id).limit(1))
-    if confirmed is None:
-        if member.role not in EDITORS or db.scalar(select(IntakeItem.id).join(IntakeBatch).where(
-                IntakeBatch.family_id == fid, IntakeBatch.created_by == user.id, IntakeItem.asset_id == asset_id).limit(1)) is None:
-            fail(404, 'NOT_FOUND', '图片不存在或无查看权限')
+    if thumbnail:
+        data = thumbnail_image(data)
+        content_type = 'image/jpeg'
+    # Storage and resizing run without a read transaction. Recheck every part
+    # of the ACL after both operations before returning any private pixels.
+    readable_asset(db, fid, asset_id, user)
     return Response(data, media_type=content_type, headers={'Cache-Control': 'private, no-store',
         'X-Content-Type-Options': 'nosniff'})
+
+
+@router.get('/families/{fid}/assets/{asset_id}/content')
+def content(fid: int, asset_id: int, request: Request, user=Depends(current_user), db: Session = Depends(get_db)):
+    return asset_response(fid, asset_id, request, user, db)
+
+
+@router.get('/families/{fid}/assets/{asset_id}/thumbnail')
+def thumbnail(fid: int, asset_id: int, request: Request, user=Depends(current_user), db: Session = Depends(get_db)):
+    return asset_response(fid, asset_id, request, user, db, thumbnail=True)
